@@ -1,3 +1,34 @@
+# .SUFFIXES:
+# ifeq ($(strip $(DEVKITARM)),)
+# $(error "Please set DEVKITARM in your environment. export DEVKITARM=<path to>devkitARM)
+# endif
+# #---------------------------------------------------------------------------------
+# include $(DEVKITARM)/gba_rules
+# #---------------------------------------------------------------------------------
+# TARGET      :=  main
+# BUILD       :=  build
+# SOURCES     :=  source
+# DATA        :=  
+# INCLUDES    :=
+# #---------------------------------------------------------------------------------
+# ARCH    :=  -mthumb -mthumb-interwork
+
+# CFLAGS  :=  -g -Wall -O3\
+#         -mcpu=arm7tdmi -mtune=arm7tdmi\
+#         -fomit-frame-pointer\
+#         -ffast-math \
+#         $(ARCH)
+# CFLAGS  +=  $(INCLUDE)
+
+# CXXFLAGS    :=  $(CFLAGS) -fno-rtti -fno-exceptions --std=c++1y
+
+# ASFLAGS :=  $(ARCH)
+# LDFLAGS  =   -g $(ARCH) -Wl,-Map,$(notdir $@).map
+# #---------------------------------------------------------------------------------
+# export PATH :=  $(DEVKITARM)/bin:$(PATH)
+# LIBS    :=  -lgba
+# LIBDIRS :=  $(LIBGBA)
+
 #---------------------------------------------------------------------------------
 # Clear the implicit built in rules
 #---------------------------------------------------------------------------------
@@ -16,7 +47,7 @@ include $(DEVKITARM)/gba_rules
 #---------------------------------------------------------------------------------
 TARGET		:=	main
 BUILD		:=	build
-SOURCES		:=	$(CURDIR)
+SOURCES		:=  source
 INCLUDES	:=
 
 #---------------------------------------------------------------------------------
@@ -24,13 +55,13 @@ INCLUDES	:=
 #---------------------------------------------------------------------------------
 ARCH	:=	-mthumb -mthumb-interwork
 
-CFLAGS	:=	-g -Wall -O3\
+CXXFLAGS	:=	-g -Wall -O3 -std=c++1y\
 			-mcpu=arm7tdmi -mtune=arm7tdmi\
  			-fomit-frame-pointer\
 			-ffast-math\
 			$(ARCH)
 
-CFLAGS	+=	$(INCLUDE)
+CXXFLAGS	+=	$(INCLUDE)
 
 ASFLAGS	:=	$(ARCH)
 LDFLAGS	=	-g $(ARCH) -Wl,-Map,$(notdir $@).map
@@ -43,7 +74,7 @@ export PATH		:=	$(DEVKITARM)/bin:$(PATH)
 #---------------------------------------------------------------------------------
 # any extra libraries we wish to link with the project
 #---------------------------------------------------------------------------------
-LIBS	:=	-lgba
+LIBS	:=	-lgba --std=c++1y
 
 #---------------------------------------------------------------------------------
 # list of directories containing libraries, this must be the top level containing
@@ -81,7 +112,7 @@ ifeq ($(strip $(CPPFILES)),)
 #---------------------------------------------------------------------------------
 else
 #---------------------------------------------------------------------------------
-	export LD	:=	$(CXX) -std=c++11
+	export LD	:=	$(CXX)
 #---------------------------------------------------------------------------------
 endif
 #---------------------------------------------------------------------------------
@@ -105,11 +136,12 @@ export LIBPATHS	:=	$(foreach dir,$(LIBDIRS),-L$(dir)/lib)
 #---------------------------------------------------------------------------------
 $(BUILD):
 	@[ -d $@ ] || mkdir -p $@
+	@echo building from $(CURDIR) to $(BUILD)
 	@make --no-print-directory -C $(BUILD) -f $(CURDIR)/Makefile
 
 #---------------------------------------------------------------------------------
 clean:
-	@echo clean ...
+	@echo cleaning...
 	@rm -fr $(BUILD) $(TARGET).elf $(TARGET).gba
 
 #---------------------------------------------------------------------------------
