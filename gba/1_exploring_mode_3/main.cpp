@@ -1,5 +1,0 @@
-#include <cstdint>
-
-int main() {
-    
-}
