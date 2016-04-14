@@ -23,8 +23,8 @@ int main() {
         lcd_control() = 3;
         enable_bg(2);
     }
-    auto first_y = true;
-    auto color = 1<<10u;
+    auto first_y = false;
+    volatile auto color = first_y ? 1<<10u : 1;
     while (1) {
         // fills screen nicely
         if (first_y) {
@@ -44,9 +44,9 @@ int main() {
             wait();
         }
         wait();
-        if (color > 0x1F<<10u) {
-            color = 1<<10u;
+        if (color > (first_y ? 0x1F<<10u : 0x1F)) {
+            color = (first_y ? 1<<10u : 1);
         }
-        color += 1<<10u;
+        color += (first_y ? 1<<10u : 1);
     }
 }
