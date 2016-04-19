@@ -151,3 +151,22 @@ Components that can be identified:
         - ROM
         - SaveData
 
+Each one has addresses related to an item about them.
+Read-Only Addresses:
+    - Buttons
+    - Some internal registers (ex: scanline count register)
+    - ROM (bup)
+
+Write-Only Addresses:
+    - Interrupts (!)
+    - Some internal registers
+
+(!): Altough Interrupts are read-only, you can perform `or` operations
+     with them, but you MUST NOT! It can bring unwanted behaviours, since
+     it'll wait for all interrupts setted to be thrown.
+
+### Memory Addresses
+
+
+
+## 3.
