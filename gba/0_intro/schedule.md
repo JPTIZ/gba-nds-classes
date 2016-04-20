@@ -167,6 +167,182 @@ Write-Only Addresses:
 
 ### Memory Addresses
 
+Every memory address has its section specified by their first 2 hex characters:
+
+    - 0x00XXXXXX: BIOS - System ROM
+    - 0x02XXXXXX: WorkRAM On-board
+    - 0x03XXXXXX: WorkRAM On-chip
+    - 0x04XXXXXX: IO Registers
+    - 0x05XXXXXX: BG/OBJ Palette RAM
+    - 0x06XXXXXX: VRAM
+    - 0x07XXXXXX: Object Attribute Memory (OAM)
+
+    - 0x08XXXXXX and 0x09XXXXXX: GamePakROM/FlashROM (WS0)
+    - 0x0AXXXXXX and 0x0BXXXXXX: GamePakROM/FlashROM (WS1)
+    - 0x0CXXXXXX and 0x0DXXXXXX: GamePakROM/FlashROM (WS2)
+    
+    - 0x0EXXXXXX: GamePakSRAM
+
+Memory addresses from 0x10000000 to 0xFFFFFFFF are unused.
+
+## 3. Introduction to Video Memory
+
+### How does GBA Video work
+
+GBA Video is managed by some registers, each one with bitmasked functions.
+
+First there is the Display Control Register, which is mapped like:
+
+```
+wwwobbbbfohpcmmm
+```
+
+Where...
+
+    www: enables window mode for objects, window layer 1 and window layer 0,
+         respectively;
+    o: enables object layer;
+    bbbb: enables background layers 3, 2, 1 and 0, respectively;
+    f: forces blank screen;
+    o: object mapping mode (0 = 1D array, 1 = 2D array);
+    h: enables OAM access when in HBlank;
+    p: page selection (used for page-flipping);
+    c: cgb(1) or gba(0) modes;
+    mmm: enable mode 0bmmm (as an integer from 000b to 100b). 110b and 111b
+         are invalid).
+
+Display Control Register is located at address 0x04000000.
+
+### Brief look to Mode 3
+
+Mode 3 is composed by a matrix of 16-bit integers, each one representing a
+xb5g5r5 color (bgr map), that is: 1 unused bit, 5 bits for blue, 5 bits for
+green, 5 bits for red.
+
+Each pixel can be accessed by the general formula:
+
+`
+vram[x + screen_width * y]
+`
+
+This happens because the screen is actually an array of pixels, not a matrix.
+
+VRAM starts at address 0x06000000.
+
+So, in C++, to change pixel (4, 2) to red, you can write:
+
+```C++
+reintrepret_cast<std::uint16_t*>(0x06000000)[4, 2] = 0x1F;
+```
+
+Since 1F = 31 = 0b0000000000011111.
+
+### Some ARM7TDMI Assembly
+
+MOV <destiny> <origin>: Moves origin data to destiny register. Origin may be
+                        either a register or a constant.
+
+                        Note that MOV instruction, in case of constants, stores
+                        a 8-bit constant + 4-bits for shifting. That exists to
+                        store bigger constants. For an example, if you want to
+                        store 0b1000000000000000, which doesn't fit in an 8-bit
+                        constant, you can store 0b10 and shift right it two
+                        times (the 4-bit for shifting is always multiplied by
+                        two).
+
+STRH <origin> [<destiny>, <offset>]: Stores the contents of a halfword size
+                        register <origin> into <destiny>. You may sum it with
+                        a constant or the value of another register.
+
+ADD <destiny> <operand 1> #<8bit constant>: Performs the equation:
+                        <destiny> = <operand 1> + <constant>
+
+(pseudo) LDR <destiny> =#<32bit constant>: Generates the best sequence of
+                        instructions to store the 32-bit constant into destiny
+                        register.
+
+Some examples:
+
+mov r0, #0x400      ; stores 0x400 into register r0
+add r0, r0, #3      ; adds 3 to r0 (to match 0x403)
+mov r1, #0x4000000  ; stores address 0x4000000 to r1
+strh r0, [r1]       ; stores #0x403 into memory address 0x4000000
+
+The same could be rewritten into:
+
+ldr r0, =#0x403     ; stores 0x403 into register r0
+mov r1, #0x4000000  ; stores address 0x4000000 to r1
+strh r0, [r1]       ; stores 0x403 into memory address 0x4000000
+
+Now, to draw an orange pixel (0x1EF) into the top-left point on screen:
+
+ldr r1, =#0x6000000 ; stores address 0x6000000 to r1
+ldr r0, =#0x1EF     ; stores 0x1EF into r0
+strh r0, [r1]       ; stores 0x1EF into memory address 0x6000000
 
 
-## 3.
+### Compiling with DevKitPro
+
+#### Compile C++ code
+
+Not that much to add. Just compile as it was a common C++ code, but using
+DevKitARM compiler instead of pure-G++.
+
+```
+arm-none-eabi-g++ -mthumb -mthumb-interwork -c file.cpp
+```
+
+Flags:
+    `-mthumb` enables 16-bit Thumb instructions mode.
+    `-mthumb-interwork` enables change between 16-bit Thumb and 32-bit ARM
+            instructions in runtime.
+    `-c <file>` tells compiler to not generate an executable file, just an
+            object file.
+    [extra]
+    `-O2` tells compiler to perform level-2 optimizations.
+    `-O3` tells compiler to perform level-3 (maximum) optimizations.
+    `-Os` tells compiler to perform optimize binary output size.
+
+#### Linking to an ELF (Executable and Linkable File)
+
+```
+arm-none-eabi-g++ -specs=gba.specs -mthumb -mthumb-interwork file.o -o file.elf
+```
+
+Linking is the process in which libraries (.a) and object (.o) files are mixed
+together into only one .elf file.
+
+And ELF file is a common stardard file format for executables, object code,
+shared libraries and core dumps. A .bin file is also an ELF file.
+
+#### Removing debug symbols from ELF file
+
+```
+arm-none-eabi-objcopy -O binary file.elf file.gba
+```
+
+The above operation strips the ELF removing debug symbols such as breakpoint
+instructions.
+
+#### Fixing header
+
+Each GBA game has a checksum to make sure it is a valid GBA binary. It doesn't
+have a default tool for making this operation, so it shall be used a third-
+party tool such as `gbafix` by DarkFader.
+
+```
+gbafix file.gba
+```
+
+## 4. Emulating GBA + Dev Tools
+
+Welp, this is for VBA stuff. It has...
+
+ - Disassemble;
+ - Memory View;
+ - Map Viewer;
+ - Tile Viewer;
+ - OAM Viewer;
+ - Enable/Disable layers (runtime).
+
+The End. Let's move on to the next class =)
