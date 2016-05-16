@@ -26,8 +26,8 @@ int main() {
     auto first_y = false;
     volatile auto color = first_y ? 1<<10u : 1;
     while (1) {
-        // fills screen nicely
         if (first_y) {
+            // fills screen nicely
             for (auto i = 0u; i < 160u; ++i) {
                 for (auto j = 0u; j < 240u; ++j) {
                     gba::video::vram(j, i, color);

@@ -56,10 +56,31 @@ auto y1 = 96u;
 auto dx = x1 - x0;
 auto dy = y1 - y0;
 
-auto
-
-for (auto x = x0; x < x1; ++x) {
-  for (auto y = y0; y < y1; ++y) {
-
-  }
+if (dx > dy) {
+    for (auto y = y0; y < y1; ++y) {
+        auto x = x0 + dx * (y - y0) / dy;
+        auto next_x = x0 + dx * (y + 1 - y0) / dy;
+        for (auto x_ = x; x_ < next_x; ++x_) {
+            gba::video::vram(x_, y, color);
+        }
+    }
+} else {
+    for (auto x = x0; x < x1; ++x) {
+        auto y = y0 + dy * (x - x0) / dx;
+        auto next_y = y0 + dy * (x + 1 - x0) / dx;
+        for (auto y_ = y; y_ < next_y; ++y_) {
+            gba::video::vram(x, y_, color);
+        }
+    }
 }
+```
+
+### How to draw a circle
+
+```C++
+auto x = 0u;
+auto y = radius;
+auto 
+```
+
+
