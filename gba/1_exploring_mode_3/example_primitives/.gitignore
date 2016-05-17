@@ -1,0 +1,5 @@
+VisualBoy*
+vba*
+build/*
+*.gba
+*.elf

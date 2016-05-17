@@ -26,31 +26,52 @@ void clear_screen() {
 void draw_line(std::uint8_t x0, std::uint8_t y0, std::uint8_t x1, std::uint8_t y1, std::uint16_t color) {
     auto dx = x1 - x0;
     auto dy = y1 - y0;
-    auto D = dy - dx;
+    auto x_step = (signed)dx < 0 ? -1 : 1;
+    auto y_step = (signed)dy < 0 ? -1 : 1;
+    auto x = x0;
     auto y = y0;
-    for (auto x = x0; x < x1-1; ++x) {
-        gba::video::vram(x, y, color);
-        if (D >= 0) {
-            ++y;
-            D -= dx;
+    /*
+     */
+    while (x != x1 && y != y1) {
+        if (dy > dx) {
+            auto x_ = x0 + dx * (y - y0) / dy;
+            auto next_x = x0 + dx * (y + y_step - y0) / dy;
+            //auto next_x = x_ + x_step;
+            while (x != next_x) {
+                gba::video::vram(x_, y, color);
+                x += x_step;
+            }
+            y += y_step;
         } else {
-            D += dy;
+            auto y_ = y0 + dy * (x - x0) / dx;
+            auto next_y = y0 + dy * (x + x_step - x0) / dx;
+            //auto next_y = y_ + y_step;
+            while (y != next_y) {
+                gba::video::vram(x, y_, color);
+                y += y_step;
+            }
+            x += x_step;
         }
     }
+    return;
+    /*
+    */
     /*
     if (dx > dy) {
-        for (auto y = y0; y < y1; ++y) {
+        for (auto y = y0; y != y1; y += y_step) {
             auto x = x0 + dx * (y - y0) / dy;
-            auto next_x = x0 + dx * (y + 1 - y0) / dy;
-            for (auto x_ = x; x_ < next_x; ++x_) {
+            auto next_x = x + x_step;
+            //auto next_x = x0 + dx * (y + y_step - y0) / dy;
+            for (auto x_ = x; x_ < next_x; x_ += x_step) {
                 gba::video::vram(x_, y, color);
             }
         }
     } else {
-        for (auto x = x0; x < x1; ++x) {
+        for (auto x = x0; x != x1; x += x_step) {
             auto y = y0 + dy * (x - x0) / dx;
-            auto next_y = y0 + dy * (x + 1 - x0) / dx;
-            for (auto y_ = y; y_ < next_y; ++y_) {
+            auto next_y = y + y_step;
+            //auto next_y = y0 + dy * (x + x_step - x0) / dx;
+            for (auto y_ = y; y_ < next_y; y += y_step) {
                 gba::video::vram(x, y_, color);
             }
         }
