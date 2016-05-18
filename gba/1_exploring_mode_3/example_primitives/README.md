@@ -1,4 +1,4 @@
-# Class 1 - Exploring Mode 3
+# Class 1.1 - Drawing Primitives
 
 ## Summary
 
@@ -9,7 +9,7 @@
 
 ## 1. How to fill screen
 
-```
+```C++
 auto screen_width = 240;
 auto screen_height = 160;
 for (auto x = 0u; x < screen_width; ++x) {
@@ -37,14 +37,9 @@ for (auto x = rect_x; x < rect_x + rect_width; ++x) {
 
 ## 3. How to draw a Line
 
-Lazy way:
+Lazy way (starting from (x0, y0) to (x1, y1)):
 
 ```C++
-auto x0 = 32u;
-auto x1 = 64u;
-auto y0 = 32u;
-auto y1 = 96u;
-
 auto dx = x1 - x0;
 auto dy = y1 - y0;
 
@@ -70,9 +65,26 @@ if (dx > dy) {
 ## 4. How to draw a circle
 
 ```C++
-auto x = 0u;
+auto x = 0;
 auto y = radius;
-auto
+auto dp = 1 - radius;
+do
+{
+        if (dp < 0)
+                dp = dp + 2 * (++x) + 3;
+        else
+                dp = dp + 2 * (++x) - 2 * (--y) + 5;
+
+        gba::video::vram(x0 + x, y0 + y, color);     //For the 8 octants
+        gba::video::vram(x0 - x, y0 + y, color);
+        gba::video::vram(x0 + x, y0 - y, color);
+        gba::video::vram(x0 - x, y0 - y, color);
+        gba::video::vram(x0 + y, y0 + x, color);
+        gba::video::vram(x0 - y, y0 + x, color);
+        gba::video::vram(x0 + y, y0 - x, color);
+        gba::video::vram(x0 - y, y0 - x, color);
+
+} while (x < y);
 ```
 
 

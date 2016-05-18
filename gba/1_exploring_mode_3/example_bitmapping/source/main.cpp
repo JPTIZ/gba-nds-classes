@@ -13,17 +13,6 @@ auto data = std::vector<std::uint16_t>{
     0x1F, 0x1F, 0x1F, 0x1F, 0x1F, 0x1F, 0x1F, 0x1F, 0x1F, 0x1F, 0x1F, 0x1F, 0x1F, 0x1F, 0x1F, 0x1F, 0x1F, 0x1F, 0x1F
 };
 
-void draw_data(std::uint8_t x, std::uint8_t y) {
-    auto data_width = data.size()/7;
-    for (auto i = 0u; i < data.size(); ++i) {
-        if (data[i] == 0) continue;
-        gba::video::vram(
-                x + i % data_width,
-                x + i / data_width,
-                data[i]);
-    }
-}
-
 int main() {
     {
         using namespace gba::video;

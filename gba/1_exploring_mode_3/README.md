@@ -17,7 +17,7 @@
 
 ### How to fill screen
 
-```
+```C++
 auto screen_width = 240;
 auto screen_height = 160;
 for (auto x = 0u; x < screen_width; ++x) {
