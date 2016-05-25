@@ -2,14 +2,21 @@
 
 ## Summary
 
-1. What's new about mode 4
+1. What is page-flipping
 2. What's new about mode 5
+3. What's new about mode 4
 
-## 1. What's new about mode 4
+## 1. What's new about mode 5
+
+1. Screen size is 160x128;
+3. It has page-flipping;
+4. At least we use 100% of VRAM;
+
+## 2. What's new about mode 4
 
 1. It's paletted (8bpp entries for 16bit colors);
-2. It has page-flipping;
-3. Data must be read before writing (because VRAM/OAM/Palette bus is 16-bit);
+2. Data must be read before writing (because VRAM/OAM/Palette bus is 16-bit);
+3. Still page-flippable;
 4. But, for OAM and Palette you won't bother (they store 16-bit stuff already);
 5. We have 100% of VRAM use (40KB/page out of 80KB VRAM size)!
 
@@ -67,9 +74,5 @@ the first one with the next frame of the game. This way you ensure that the
 screen only shows frames that are already done, and does not show any "half-
 filled and undone frame".
 
-## 2. What's new about mode 5
 
-1. Screen size is 160x128;
-2. Back to 16bpp bitmapped colors;
-3. Still page-flippable;
-4. At least we still use 100% of VRAM.
+
