@@ -1,7 +1,9 @@
-.arm
+.thumb
+.align 2
 .text
 .globl main
 
+.thumb_func
 main:
     ldr r0, =0x04000000
     ldr r1, =0x403

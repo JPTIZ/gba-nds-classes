@@ -63,7 +63,7 @@ CXXFLAGS	:=	-g -Wall -O3 -std=c++1y\
 
 CXXFLAGS	+=	$(INCLUDE)
 
-ASFLAGS	:=	$(ARCH)
+ASFLAGS	:=	$(ARCH) -O3 -Wall
 LDFLAGS	=	-g $(ARCH) -Wl,-Map,$(notdir $@).map
 
 #---------------------------------------------------------------------------------
