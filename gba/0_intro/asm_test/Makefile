@@ -8,7 +8,7 @@
 # TARGET      :=  main
 # BUILD       :=  build
 # SOURCES     :=  source
-# DATA        :=  
+# DATA        :=
 # INCLUDES    :=
 # #---------------------------------------------------------------------------------
 # ARCH    :=  -mthumb -mthumb-interwork
@@ -63,7 +63,10 @@ CXXFLAGS	:=	-g -Wall -O3 -std=c++1y\
 
 CXXFLAGS	+=	$(INCLUDE)
 
-ASFLAGS	:=	$(ARCH) -O3 -Wall
+ASFLAGS	:=	$(ARCH) -O3 -Wall -mthumb\
+			-mcpu=arm7tdmi -mtune=arm7tdmi\
+ 			-fomit-frame-pointer\
+			-ffast-math
 LDFLAGS	=	-g $(ARCH) -Wl,-Map,$(notdir $@).map
 
 #---------------------------------------------------------------------------------
