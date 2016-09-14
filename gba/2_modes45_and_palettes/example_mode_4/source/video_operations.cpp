@@ -1,4 +1,5 @@
 #include "video_operations.h"
+#include "geometry.h"
 
 void gba::video::vsync() {
     volatile auto scancount_register = (std::uint16_t*)0x4000006;

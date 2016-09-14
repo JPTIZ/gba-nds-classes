@@ -6,6 +6,27 @@
 namespace gba {
 namespace video {
 
+struct Color {
+    std::uint16_t value;
+
+    Color(std::uint16_t value): value{value} {}
+
+    Color(std::uint8_t r, std::uint8_t g, std::uint8_t b):
+        value(r + (g<<5) + (b<<10)) {}
+
+    std::uint8_t r() {
+        return value & 0x1F;
+    }
+
+    std::uint8_t g() {
+        return (value>>5) & 0x1F;
+    }
+
+    std::uint8_t b() {
+        return (value>>10) & 0x1F;
+    }
+};
+
 // Note: added
 enum LCDControl {
     PAGE_BIT = 1<<4,
@@ -31,26 +52,9 @@ inline void vram(std::uint8_t x, std::uint8_t y, std::uint16_t data) {
     vram()[x + 240*y] = data;
 }
 
-struct Color {
-    std::uint16_t value;
-
-    Color(std::uint16_t value): value{value} {}
-
-    Color(std::uint8_t r, std::uint8_t g, std::uint8_t b):
-        value(r + (g<<5) + (b<<10)) {}
-
-    std::uint8_t r() {
-        return value & 0x1F;
-    }
-
-    std::uint8_t g() {
-        return (value>>5) & 0x1F;
-    }
-
-    std::uint8_t b() {
-        return (value>>10) & 0x1F;
-    }
-};
+inline void palette(std::uint8_t index, Color color) {
+    reinterpret_cast<std::uint16_t*>(0x5000000)[index] = color.value;
+}
 
 }
 }

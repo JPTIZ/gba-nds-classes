@@ -1,7 +1,6 @@
 VisualBoy*
 vba*
-build/*
-*/build/*
+**/build/*
 *.gba
 *.elf
 *.o
