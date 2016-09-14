@@ -20,7 +20,8 @@ int main() {
     while (true) {
         gba::video::vsync();
         gba::video::clear_screen();
-        gba::video::draw_circle(x, y, 5, color);
+        gba::video::draw_line(0, 0, 120, 80, 0x1F);
+        //gba::video::draw_circle(x, y, 5, color);
         gba::video::flip_pages();
     }
 }

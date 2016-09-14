@@ -66,20 +66,19 @@ void gba::video::draw_circle(std::uint8_t x0, std::uint8_t y0, std::uint8_t radi
     int dp = 1 - radius;
     do
     {
-            if (dp < 0)
-                    dp = dp + 2 * (++x) + 3;
-            else
-                    dp = dp + 2 * (++x) - 2 * (--y) + 5;
-
-            gba::video::vram(x0 + x, y0 + y, 15);     //For the 8 octants
-            gba::video::vram(x0 - x, y0 + y, 15);
-            gba::video::vram(x0 + x, y0 - y, 15);
-            gba::video::vram(x0 - x, y0 - y, 15);
-            gba::video::vram(x0 + y, y0 + x, 15);
-            gba::video::vram(x0 - y, y0 + x, 15);
-            gba::video::vram(x0 + y, y0 - x, 15);
-            gba::video::vram(x0 - y, y0 - x, 15);
-
+        if (dp < 0) {
+            dp = dp + 2 * (++x) + 3;
+        } else {
+            dp = dp + 2 * (++x) - 2 * (--y) + 5;
+        }
+        gba::video::vram(x0 + x, y0 + y, 15);     //For the 8 octants
+        gba::video::vram(x0 - x, y0 + y, 15);
+        gba::video::vram(x0 + x, y0 - y, 15);
+        gba::video::vram(x0 - x, y0 - y, 15);
+        gba::video::vram(x0 + y, y0 + x, 15);
+        gba::video::vram(x0 - y, y0 + x, 15);
+        gba::video::vram(x0 + y, y0 - x, 15);
+        gba::video::vram(x0 - y, y0 - x, 15);
     } while (x < y);
 }
 

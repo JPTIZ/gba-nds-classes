@@ -52,6 +52,22 @@ struct Color {
     }
 };
 
+std::uint8_t mode();
+
+}
+
+namespace types {
+
+struct Size {
+    int width;
+    int height;
+};
+
+struct Size16 {
+    std::uint16_t width;
+    std::uint16_t height;
+};
+
 }
 }
 
