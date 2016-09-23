@@ -7,10 +7,9 @@ namespace gba {
 namespace video {
 
 void enable_bg(std::uint8_t bg);
-
-inline auto& control_register() {
-    return *reinterpret_cast<std::uint16_t*>(0x6000000);
-}
+void set_mode(std::uint8_t mode);
+std::uint16_t& control_register();
+volatile std::uint16_t* vram();
 
 }
 }
