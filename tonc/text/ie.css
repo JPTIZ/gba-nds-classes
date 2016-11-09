@@ -1,0 +1,7 @@
+
+/* Undo a little MSIE CSS2 fuckwittery */
+
+p	{ margin-top:0.1em; margin-bottom:0.1em;	}
+p	{ text-indent:0.5cm;	}
+
+

@@ -1,0 +1,71 @@
+
+
+        __________________________________________________________
+      //                                                          \\
+     ||     TTTT          q    cc                                  ||
+     ||    TT             qq  c  c      ttt                ttt     ||
+     ||    TT             qq  c  c     t                  t        ||
+     ||    TT      ooo  qqq    cc      tttt   ee  x  xx   tttt     ||
+     ||    TT     o       q   c  c     t   t   e  x x  x  t   t    ||
+     ||    TT     o       q  c    c    t   t   e  x x  x  t   t    ||
+     || TTTTTTTTT  ooo    q c  cccc     ttt    e   x xx    ttt     ||
+     ||                                                            ||
+     ||                                                            ||
+     ||                                                            ||
+     ||============================================================||
+     ||                                                            ||
+     ||              Tonc text: tutorial text in HTML              ||
+     ||                         v1.4.2                             ||
+     ||              2003-10-01 - 2013-03-24, J Vijn               ||
+     ||                                                            ||
+      \\__________________________________________________________//
+
+       
+// === Description ===
+  Tonc is a tutorial for learning how to program for the GameBoy Advance
+(GBA). It covers most aspects of the GBA, often in great detail and 
+from an efficiency orientated viewpoint. Among other things, you'll 
+see all video modes (0-6), sprites, simple and advanced button 
+handling, Rotation/Scaling for backgrounds and sprites (covered the 
+_right_ way for a change), mode 7 and programming in ARM assembly.
+
+  Tonc consists of 3 parts: text, code and binaries. Tonc is part of
+http://www.coranac.com/ where you can find the on-line text, as
+well as zips for the three parts. This readme belongs to the text
+part of the set.
+
+NOTE: this is still a only a beta, though should be close to the
+final version.
+
+// === Tonc text (tonc-text.zip) ---
+  This contains the text in HTML (one chapter per file) and the images
+it requires. It is also available as a single html file, compiled 
+HTML (Windows help format) and PDF.
+
+  Note that this is _not_ "GBA Programming for dummies". I am assuming
+your intellectual capacities exceed those of a random lab monkey.
+Prior programming experience (preferably in C or assembly) is 
+probably required to understand things like bit-operations and 
+hexadecimal numbers. Knowledge of basic vector and matrix algebra
+wouldn't hurt either (though page on these are included).
+
+// === Recent changes ===
+
+- 2013-03-24, jv:
+  + made ready for DKA r41 (uses arm-none-eabi iso arm-eabi-)
+Too many to list here. Look at log.htm in the text.
+
+// === Feedback ===
+  Comments are appreciated. If you find that things are unclear let me
+know, the same goes for any additions you'd like to see. If things 
+are actually incorrect I want to know as soon as possible so I can fix 
+it (yes, this includes spelling or grammar errors).
+
+
+// === Contact Info ===
+
+  J.Vijn
+  cearn@coranac.com
+  http://www.coranac.com
+
+
