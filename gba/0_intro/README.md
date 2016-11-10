@@ -12,50 +12,50 @@
 ### Atari 2600
 
 About:
-    Year: 1977
-    Processor: MOS Technology 6507
-    Bus: 8bit
-    Clock: 1.19MHz
-    RAM: 128B
-    ROM: 16KB
-    Resolution: 160x192 (NTSC), 160x228 (PAL)
-    Colors: 128
-    Sound: 2 channels (1 chip each)
+ Year: 1977
+ Processor: MOS Technology 6507
+ Bus: 8bit
+ Clock: 1.19MHz
+ RAM: 128B
+ ROM: 16KB
+ Resolution: 160x192 (NTSC), 160x228 (PAL)
+ Colors: 128
+ Sound: 2 channels (1 chip each)
 
 Development Specifications:
-    - Had for 2 player's sprites with Hardware Acceleration
-    - Fully bitmapped
-    - Maximum of 2 sprites on the same scanline
+ - Had for 2 player's sprites with Hardware Acceleration
+ - Fully bitmapped
+ - Maximum of 2 sprites on the same scanline
 
 ### NES
 
 About:
-    Year: 1983
-    Processor: Custom MOS 6502
-    Bus: 8bit
-    CPU Clock: 1.79MHz (NTSC), 1.66MHz (PAL)
-    GPU Clock: 5.37MHz (NTSC), 5.33MHz (PAL)
-    RAM: 2KiB + Cartdridge expansion RAM
-    ROM: 48KB
-    Resolution: 256x240
-    Max sprites on screen: 64
-    Sound: see dev-specs
+ Year: 1983
+ Processor: Custom MOS 6502
+ Bus: 8bit
+ CPU Clock: 1.79MHz (NTSC), 1.66MHz (PAL)
+ GPU Clock: 5.37MHz (NTSC), 5.33MHz (PAL)
+ RAM: 2KiB + Cartdridge expansion RAM
+ ROM: 48KB
+ Resolution: 256x240
+ Max sprites on screen: 64
+ Sound: see dev-specs
 
 Development Specifications:
-    - Palette: 56 colors
-    - OAM: 256B
-    - Colors on screen: 25 colors/scanline
-        - BG
-        - 4 sets of 3 colors for tiles
-        - 4 colors per sprites
-    - Sprite dimensions:
-        - 16x16
-        - 24x24
-    - Sound: 5 channels
-        - 2 square
-        - 1 triangle
-        - 1 white noise
-        - 1 delta-pulse code modulation (DPCM) of 6 bits
+ - Palette: 56 colors
+ - OAM: 256B
+ - Colors on screen: 25 colors/scanline
+   - BG
+   - 4 sets of 3 colors for tiles
+   - 4 colors per sprites
+ - Sprite dimensions:
+   - 16x16
+   - 24x24
+ - Sound: 5 channels
+   - 2 square
+   - 1 triangle
+   - 1 white noise
+   - 1 delta-pulse code modulation (DPCM) of 6 bits
 
 ### SNES
 
@@ -180,7 +180,7 @@ Every memory address has its section specified by their first 2 hex characters:
     - 0x08XXXXXX and 0x09XXXXXX: GamePakROM/FlashROM (WS0)
     - 0x0AXXXXXX and 0x0BXXXXXX: GamePakROM/FlashROM (WS1)
     - 0x0CXXXXXX and 0x0DXXXXXX: GamePakROM/FlashROM (WS2)
-    
+
     - 0x0EXXXXXX: GamePakSRAM
 
 Memory addresses from 0x10000000 to 0xFFFFFFFF are unused.
