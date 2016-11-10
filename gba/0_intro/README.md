@@ -247,7 +247,7 @@ Since 1F = 31 = 0b0000000000011111.
 
 ### Some ARM7TDMI Assembly
 
-#### MOV `destiny` `origin`:
+#### MOV `destiny`, `origin`:
 Moves origin data to destiny register. Origin may be either a register or a
 constant.
 
@@ -257,15 +257,15 @@ you want to store 0b1000000000000000, which doesn't fit in an 8-bit constant,
 you can store 0b10 and shift right it two times (the 4-bit for shifting is
 always multiplied by two).
 
-#### STRH `origin` [`destiny`, `offset`]:
+#### STRH `origin`, [`destiny`(, `offset`)]:
 Stores the contents of a halfword size register `origin` into `destiny`. You
 may sum it with a constant or the value of another register.
 
-#### ADD `destiny` `operand 1` #`8bit constant`:
+#### ADD `destiny`, `operand 1`, #`8bit constant`:
 Performs the operation:
         <destiny> = <operand 1> + <constant>
 
-#### (pseudo) LDR `destiny` =#`32bit constant`:
+#### (pseudo) LDR `destiny`, =#`32bit constant`:
 Generates the best sequence of instructions to store the 32-bit constant into
 destiny register.
 
