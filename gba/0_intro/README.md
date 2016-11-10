@@ -1,13 +1,17 @@
-# Intro-Class - Introduction to GBA Hardware
+Intro-Class - Introduction to GBA Hardware
+==========================================
 
-## Summary
+Summary
+-------
 
 1. Old console history
 2. Inside the GBA
 3. Introduction to Video Memory
 4. Emulating GBA + Dev Tools
 
-## 1. Old consoles history
+
+1) Old consoles history
+-----------------------
 
 ### Atari 2600
 
@@ -135,10 +139,12 @@ Development Specifications:
  - Max sprites on screen: 256
  - Sound: Dual 8-bit DAC² for Stereo Sound (DirectSound)
 
-    ¹: ARM + 16-bit Thumb + JTAG Debug + fast Multiplier + enhanced ICE
-    ²: Digital-Analogic Converter
+     ¹: ARM + 16-bit Thumb + JTAG Debug + fast Multiplier + enhanced ICE
+     ²: Digital-Analogic Converter
 
-## 2. Inside the GBA
+
+2) Inside the GBA
+-----------------
 
 ### Hardware overview
 
@@ -185,7 +191,9 @@ Every memory address has its section specified by their first 2 hex characters:
 
 Memory addresses from 0x10000000 to 0xFFFFFFFF are unused.
 
-## 3. Introduction to Video Memory
+
+3) Introduction to Video Memory
+-------------------------------
 
 ### How does GBA Video work
 
@@ -239,27 +247,27 @@ Since 1F = 31 = 0b0000000000011111.
 
 ### Some ARM7TDMI Assembly
 
-MOV `destiny` `origin`: Moves origin data to destiny register. Origin may be
-                        either a register or a constant.
+#### MOV `destiny` `origin`:
+Moves origin data to destiny register. Origin may be either a register or a
+constant.
 
-                        Note that MOV instruction, in case of constants, stores
-                        a 8-bit constant + 4-bits for shifting. That exists to
-                        store bigger constants. For an example, if you want to
-                        store 0b1000000000000000, which doesn't fit in an 8-bit
-                        constant, you can store 0b10 and shift right it two
-                        times (the 4-bit for shifting is always multiplied by
-                        two).
+Note that MOV instruction, in case of constants, stores a 8-bit constant +
+4-bits for shifting. That exists to store bigger constants. For an example, if
+you want to store 0b1000000000000000, which doesn't fit in an 8-bit constant,
+you can store 0b10 and shift right it two times (the 4-bit for shifting is
+always multiplied by two).
 
-STRH `origin` [`destiny`, `offset`]: Stores the contents of a halfword size
-                        register <origin> into <destiny>. You may sum it with
-                        a constant or the value of another register.
+#### STRH `origin` [`destiny`, `offset`]:
+Stores the contents of a halfword size register `origin` into `destiny`. You
+may sum it with a constant or the value of another register.
 
-ADD `destiny` `operand 1` #<8bit constant>: Performs the equation:
-                        <destiny> = <operand 1> + <constant>
+#### ADD `destiny` `operand 1` #`8bit constant`:
+Performs the operation:
+        <destiny> = <operand 1> + <constant>
 
-(pseudo) LDR `destiny` =#<32bit constant>: Generates the best sequence of
-                        instructions to store the 32-bit constant into destiny
-                        register.
+#### (pseudo) LDR `destiny` =#`32bit constant`:
+Generates the best sequence of instructions to store the 32-bit constant into
+destiny register.
 
 Some examples:
 
@@ -340,7 +348,9 @@ party tool such as `gbafix` by DarkFader.
 gbafix file.gba
 ```
 
-## 4. Emulating GBA + Dev Tools
+
+4) Emulating GBA + Dev Tools
+----------------------------
 
 Welp, this is for VBA stuff. It has...
 
