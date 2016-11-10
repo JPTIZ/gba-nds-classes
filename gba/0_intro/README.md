@@ -12,15 +12,15 @@
 ### Atari 2600
 
 About:
- Year: 1977
- Processor: MOS Technology 6507
- Bus: 8bit
- Clock: 1.19MHz
- RAM: 128B
- ROM: 16KB
- Resolution: 160x192 (NTSC), 160x228 (PAL)
- Colors: 128
- Sound: 2 channels (1 chip each)
+ - Year: 1977
+ - Processor: MOS Technology 6507
+ - Bus: 8bit
+ - Clock: 1.19MHz
+ - RAM: 128B
+ - ROM: 16KB
+ - Resolution: 160x192 (NTSC), 160x228 (PAL)
+ - Colors: 128
+ - Sound: 2 channels (1 chip each)
 
 Development Specifications:
  - Had for 2 player's sprites with Hardware Acceleration
@@ -30,16 +30,16 @@ Development Specifications:
 ### NES
 
 About:
- Year: 1983
- Processor: Custom MOS 6502
- Bus: 8bit
- CPU Clock: 1.79MHz (NTSC), 1.66MHz (PAL)
- GPU Clock: 5.37MHz (NTSC), 5.33MHz (PAL)
- RAM: 2KiB + Cartdridge expansion RAM
- ROM: 48KB
- Resolution: 256x240
- Max sprites on screen: 64
- Sound: see dev-specs
+ - Year: 1983
+ - Processor: Custom MOS 6502
+ - Bus: 8bit
+ - CPU Clock: 1.79MHz (NTSC), 1.66MHz (PAL)
+ - GPU Clock: 5.37MHz (NTSC), 5.33MHz (PAL)
+ - RAM: 2KiB + Cartdridge expansion RAM
+ - ROM: 48KB
+ - Resolution: 256x240
+ - Max sprites on screen: 64
+ - Sound: see dev-specs
 
 Development Specifications:
  - Palette: 56 colors
@@ -60,80 +60,80 @@ Development Specifications:
 ### SNES
 
 About:
-    Year: 1990
-    Processor: Nintendo's custom Ricoh 5A22
-    Bus: 16bit
-    CPU Clock: 1.79MHz, 2.68MHz or 3.58MHz
-    GPU Clock: Same as CPU
-    RAM: 128KB
-    VRAM: 64KB
-    Audio RAM: 64KB
-    Resolution: 256x224/512x448
+ - Year: 1990
+ - Processor: Nintendo's custom Ricoh 5A22
+ - Bus: 16bit
+ - CPU Clock: 1.79MHz, 2.68MHz or 3.58MHz
+ - GPU Clock: Same as CPU
+ - RAM: 128KB
+ - VRAM: 64KB
+ - Audio RAM: 64KB
+ - Resolution: 256x224/512x448
 
 Development Specifications:
-    Palette: 15 bits (32768 colors)
-    OAM: 544B
-    Sprite dimensions:
-        - 8x8
-        - 16x16
-        - 32x32
-        - 64x64
-    Colors per sprite: 16
-    Max sprites on screen: 128 (32/scanline)
-    Background Layers: 4
-    Sound: 8 channels, 32KHz 16-bit Stereo
+ - Palette: 15 bits (32768 colors)
+ - OAM: 544B
+ - Sprite dimensions:
+   - 8x8
+   - 16x16
+   - 32x32
+   - 64x64
+ - Colors per sprite: 16
+ - Max sprites on screen: 128 (32/scanline)
+ - Background Layers: 4
+ - Sound: 8 channels, 32KHz 16-bit Stereo
 
 ### GameBoy
 
 About:
-    Year: 1989
-    Processor: Custom Sharp LR35902
-    Bus: 8bit
-    CPU Clock: 4.19MHz
-    RAM: 8KB (can be expanded to 32KB)
-    ROM:
-        - internal: 256B
-        - cartdridges: 256K/512K/1M/2M/4M/8MB
-    VRAM: 8KB (internal)
-    Resolution: 160x144
-    Colors: 2 bits (4 "graytones")
+ - Year: 1989
+ - Processor: Custom Sharp LR35902
+ - Bus: 8bit
+ - CPU Clock: 4.19MHz
+ - RAM: 8KB (can be expanded to 32KB)
+ - ROM:
+   - Internal: 256B
+   - Cartdridges: 256K/512K/1M/2M/4M/8MB
+ - VRAM: 8KB (internal)
+ - Resolution: 160x144
+ - Colors: 2 bits (4 "graytones")
 
 Development Specifications:
-    - OAM: 160B (4B/sprite)
-    Sprite dimensions:
-        - 8x8
-        - 8x16
-    Color per sprite: 16 colors
-    Max sprites on screen: 40
-    Sound: 2 wave pulse generators
+ - OAM: 160B (4B/sprite)
+ - Sprite dimensions:
+   - 8x8
+   - 8x16
+ - Color per sprite: 16 colors
+ - Max sprites on screen: 40
+ - Sound: 2 wave pulse generators
 
 ### GameBoy Advance
 
 About:
-    Year: 2001
-    Processor: ARM7-TDMI¹ with embedded memory
-    Bus: 16bit
-    Co-Processor: Z80 8bit 4/8MHz (for GB/GBC compatibility)
-    CPU Clock: 16.8MHz
-    GPU Clock: ~5.5MHz (59.73FPS)
-    RAM: 32KB (CPU)
-    VRAM: 92KB (internal)
-    DRAM: 256KB (external to CPU)
-    Resolution: 240x160 (3:2)
+ - Year: 2001
+ - Processor: ARM7-TDMI¹ with embedded memory
+ - Bus: 16bit
+ - Co-Processor: Z80 8bit 4/8MHz (for GB/GBC compatibility)
+ - CPU Clock: 16.8MHz
+ - GPU Clock: ~5.5MHz (59.73FPS)
+ - RAM: 32KB (CPU)
+ - VRAM: 92KB (internal)
+ - DRAM: 256KB (external to CPU)
+ - Resolution: 240x160 (3:2)
 
 Development Specifications:
-    Palette: 15-bit X1B5G5R5
-        - Character Mode: 512 colors
-        - Bitmapped Mode: 32768 colors
-    OAM: 160B (4 bytes/sprite)
-    Sprite dimensions:
-        - 8x8
-        - 8x16
-        - 16x8
-        - 16x16
-    Colors: 1 palette for entire screen (256 colors)
-    Max sprites on screen: 256
-    Sound: Dual 8-bit DAC² for Stereo Sound (DirectSound)
+ - Palette: 15-bit X1B5G5R5
+   - Character Mode: 512 colors
+   - Bitmapped Mode: 32768 colors
+ - OAM: 160B (4 bytes/sprite)
+ - Sprite dimensions:
+   - 8x8
+   - 8x16
+   - 16x8
+   - 16x16
+ - Colors: 1 palette for entire screen (256 colors)
+ - Max sprites on screen: 256
+ - Sound: Dual 8-bit DAC² for Stereo Sound (DirectSound)
 
     ¹: ARM + 16-bit Thumb + JTAG Debug + fast Multiplier + enhanced ICE
     ²: Digital-Analogic Converter
@@ -143,23 +143,23 @@ Development Specifications:
 ### Hardware overview
 
 Components that can be identified:
-    - D-pad, A, B, L, R and Start/Select Buttons
-    - Processor & Co-processor (side by side)
-    - Audio Processor
-    - U3 GBA Registers
-    Cartdridge:
-        - ROM
-        - SaveData
+ - D-pad, A, B, L, R and Start/Select Buttons
+ - Processor & Co-processor (side by side)
+ - Audio Processor
+ - U3 GBA Registers
+ - Cartdridge:
+   - ROM
+   - SaveData
 
 Each one has addresses related to an item about them.
 Read-Only Addresses:
-    - Buttons
-    - Some internal registers (ex: scanline count register)
-    - ROM (bup)
+ - Buttons
+ - Some internal registers (ex: scanline count register)
+ - ROM (bup)
 
 Write-Only Addresses:
-    - Interrupts (!)
-    - Some internal registers
+ - Interrupts (!)
+ - Some internal registers
 
 (!): Altough Interrupts are read-only, you can perform `or` operations
      with them, but you MUST NOT! It can bring unwanted behaviours, since
@@ -239,7 +239,7 @@ Since 1F = 31 = 0b0000000000011111.
 
 ### Some ARM7TDMI Assembly
 
-MOV <destiny> <origin>: Moves origin data to destiny register. Origin may be
+MOV `destiny` `origin`: Moves origin data to destiny register. Origin may be
                         either a register or a constant.
 
                         Note that MOV instruction, in case of constants, stores
@@ -250,35 +250,41 @@ MOV <destiny> <origin>: Moves origin data to destiny register. Origin may be
                         times (the 4-bit for shifting is always multiplied by
                         two).
 
-STRH <origin> [<destiny>, <offset>]: Stores the contents of a halfword size
+STRH `origin` [`destiny`, `offset`]: Stores the contents of a halfword size
                         register <origin> into <destiny>. You may sum it with
                         a constant or the value of another register.
 
-ADD <destiny> <operand 1> #<8bit constant>: Performs the equation:
+ADD `destiny` `operand 1` #<8bit constant>: Performs the equation:
                         <destiny> = <operand 1> + <constant>
 
-(pseudo) LDR <destiny> =#<32bit constant>: Generates the best sequence of
+(pseudo) LDR `destiny` =#<32bit constant>: Generates the best sequence of
                         instructions to store the 32-bit constant into destiny
                         register.
 
 Some examples:
 
+```
 mov r0, #0x400      ; stores 0x400 into register r0
 add r0, r0, #3      ; adds 3 to r0 (to match 0x403)
 mov r1, #0x4000000  ; stores address 0x4000000 to r1
 strh r0, [r1]       ; stores #0x403 into memory address 0x4000000
+```
 
 The same could be rewritten into:
 
+```
 ldr r0, =#0x403     ; stores 0x403 into register r0
 mov r1, #0x4000000  ; stores address 0x4000000 to r1
 strh r0, [r1]       ; stores 0x403 into memory address 0x4000000
+```
 
 Now, to draw an orange pixel (0x1EF) into the top-left point on screen:
 
+```
 ldr r1, =#0x6000000 ; stores address 0x6000000 to r1
 ldr r0, =#0x1EF     ; stores 0x1EF into r0
 strh r0, [r1]       ; stores 0x1EF into memory address 0x6000000
+```
 
 
 ### Compiling with DevKitPro
@@ -293,15 +299,15 @@ arm-none-eabi-g++ -mthumb -mthumb-interwork -c file.cpp
 ```
 
 Flags:
-    `-mthumb` enables 16-bit Thumb instructions mode.
-    `-mthumb-interwork` enables change between 16-bit Thumb and 32-bit ARM
-            instructions in runtime.
-    `-c <file>` tells compiler to not generate an executable file, just an
-            object file.
-    [extra]
-    `-O2` tells compiler to perform level-2 optimizations.
-    `-O3` tells compiler to perform level-3 (maximum) optimizations.
-    `-Os` tells compiler to perform optimize binary output size.
+ - `-mthumb` enables 16-bit Thumb instructions mode.
+ - `-mthumb-interwork` enables change between 16-bit Thumb and 32-bit ARM
+          instructions in runtime.
+ - `-c <file>` tells compiler to not generate an executable file, just an
+          object file.
+ - [extra]
+   - `-O2` tells compiler to perform level-2 optimizations.
+   - `-O3` tells compiler to perform level-3 (maximum) optimizations.
+   - `-Os` tells compiler to perform optimize binary output size.
 
 #### Linking to an ELF (Executable and Linkable File)
 
