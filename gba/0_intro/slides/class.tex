@@ -1,0 +1,72 @@
+\documentclass{beamer}
+\usetheme{fibeamer}
+\usepackage[main=english,portuguese]{babel}
+\selectlanguage{portuguese}
+
+\title{Curso de Desenvolvimento GBA}
+\subtitle{1. Introdução ao GBA}
+\author{João Paulo Taylor Ienczak Zanette}
+
+\begin{document}
+
+\maketitle
+
+\begin{darkframes}
+    \begin{frame}{Índice}
+        \tableofcontents
+    \end{frame}
+
+    \section{Introdução}
+    \subsection{Contextualização do Curso}
+
+    \begin{frame}{Objetivos}
+        \begin{itemize}
+            \item Ensinar programação de baixo-nível (comunicação direta com
+                hardware/integração com assembly);
+            \item Ensinar técnicas de programação aplicadas;
+            \item Mostrar o funcionamento de imagens/gráficos e áudio no mundo
+                digital;
+            \item Relacionar as tecnologias vistas com as utilizadas
+                atualmente.
+        \end{itemize}
+    \end{frame}
+
+    \begin{frame}{Programação}
+        \begin{itemize}
+            \item Assembly ARM7-TDMI --- Modo Thumb (GBA);
+            \item OpenGL (NDS);
+            \item C++ (GBA/NDS).
+        \end{itemize}
+
+        A mesma forma de programação para GBA serve também para: GB, GBC, NES,
+        SNES, MegaDrive, SegaSaturn e PSX (PS1).
+    \end{frame}
+
+    \begin{frame}{Circuitos e Técnicas Digitais}
+        \begin{itemize}
+            \item Leitura/escrita de registradores (em que cada bit é mapeado
+                para uma função específica) via programação;
+        \end{itemize}
+    \end{frame}
+
+    \begin{frame}{Sistemas Digitais}
+        \begin{itemize}
+            \item Compreensão a respeito de como o Assembly gerado pela
+                compilação altera o estado/memória do circuito;
+            \item Compreensão do sistema que gera imagens em um circuito
+                digital (VGA, LCD, etc\ldots);
+            \item Funcionamento (inclusive a nível de circuito) da execução de
+                músicas em formato de instrução MIDI\@;
+            \item Técnicas de otimização através de Hardware.
+        \end{itemize}
+    \end{frame}
+
+    \begin{frame}{Computação Gráfica}
+        \begin{itemize}
+            \item Desenho de primitivas (linhas, triângulos, circuitos, etc\ldots);
+            \item Aceleração gráfica via Hardware.
+        \end{itemize}
+    \end{frame}
+
+\end{darkframes}
+\end{document}
