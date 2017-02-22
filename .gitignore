@@ -5,6 +5,8 @@ vba*
 *.elf
 *.o
 
+**/*.swp
+
 **/*.aux
 **/*.bbl
 **/*.blg

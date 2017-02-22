@@ -1,0 +1,153 @@
+\documentclass{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[portuguese]{babel}
+
+\usepackage[inline]{enumitem}
+
+\usepackage{hyperref}
+\usepackage{listing}
+
+\title{Programa do Minicurso}
+\author{}
+\date{}
+
+\begin{document}
+
+\maketitle
+
+\section{Identificação}
+
+\begin{itemize}
+    \item[] Disciplina: Minicurso GameBoyAdvance
+    \item[]
+        \hspace{-1em}
+        \begin{tabular}{ccc}
+            Carga Horária: 20 horas-aula&
+            Teóricas: 10&
+            Práticas: 12
+        \end{tabular}
+    \item[] Período: Março a Maio de 2017.
+\end{itemize}
+
+\section{Cursos (público alvo)}
+\begin{itemize}
+    \item[] Ciência da Computação.
+\end{itemize}
+
+\section{Requisitos}
+\begin{itemize}
+    \item[] Mínimo conhecimento a respeito de programação imperativa
+        (variáveis, funções, estruturas condicionais/de repetição,\ldots) e
+        circuitos (o que é um registrador, sinais de entrada/saída,\ldots).
+\end{itemize}
+
+\section{Ementa}
+\begin{itemize*}[label={}]
+    % GBA-specific
+    \item Especificações técnicas e limitações do GBA (\textit{GameBoyAdvance});
+    \item Arquitetura do processador ARM7TDMI\@;
+    \item ISA (\textit{Instruction Set Architecture}) ARMv4;
+    \item Assembly ARM-Thumb;
+    % Game console-specific
+    \item VRAM\@;
+    \item OAM (\textit{Object-Attribute-Memory});
+    % Circuitos / Sistemas Digitais
+    \item Registradores de controle;
+    \item \textit{Hardware-Rendering};
+    % Org
+    \item \textit{BIOS-Call};
+    \item \textit{Hardware-Interrupts};
+    \item DMA (\textit{Dynamic-Memory-Access});
+    % SO
+    \item Gerenciamento de memória manual;
+    \item Otimizações para sistemas embarcados;
+    % Técnicas de otimização
+    \item \textit{Palette-Swapping};
+    \item \textit{Page-Flipping};
+    \item \textit{Tile-Mapping};
+    \item \textit{Spritesetting};
+    % Geral
+    \item \textit{Display-Modes} de consoles;
+    \item MIDI\@;
+    \item Ondas sonoras;
+    \item Processamento de arquivos de mídia;
+    \item Economia de energia;
+    \item Matriz de transformação;
+\end{itemize*}
+
+\section{Objetivos}
+
+\begin{description}
+    \item[Geral:] Entusiasmar alunos de graduação a respeito de sistemas
+        embarcados, mídia e otimizações de baixo nível, mostrando uma aplicação
+        diferente do usual e apresentando o funcionamento e interação do
+        \textit{Hardware} envolvido.
+    \item[Específico:] São objetivos do minicurso:
+        \begin{itemize}[label={-}]
+            \item Apresentar as especificações técnicas da plataforma;
+            \item Mencionar as limitações da plataforma dentro do seu contexto
+                histórico;
+            \item Apresentar a interação entre os registradores de controle e
+                suas respectivas funcionalidades a nível de \textit{Hardware};
+            \item Apresentar o funcionamento de mídia analógica/digital;
+            \item Apresentar otimizações válidas para sistemas embarcados, bem
+                como tecnologias envolvidas nos mais modernos;
+            \item Prover pleno entendimento da integração entre programação de
+                alto-nível e o \textit{Hardware};
+            \item Apresentar paralelos entre a tecnologia ensinada e as
+                atualmente utilizadas;
+            \item Apresentar o uso de C++ moderno em sistemas embarcados, bem
+                como suas vantagens/desvantagens.
+        \end{itemize}
+\end{description}
+
+\section{Conteúdo Programático}
+
+\begin{enumerate}
+    \item Introdução ao GBA (2 horas):
+        \begin{enumerate}
+            \item Histórico de limitação dos consoles pré-2000;
+            \item Especificações técnicas do GBA\@;
+            \item Mapeamento de memória do GBA\@;
+            \item VRAM\@;
+            \item Assembly Thumb;
+            \item \textit{Mode 3};
+            \item Introdução a C++.
+        \end{enumerate}
+    \item \textit{Bitmap Display-Modes} (2 horas):
+        \begin{enumerate}
+            \item Visão geral de \textit{Bitmap Modes};
+            \item PPU (\textit{Pixel Processing Unit});
+            \item Performance do \textit{Mode 3};
+            \item \textit{V-Sync};
+            \item \textit{Mode 4};
+            \item \textit{Paletting}.
+            \item \textit{Page-Flipping};
+        \end{enumerate}
+    \item Objetos de jogo e Input (2 horas):
+        \begin{enumerate}
+            \item Leitura do \textit{Keypad};
+            \item \textit{Sprites};
+            \item OAM (\textit{Object Attribute Memory});
+        \end{enumerate}
+\end{enumerate}
+
+\section{Cronograma}
+
+\begin{enumerate}[label= (\alph*)]
+    \item Primeiro encontro:
+        \begin{enumerate}
+            \item Introdução ao GBA\@;
+            \item Apresentação da Toolchain DevKitPro;
+            \item Apresentação das ferramentas de desenvolvedor do emulador
+                \textit{VisualBoyAdvance}.
+        \end{enumerate}
+\end{enumerate}
+
+\nocite{*}
+\bibliographystyle{unsrt}
+\bibliography{plan}
+
+\end{document}
