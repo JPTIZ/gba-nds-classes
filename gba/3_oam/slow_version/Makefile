@@ -27,7 +27,7 @@ INCLUDES  :=
 #-------------------------------------------------------------------------------
 ARCH      :=  -mthumb -mthumb-interwork
 
-CXXFLAGS  :=  -g -Wall -O3 -std=c++1z\
+CXXFLAGS  :=  -g -Wall -O2 -std=c++17\
               -mcpu=arm7tdmi -mtune=arm7tdmi\
               -fomit-frame-pointer\
               -ffast-math\
@@ -46,7 +46,7 @@ export PATH    :=  $(DEVKITARM)/bin:$(PATH)
 #-------------------------------------------------------------------------------
 # any extra libraries we wish to link with the project
 #-------------------------------------------------------------------------------
-LIBS  :=  -lgba --std=c++1y
+LIBS  :=  -lgba
 
 #-------------------------------------------------------------------------------
 # list of directories containing libraries, this must be the top level containing
