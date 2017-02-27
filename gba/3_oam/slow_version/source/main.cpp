@@ -1,6 +1,6 @@
 #include "mode4.h"
 #include "keypad.h"
-#include "resources/zelda.h"
+#include "resources/link.h"
 
 template <typename T, typename U>
 auto min(const T& a, const U& b) {
@@ -19,7 +19,7 @@ void draw_link(const gba::geometry::Point& position) {
         for (auto x = std::int16_t{0}; x < 12; ++x) {
             auto x_ = (short)(x + position.x);
             auto y_ = (short)(y + position.y);
-            vram({x_, y_}) = zelda_data[x + 12 * y];
+            vram({x_, y_}) = link_data[x + 12 * y];
         }
     }
 }
@@ -31,7 +31,7 @@ int main() {
     lcd_control() = gba::video::LCDControl::BG2 + 4;
 
     for (auto i = 1; i < 14; ++i) {
-        palette_ram()[i] = zelda_palette[i];
+        palette_ram()[i] = link_palette[i];
     }
 
     auto link_x = short{0};

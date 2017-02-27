@@ -19,7 +19,7 @@ enum Keypad {
     L = 1 << 9,
 };
 
-inline const auto& keystatus_register() {
+inline volatile auto& keystatus_register() {
     return *reinterpret_cast<std::uint16_t*>(0x4000130);
 }
 

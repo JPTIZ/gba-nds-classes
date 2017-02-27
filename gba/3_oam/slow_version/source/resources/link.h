@@ -1,12 +1,12 @@
-#ifndef RESOURCES_ZELDA_H
-#define RESOURCES_ZELDA_H
+#ifndef RESOURCES_LINK_H
+#define RESOURCES_LINK_H
 
 #include <cstdint>
 
 namespace gba {
 namespace resources {
 
-std::uint16_t zelda_palette[] = {
+std::uint16_t link_palette[] = {
     0b111110000011111, // 0
     0b001110011100111, // 1
     0b000100111100111, // 2
@@ -25,7 +25,7 @@ std::uint16_t zelda_palette[] = {
     0b000000000000000, // F
 };
 
-std::uint16_t zelda_data[] = {
+std::uint16_t link_data[] = {
     0x0000, 0x0000, 0x0000, 0x0000,/**/ 0x0000, 0x0000, 0x0000, 0x0000,/**/ 0x0000, 0x0000, 0x0000, 0x0000,
     0x0000, 0x0000, 0x0000, 0x0000,/**/ 0x0000, 0x0101, 0x0101, 0x0000,/**/ 0x0000, 0x0000, 0x0000, 0x0000,
     0x0000, 0x0000, 0x0000, 0x0000,/**/ 0x0100, 0x0202, 0x0203, 0x0101,/**/ 0x0000, 0x0000, 0x0000, 0x0000,
