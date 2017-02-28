@@ -7,7 +7,7 @@ namespace gba {
 namespace video {
 
 enum LCDControl {
-    PAGE_SELECT = 1 << 4,
+    PAGE = 1 << 4,
     OAM_ON_HBLANK = 1 << 5,
     OBJ_MAPPING = 1 << 6,
     FORCE_BLANK = 1 << 7,

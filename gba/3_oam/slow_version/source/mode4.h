@@ -20,15 +20,10 @@ constexpr inline auto screen_height() {
     return 160;
 }
 
-inline auto vram() {
-    return reinterpret_cast<std::uint16_t*>(0x6000000);
-}
-
-inline auto& vram(const Point& point) {
-    return vram()[point.x + (screen_width()>>1) * point.y];
-}
-
+std::uint16_t* vram();
+std::uint16_t& vram(const Point& point);
 void fill_rect(const Rect&, const Color&);
+void flip_page();
 
 }
 }

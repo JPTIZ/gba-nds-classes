@@ -38,7 +38,10 @@ int main() {
     auto link_y = short{0};
     while (true) {
         using namespace gba::keypad;
+
+        vsync();
         fill_rect({0, 0, screen_width()>>1, screen_height()}, {0});
+
         if (pressed(Keypad::LEFT)) {
             --link_x;
         }
@@ -55,8 +58,11 @@ int main() {
             link_x = 0;
             link_y = 0;
         }
+
         link_x = max(0, min((screen_width()>>1) - 12, link_x));
         link_y = max(0, min(screen_height() - 24, link_y));
         draw_link({link_x, link_y});
+
+        flip_page();
     }
 }
