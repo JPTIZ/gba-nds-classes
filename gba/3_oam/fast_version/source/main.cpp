@@ -54,11 +54,10 @@ void send_link_to_oam() {
         }
     }
 
-    /*auto text = "ARQUITETURA\nFODA";
+    auto text = "ARQUITETURA\nFODA";
     for (auto i = 0; i < 17; ++i) {
         sprite_ram()[i] = text[i];
     }
-    */
 
     move_link_to({32, 16});
 }
