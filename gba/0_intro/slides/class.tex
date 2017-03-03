@@ -1,13 +1,19 @@
+% rubber: set program xelatex
 \documentclass{beamer}
 \usetheme{fibeamer}
-\usepackage[main=english,portuguese]{babel}
+\usepackage[main=portuguese,english]{babel}
 \selectlanguage{portuguese}
+\usepackage{fontspec}
 
+\usepackage{booktabs}
 \usepackage{csquotes}
 \usepackage{graphicx}
 \usepackage{multicol}
 
 \graphicspath{{img/}}
+
+\let\emph\relax % there's no \RedeclareTextFontCommand
+\DeclareTextFontCommand{\emph}{\bfseries\em}
 
 \title{Curso de Desenvolvimento GBA}
 \subtitle{1. Introdução ao GBA}
@@ -83,15 +89,15 @@
                 \texttt{???h}       & \enquote{???} está em hexadecimal (\texttt{FFh = 255}).\\
                 \texttt{????:????}  & \enquote{:} serve apenas para melhor visualização \\
                                     & (\texttt{0x04000000 = 0400:0000h}).\\
-                \texttt{??? $>>$ x} & \enquote{???} deslocado "x"\ bits para direita.\\
-                \texttt{??? $<<$ x} & \enquote{???} deslocado "x"\ bits para esquerda.\\
+                \texttt{??? $>>$ x} & \enquote{???} deslocado ``x''\ bits para direita.\\
+                \texttt{??? $<<$ x} & \enquote{???} deslocado ``x''\ bits para esquerda.\\
             \end{tabular}
         \end{center}
     \end{frame}
 
 
     \subsection{Evolução dos consoles}
-    \begin{frame}{Hello, World!}
+    \begin{frame}{\huge Hello, World!}
         \begin{multicols}{2}
             Um breve prólogo das especificações técnicas e limitações dos consoles de
             VideoGame ao longo do tempo e uma análise de sua evolução.
@@ -112,8 +118,8 @@
                 \item[ROM:] 16KB
                 \item[Resolução:]
                     \begin{itemize}
-                        \item 160x192 (NTSC)
-                        \item 160x228 (PAL)
+                        \item 160$\times$192 (NTSC)
+                        \item 160$\times$228 (PAL)
                     \end{itemize}
                 \item[Cores:] 128
                 \item[Som:] 2 canais (1 chip cada)
@@ -136,13 +142,13 @@
                 \item[Clock (GPU):] 5.37MHz (NTSC), 5.33MHz (PAL)
                 \item[RAM:] 2KiB + RAM Expandida (do cartucho)
                 \item[ROM:] 48KB
-                \item[Resolução:] 256x240
+                \item[Resolução:] 256$\times$240
                 \item[Cores:] 56 cores (paleta básica)
                 \item[Cores na tela:] 25 cores por scanline (cor de fundo + 4
                     conjuntos de 3 cores de tiles + 4 conjuntos de cores por
                     sprite)
                 \item[OAM:] 256 bytes
-                \item[Dim. das Sprites:] 16x16 ou 24x24
+                \item[Dim.\ das Sprites:] 16$\times$16 ou 24$\times$24
                 \item[Máx. Sprites na tela:] 64
                 \item[Som:] 5 canais (2 square, 1 triangle, 1 ruído-branco, 1
                     modulação de código delta-pulse (DPCM) de 6 bits)
@@ -170,15 +176,15 @@
                 \item[Clock (CPU):] 1.79MHz, 2.86MHz ou 3.58MHz
                 \item[Clock (GPU):] Mesmo da CPU
                 \item[RAM:] 128KB
-                \item[VRAM:] 64KB (512 + 32 bytes de sprite, 256x15 bits de
+                \item[VRAM:] 64KB (512 + 32 bytes de sprite, 256$\times$15 bits de
                     paleta)
                 \item[RAM (Áudio):] 64KB
-                \item[Resolução:] 256x224/512x448
+                \item[Resolução:] 256$\times$224/512$\times$448
                 \item[Cores:] 32768 (15 bits)
                 \item[OAM:] 544 bytes
-                \item[Dim. das sprites:] 8x8, 16x16, 32x32 e 64x64
+                \item[Dim.\ das sprites:] 8$\times$8, 16$\times$16, 32$\times$32 e 64$\times$64
                 \item[Cores/sprite:] 16
-                \item[Máx. sprites na tela:] 128 (32 na mesma linha)
+                \item[Máx.\ sprites na tela:] 128 (32 na mesma linha)
                 \item[Camadas de background:] 4
                 \item[Som:] 8 canais (32KHz 16-bit stereo).
             \end{description}
@@ -210,9 +216,9 @@
                 \item[Resolução:] 160x144
                 \item[Cores:] 2 bits (4 tons de \enquote{cinza})
                 \item[OAM:] 160 bytes (4 bytes/sprite)
-                \item[Dim. das sprites:] 8x8, 8x16
+                \item[Dim.\ das sprites:] 8x8, 8x16
                 \item[Cores/sprite:] 16
-                \item[Máx. sprites na tela:] 40
+                \item[Máx.\ sprites na tela:] 40
                 \item[Som:] 2 geradores de pulso de onda
             \end{description}
         \end{multicols}
@@ -238,7 +244,7 @@
                 \item[Co-processador:] Z80 8-bit de 4/8MHz (para
                     compatibilidade com GB/GBC)
                 \item[Clock (CPU):] 16.8MHz
-                \item[Clock (GPU):] ~5.5MHz (\textbf{59.73FPS})
+                \item[Clock (GPU):] \~5.5MHz (\textbf{59.73FPS})
                 \item[RAM:] 32KB (CPU)
                 \item[VRAM:] 92KB (interno)
                 \item[DRAM:] 256KB (externa à CPU)
@@ -246,10 +252,10 @@
                 \item[Cores:] 15-bit BGR (5 bits/canal), 512 cores (character
                     mode), 32768 cores (bitmap mode)
                 \item[OAM:] 160 bytes (4 bytes/sprite)
-                \item[Dim. das sprites:] 8x8, 8x16, 8x32, 16x8, 16x16, 16x32,
+                \item[Dim.\ das sprites:] 8x8, 8x16, 8x32, 16x8, 16x16, 16x32,
                     32x8, 32x16, 32x32, 32x64, 64x32, 64x64
                 \item[Cores:] 256 (1 paleta para toda a tela)
-                \item[Máx. sprites na tela:] 256
+                \item[Máx.\ sprites na tela:] 256
                 \item[Som:] Dual 8-bit DAC para som Stereo (DirectSound)
             \end{description}
         \end{multicols}
@@ -311,19 +317,95 @@
 
     \begin{frame}{Organização da Memória (Geral)}
         \begin{center}
-            \begin{tabular}{|r|c|c|}
+            \begin{tabular}{|r|c|l|}
                 \hline
-                Descrição             & Início               & Fim \\\hline
-                BIOS - ROM do Sistema & \texttt{0x0000:0000} & \texttt{0x0000:3FFF} \\\hline
-                -                     & \texttt{0x0000:4000} & \texttt{0x01FF:FFFF} \\\hline
-                WorkRAM On-Board      & \texttt{0x0200:0000} & \texttt{0x0203:FFFF} \\\hline
-                -                     & \texttt{0x0200:4000} & \texttt{0x02FF:FFFF} \\\hline
-                WorkRAM On-Chip       & \texttt{0x0300:0000} & \texttt{0x0300:7FFF} \\\hline
-                -                     & \texttt{0x0300:8000} & \texttt{0x03FF:FFFF} \\\hline
-                Registradores de I/O  & \texttt{0x0400:0000} & \texttt{0x0400:03FE} \\\hline
-                -                     & \texttt{0x0400:0400} & \texttt{0x04FF:FFFF} \\\hline
+                Descrição              & Início               & Tamanho \\\hline
+                BIOS -- ROM do Sistema & \texttt{0x00XX:XXXX} & \texttt{0x0:3FFF (16KB)} \\\hline
+                WorkRAM On-Board       & \texttt{0x02XX:XXXX} & \texttt{0x3:FFFF (256KB)} \\\hline
+                WorkRAM On-Chip        & \texttt{0x03XX:XXXX} & \texttt{0x0:7FFF (32KB)} \\\hline
+                Registradores de I/O   & \texttt{0x04XX:XXXX} & \texttt{0x0:03FE (\textasciitilde1KB)} \\\hline
             \end{tabular}
         \end{center}
+    \end{frame}
+
+    \begin{frame}{Organização da Memória (Vídeo)}
+        \begin{center}
+            \begin{tabular}{|r|c|l|}
+                \hline
+                Descrição             & Início               & Tamanho \\\hline
+                Paleta de BG/OBJ      & \texttt{0x05XX:XXXX} & \texttt{0x0:03FF (1KB)} \\\hline
+                RAM de Vídeo (VRAM)   & \texttt{0x06XX:XXXX} & \texttt{0x1:7FFF (96KB)} \\\hline
+                OAM (Obj. Attr. Mem.) & \texttt{0x07XX:XXXX} & \texttt{0x0:03FF (1KB)} \\\hline
+            \end{tabular}
+        \end{center}
+    \end{frame}
+
+    \begin{frame}{Organização da Memória (GamePak)}
+        \begin{center}
+            \begin{tabular}{|r|c|l|}
+                \hline
+                Descrição      & Início               & Tamanho \\\hline
+                FlashROM (ws0) & \texttt{0x08XX:XXXX} & \texttt{0x1FF:FFFF (16KB)} \\\hline
+                FlashROM (ws1) & \texttt{0x0AXX:XXXX} & \texttt{0x1FF:FFFF (256KB)} \\\hline
+                FlashROM (ws2) & \texttt{0x0CXX:XXXX} & \texttt{0x1FF:FFFF (32KB)} \\\hline
+                GamePakSRAM    & \texttt{0x0EXX:XXXX} & \texttt{0x000:FFFF (64KB)} \\\hline
+            \end{tabular}
+        \end{center}
+    \end{frame}
+
+    \section{Vídeo}
+    \subsection{Funcionamento}
+
+    \begin{frame}{}
+        \huge \textbf{\secname}
+    \end{frame}
+
+    \begin{frame}{\secname: \subsecname}
+        Vimos que o GBA possui uma tela com resolução 240x160 pixels. Porém,
+        isso varia do \emph{modo de vídeo} (Video Mode).
+
+        No GBA há 3 modos \emph{Bitmapeados} (enumerados como 3, 4 e 5) e 3
+        modos \emph{Tilemapeados} (enumerados como 0, 1 e 2). Por simplicidade,
+        começaremos com modos Bitmapeados (especificamente o 3).
+
+        \begin{center}
+            \begin{tabular}{|c|c|c|c|c|c|c|}
+                \hline
+                Modo & BGs & Resolução        & bpp & RAM                    & Page-Flip \\\hline
+                3    & 2   & \texttt{240x160} & 16  & \texttt{(1x)\ 12C00h}  & Não       \\\hline
+                4    & 2   & \texttt{240x160} & 8   & \texttt{(2x)\ \ 9600h} & Sim       \\\hline
+                5    & 2   & \texttt{160x128} & 16  & \texttt{(2x)\ \ A000h} & Sim       \\\hline
+            \end{tabular}
+        \end{center}
+    \end{frame}
+
+    \begin{frame}{\secname: Registrador de Controle do Visor}
+        \scriptsize\texttt{\begin{center}
+            \begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|}
+                \hline
+                F & E & D & C & B & A & 9 & 8 & 7 & 6 & 5 & 4 & 3 & 2 & 1 & 0 \\\hline
+                W & W & W & OB & B3 & B2 & B1 & B0 & F & O & H & P & C & \multicolumn{3}{|c|}{Mode} \\\hline
+            \end{tabular}
+        \end{center}}
+
+        \scriptsize{\begin{center}
+            \begin{tabular}{|l|l|}
+                \hline
+                Bit & \multicolumn{1}{|c|}{Descrição} \\\hline
+                \texttt{M (0-2)} & Display-Mode. \\\hline
+                \texttt{C (3)} & (Read-Only) Indica se o cartucho inserido é de GBC (1) ou GBA (0). \\\hline
+                \texttt{P (4)} & Seleção de página. \\\hline
+                \texttt{H (5)} & Habilita acesso à OAM quando em HBlank. \\\hline
+                \texttt{O (6)} & Modo de mapeamento de objetos.\\
+                               & 0 = 2D/Matricial; 1 = 1D/Sequencial. \\\hline
+                \texttt{F (7)} & Força uma tela em branco. \\\hline
+                \texttt{B<X> (8-B)} & Habilita Background <X>. \\\hline
+                \texttt{OB (C)} & Habilita camada de objetos. \\\hline
+                \texttt{W (D-F)} & Habilita o uso das janelas 0/1/de objetos, respectivamente. \\
+                                 & Janelas podem ser usadas como máscaras (como foi feito com o \\
+                                 & lampião em Zelda). \\\hline
+            \end{tabular}
+        \end{center}}
     \end{frame}
 
 \end{darkframes}
