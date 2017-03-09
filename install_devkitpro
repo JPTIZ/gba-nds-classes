@@ -1,10 +1,12 @@
-#!/usr/bin/bash
+#!/bin/bash
+
+dir=`echo \`pwd\``
 
 echo "Creating directories..."
-mkdir -p devkitpro
-chmod 777 devkitpro
-mkdir -p devkitpro/libgba
-cd devkitpro
+mkdir -p ~/devkitpro
+chmod 777 ~/devkitpro
+mkdir -p ~/devkitpro/libgba
+cd ~/devkitpro
 
 echo "Downloading devkitpro..."
 
@@ -20,6 +22,12 @@ tar -xf devkitARM.tar.bz2
 cd libgba
 tar -xf libgba.tar.bz2
 
-bash ~/activate
+echo "Activating..."
+source $dir/activate
+
+export DEVKITARM=$DEVKITARM
+export DEVKITPRO=$DEVKITPRO
 
 echo "Done."
+
+cd $dir
