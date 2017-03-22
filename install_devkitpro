@@ -1,0 +1,33 @@
+#!/bin/bash
+
+dir=`echo \`pwd\``
+
+echo "Creating directories..."
+mkdir -p ~/devkitpro
+chmod 777 ~/devkitpro
+mkdir -p ~/devkitpro/libgba
+cd ~/devkitpro
+
+echo "Downloading devkitpro..."
+
+wget -q --show-progress https://sourceforge.net/projects/devkitpro/files/devkitARM/devkitARM_r46/devkitARM_r46-x86_64-linux.tar.bz2/download
+mv download devkitARM.tar.bz2
+
+echo "Downloading libgba..."
+wget -q --show-progress https://sourceforge.net/projects/devkitpro/files/libgba/libgba-20150106.tar.bz2/download
+mv download libgba/libgba.tar.bz2
+
+echo "Installing..."
+tar -xf devkitARM.tar.bz2
+cd libgba
+tar -xf libgba.tar.bz2
+
+echo "Activating..."
+source $dir/activate
+
+export DEVKITARM=$DEVKITARM
+export DEVKITPRO=$DEVKITPRO
+
+echo "Done."
+
+cd $dir
