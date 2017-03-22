@@ -7,7 +7,9 @@
 
 \usepackage{booktabs}
 \usepackage{csquotes}
+\usepackage{colortbl}
 \usepackage{graphicx}
+\usepackage{minted}
 \usepackage{multicol}
 
 \graphicspath{{img/}}
@@ -235,26 +237,24 @@
     \end{frame}
 
     \begin{frame}{GameBoy Advance (2001)}
+        \vspace{-1em}
         \begin{multicols}{2}
             \scriptsize
             \begin{description}
                 \setlength\itemsep{0em}
-                \item[Processador:] ARM7 TDMI com memória embarcada
+                \item[Processador:] ARM7-TDMI com memória embarcada
                 \item[Barramento:] 16 bits
                 \item[Co-processador:] Z80 8-bit de 4/8MHz (para
                     compatibilidade com GB/GBC)
-                \item[Clock (CPU):] 16.8MHz
-                \item[Clock (GPU):] \~5.5MHz (\textbf{59.73FPS})
-                \item[RAM:] 32KB (CPU)
+                \item[Clock (CPU/GPU):] 16.8MHz/\textasciitilde5.5MHz (\textbf{59.73FPS})
+                \item[SRAM/DRAM:] 32KB/256KB
                 \item[VRAM:] 92KB (interno)
-                \item[DRAM:] 256KB (externa à CPU)
                 \item[Resolução:] 240x160 (3:2)
                 \item[Cores:] 15-bit BGR (5 bits/canal), 512 cores (character
                     mode), 32768 cores (bitmap mode)
-                \item[OAM:] 160 bytes (4 bytes/sprite)
+                \item[OAM:] 1KB (128 objetos de 3x16bit, 32 transformações de objetos de 4x16bit)
                 \item[Dim.\ das sprites:] 8x8, 8x16, 8x32, 16x8, 16x16, 16x32,
                     32x8, 32x16, 32x32, 32x64, 64x32, 64x64
-                \item[Cores:] 256 (1 paleta para toda a tela)
                 \item[Máx.\ sprites na tela:] 256
                 \item[Som:] Dual 8-bit DAC para som Stereo (DirectSound)
             \end{description}
@@ -407,6 +407,83 @@
             \end{tabular}
         \end{center}}
     \end{frame}
+
+    \newcolumntype{C}{>{\columncolor[rgb]{.9,.6,.6}}c}
+    \newcolumntype{A}{>{\columncolor{cyan}}c}
+
+    \begin{frame}{\secname: Registrador de Controle do Visor}
+        \scriptsize\texttt{\begin{center}
+            \begin{tabular}{|c|c|c|c|A|A|A|A|c|c|c|c|c|C|C|C|}
+                \hline
+                F & E & D & C  & B  & A  & 9  & 8  & 7 & 6 & 5 & 4 & 3 & 2 & 1 & 0 \\\hline
+                W & W & W & OB & B3 & B2 & B1 & B0 & F & O & H & P & C & \multicolumn{3}{|C|}{Mode} \\\hline
+            \end{tabular}
+        \end{center}}
+
+        \scriptsize{\begin{center}
+            \begin{tabular}{|l|l|}
+                \hline
+                Bit & \multicolumn{1}{|c|}{Descrição} \\\hline
+                \rowcolor[rgb]{.9,.6,.6}\texttt{M (0-2)} & Display-Mode. \\\hline
+                \texttt{C (3)} & (Read-Only) Indica se o cartucho inserido é de GBC (1) ou GBA (0). \\\hline
+                \texttt{P (4)} & Seleção de página. \\\hline
+                \texttt{H (5)} & Habilita acesso à OAM quando em HBlank. \\\hline
+                \texttt{O (6)} & Modo de mapeamento de objetos.\\
+                               & 0 = 2D/Matricial; 1 = 1D/Sequencial. \\\hline
+                \texttt{F (7)} & Força uma tela em branco. \\\hline
+                \rowcolor{cyan}\texttt{B<X> (8-B)} & Habilita Background <X>. \\\hline
+                \texttt{OB (C)} & Habilita camada de objetos. \\\hline
+                \texttt{W (D-F)} & Habilita o uso das janelas 0/1/de objetos, respectivamente. \\
+                                 & Janelas podem ser usadas como máscaras (como foi feito com o \\
+                                 & lampião em Zelda). \\\hline
+            \end{tabular}
+        \end{center}}
+    \end{frame}
+
+    \begin{frame}{\secname: Registrador de Controle do Visor}
+        O \emph{Mode 3} usa o BG2 para renderizar, então precisamos habilitar o bit do Mode 3.
+        É necessário também habilitar o próprio \emph{Mode 3} em si. Para isso,
+        o campo representado pelos \textit{bits} 0, 1 e 2 precisa conter o valor "3",
+        que em binário é representado por \texttt{0b11}.
+
+        \scriptsize\texttt{\begin{center}
+            \begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|}
+                \hline
+                \ldots & B  & \cellcolor{cyan}A  & 9  & 8  & 7 & 6 & 5 & 4 & 3 & \cellcolor[rgb]{.9,.6,.6}2 & \cellcolor[rgb]{.9,.6,.6}1 & \cellcolor[rgb]{.9,.6,.6}0 \\\hline
+                \ldots & B3 & \cellcolor{cyan}B2 & B1 & B0 & F & O & H & P & C & \multicolumn{3}{|C|}{Mode} \\\hline
+                \ldots & 0  & \color{red}1  & 0  & 0  & 0 & 0 & 0 & 0 & 0 & 0 & \color{red}1 & \color{red}1 \\\hline
+                \ldots & $2^{11}$ & \color{red}$2^{10}$ & $2^9$ & $2^8$ & $2^7$ & $2^6$ & $2^5$ & $2^4$ & $2^3$ & $2^2$ & \color{red}$2^1$ & \color{red}$2^0$ \\\hline
+            \end{tabular}
+        \end{center}}
+    \end{frame}
+
+    \begin{frame}[fragile]{\secname: Registrador de Controle do Visor}
+        \vspace{-1em}
+        \scriptsize\texttt{\begin{center}
+            \begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|}
+                \hline
+                \ldots & B  & \cellcolor{cyan}A  & 9  & 8  & 7 & 6 & 5 & 4 & 3 & \cellcolor[rgb]{.9,.6,.6}2 & \cellcolor[rgb]{.9,.6,.6}1 & \cellcolor[rgb]{.9,.6,.6}0 \\\hline
+                \ldots & B3 & \cellcolor{cyan}B2 & B1 & B0 & F & O & H & P & C & \multicolumn{3}{|C|}{Mode} \\\hline
+                \ldots & 0  & \color{red}1  & 0  & 0  & 0 & 0 & 0 & 0 & 0 & 0 & \color{red}1 & \color{red}1 \\\hline
+                \ldots & $2^{11}$ & \color{red}$2^{10}$ & $2^9$ & $2^8$ & $2^7$ & $2^6$ & $2^5$ & $2^4$ & $2^3$ & $2^2$ & \color{red}$2^1$ & \color{red}$2^0$ \\\hline
+            \end{tabular}
+        \end{center}}
+
+        Com isso, temos:
+        \begin{align}
+            2^{10} + 2^1 + 2^0 &= 1024 + 2 + 1\\
+            1027 &= 0x403
+        \end{align}
+
+        Representando a alteração do registrador de controle do visor em pseudo-código:
+
+        \begin{center}
+            \begin{minted}{bash}
+                memory[0x4000000] = 0x403;
+            \end{minted}
+        \end{center}
+
+\end{frame}
 
 \end{darkframes}
 \end{document}
