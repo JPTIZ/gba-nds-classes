@@ -11,11 +11,19 @@
 \usepackage{graphicx}
 \usepackage{minted}
 \usepackage{multicol}
+\usepackage{tikz}
 
 \graphicspath{{img/}}
 
 \let\emph\relax % there's no \RedeclareTextFontCommand
 \DeclareTextFontCommand{\emph}{\bfseries\em}
+
+\newcolumntype{C}{>{\columncolor[rgb]{.9,.6,.6}}c}
+\newcolumntype{A}{>{\columncolor{cyan}}c}
+\newcolumntype{R}{>{\columncolor{red}}c}
+\newcolumntype{G}{>{\columncolor[rgb]{0,.5,0}}c}
+\newcolumntype{B}{>{\columncolor{blue}}c}
+\newcolumntype{K}{>{\columncolor{black}}c}
 
 \title{Curso de Desenvolvimento GBA}
 \subtitle{1. Introdução ao GBA}
@@ -348,7 +356,7 @@
                 FlashROM (ws0) & \texttt{0x08XX:XXXX} & \texttt{0x1FF:FFFF (16KB)} \\\hline
                 FlashROM (ws1) & \texttt{0x0AXX:XXXX} & \texttt{0x1FF:FFFF (256KB)} \\\hline
                 FlashROM (ws2) & \texttt{0x0CXX:XXXX} & \texttt{0x1FF:FFFF (32KB)} \\\hline
-                GamePakSRAM    & \texttt{0x0EXX:XXXX} & \texttt{0x000:FFFF (64KB)} \\\hline
+                GamePakSRAM    & \texttt{0x0EXX:XXXX} & \texttt{0xFFF:FFFF (64KB)} \\\hline
             \end{tabular}
         \end{center}
     \end{frame}
@@ -379,7 +387,8 @@
         \end{center}
     \end{frame}
 
-    \begin{frame}{\secname: Registrador de Controle do Visor}
+    \subsection{Registrador de Controle do Visor}
+    \begin{frame}{\secname: \subsecname}
         \scriptsize\texttt{\begin{center}
             \begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|}
                 \hline
@@ -408,10 +417,7 @@
         \end{center}}
     \end{frame}
 
-    \newcolumntype{C}{>{\columncolor[rgb]{.9,.6,.6}}c}
-    \newcolumntype{A}{>{\columncolor{cyan}}c}
-
-    \begin{frame}{\secname: Registrador de Controle do Visor}
+    \begin{frame}{\secname: \subsecname}
         \scriptsize\texttt{\begin{center}
             \begin{tabular}{|c|c|c|c|A|A|A|A|c|c|c|c|c|C|C|C|}
                 \hline
@@ -440,7 +446,7 @@
         \end{center}}
     \end{frame}
 
-    \begin{frame}{\secname: Registrador de Controle do Visor}
+    \begin{frame}{\secname: \subsecname}
         O \emph{Mode 3} usa o BG2 para renderizar, então precisamos habilitar o bit do Mode 3.
         É necessário também habilitar o próprio \emph{Mode 3} em si. Para isso,
         o campo representado pelos \textit{bits} 0, 1 e 2 precisa conter o valor "3",
@@ -457,7 +463,7 @@
         \end{center}}
     \end{frame}
 
-    \begin{frame}[fragile]{\secname: Registrador de Controle do Visor}
+    \begin{frame}[fragile]{\secname: \subsecname}
         \vspace{-1em}
         \scriptsize\texttt{\begin{center}
             \begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|}
@@ -484,6 +490,578 @@
         \end{center}
 
 \end{frame}
+
+    \subsection{VRAM}
+    \begin{frame}{\secname: \subsecname}
+        A memória de Vídeo \emph{pode ser entendida} como uma matriz de bytes.
+        Seu intervalo de endereço é de \texttt{0x6000000} a \texttt{0x6017FFF}.
+
+        Os bytes da VRAM são interpretados de forma diferente conforme o
+        \emph{Display-Mode} selecionado.
+
+
+        No Mode 3, por exemplo, a VRAM é organizada como um conjunto de cores
+        de 16 bits, montando uma "matriz" de pixeis 240x160 (totalizando 76800B
+        = 75KB).
+    \end{frame}
+
+    \begin{frame}[fragile]{\secname: \subsecname}
+        Os 16 bits de cores são organizados da forma:
+        \scriptsize\texttt{\begin{center}
+            \begin{tabular}{|c|B|B|B|B|B|G|G|G|G|G|R|R|R|R|R|}
+                \hline
+                F & E & D & C & B & A & 9 & 8 & 7 & 6 & 5 & 4 & 3 & 2 & 1 & 0 \\\hline
+                - & \multicolumn{5}{B|}{B} & \multicolumn{5}{G|}{G} & \multicolumn{5}{R|}{R} \\\hline
+            \end{tabular}
+        \end{center}}
+
+        Portanto, para representar a cor azul puro:
+        \scriptsize\texttt{\begin{center}
+            \begin{tabular}{|c|B|B|B|B|B|G|G|G|G|G|R|R|R|R|R|}
+                \hline
+                F & E & D & C & B & A & 9 & 8 & 7 & 6 & 5 & 4 & 3 & 2 & 1 & 0 \\\hline
+                - & 1 & 1 & 1 & 1 & 1 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\\hline
+                - & \multicolumn{3}{c|}{7} & \multicolumn{4}{c|}{C} & \multicolumn{4}{c|}{0} & \multicolumn{4}{c|}{0} \\\hline
+            \end{tabular}
+        \end{center}}
+
+        Assim, basta alterar o pixel desejado para o valor \texttt{0x7C00}:
+
+        \begin{center}
+            \begin{minted}{bash}
+                memory[0x6000000][x, y] = 0x7C00;
+            \end{minted}
+        \end{center}
+\end{frame}
+
+    \begin{frame}{\secname: \subsecname}
+        Se quisermos deixar o pixel (4, 8) em azul puro, portanto, a VRAM
+        poderá ser vista da forma:
+        \tiny\texttt{\begin{center}
+            \begin{tabular}{|K|K|K|K|K|K|K|K|K|K|K|K|K|K|K|K|}
+                \hline
+                -   & 0    & 1    & 2    & 3    & 4    & 5    & 6    & 7    & 8    & \ldots & 238  & 239  \\\hline
+                0   & 0000 & 0000 & 0000 & 0000 & 0000 & 0000 & 0000 & 0000 & 0000 & \ldots & 0000 & 0000 \\\hline
+                1   & 0000 & 0000 & 0000 & 0000 & 0000 & 0000 & 0000 & 0000 & 0000 & \ldots & 0000 & 0000 \\\hline
+                2   & 0000 & 0000 & 0000 & 0000 & 0000 & 0000 & 0000 & 0000 & 0000 & \ldots & 0000 & 0000 \\\hline
+                3   & 0000 & 0000 & 0000 & 0000 & 0000 & 0000 & 0000 & 0000 & 0000 & \ldots & 0000 & 0000 \\\hline
+                4   & 0000 & 0000 & 0000 & 0000 & 0000 & 0000 & 0000 & 0000 & 0000 & \ldots & 0000 & 0000 \\\hline
+                5   & 0000 & 0000 & 0000 & 0000 & 0000 & 0000 & 0000 & 0000 & 0000 & \ldots & 0000 & 0000 \\\hline
+                6   & 0000 & 0000 & 0000 & 0000 & 0000 & 0000 & 0000 & 0000 & 0000 & \ldots & 0000 & 0000 \\\hline
+                7   & 0000 & 0000 & 0000 & 0000 & 0000 & 0000 & 0000 & 0000 & 0000 & \ldots & 0000 & 0000 \\\hline
+                8   & 0000 & 0000 & 0000 & 0000 & \cellcolor{blue}7C00 & 0000 & 0000 & 0000 & 0000 & \ldots & 0000 & 0000 \\\hline
+                9   & 0000 & 0000 & 0000 & 0000 & 0000 & 0000 & 0000 & 0000 & 0000 & \ldots & 0000 & 0000 \\\hline
+                10  & 0000 & 0000 & 0000 & 0000 & 0000 & 0000 & 0000 & 0000 & 0000 & \ldots & 0000 & 0000 \\\hline
+                \ldots  & \ldots & \ldots & \ldots & \ldots & \ldots & \ldots & \ldots & \ldots & \ldots & \ldots & \ldots & \ldots \\\hline
+                157 & 0000 & 0000 & 0000 & 0000 & 0000 & 0000 & 0000 & 0000 & 0000 & \ldots & 0000 & 0000 \\\hline
+                158 & 0000 & 0000 & 0000 & 0000 & 0000 & 0000 & 0000 & 0000 & 0000 & \ldots & 0000 & 0000 \\\hline
+                159 & 0000 & 0000 & 0000 & 0000 & 0000 & 0000 & 0000 & 0000 & 0000 & \ldots & 0000 & 0000 \\\hline
+            \end{tabular}
+        \end{center}}
+    \end{frame}
+
+    \begin{frame}{\secname: \subsecname}
+        Se quisermos deixar o pixel (4, 8) em azul puro, portanto, a VRAM
+        poderá ser vista da forma:
+        \tiny\texttt{\begin{center}
+            \begin{tabular}{|K|K|K|K|K|K|K|K|K|K|K|K|K|K|K|K|}
+                \hline
+                x/y & 0    & 1    & 2    & 3    & 4    & 5    & 6    & 7    & 8    & \ldots & 238  & 239  \\\hline
+                0   & 0000 & 0000 & 0000 & 0000 & 0000 & 0000 & 0000 & 0000 & 0000 & \ldots & 0000 & 0000 \\\hline
+                1   & 0000 & 0000 & 0000 & 0000 & 0000 & 0000 & 0000 & 0000 & 0000 & \ldots & 0000 & 0000 \\\hline
+                2   & 0000 & 0000 & 0000 & 0000 & 0000 & 0000 & 0000 & 0000 & 0000 & \ldots & 0000 & 0000 \\\hline
+                3   & 0000 & 0000 & 0000 & 0000 & 0000 & 0000 & 0000 & 0000 & 0000 & \ldots & 0000 & 0000 \\\hline
+                4   & 0000 & 0000 & 0000 & 0000 & 0000 & 0000 & 0000 & 0000 & 0000 & \ldots & 0000 & 0000 \\\hline
+                5   & 0000 & 0000 & 0000 & 0000 & 0000 & 0000 & 0000 & 0000 & 0000 & \ldots & 0000 & 0000 \\\hline
+                6   & 0000 & 0000 & 0000 & 0000 & 0000 & 0000 & 0000 & 0000 & 0000 & \ldots & 0000 & 0000 \\\hline
+                7   & 0000 & 0000 & 0000 & 0000 & 0000 & 0000 & 0000 & 0000 & 0000 & \ldots & 0000 & 0000 \\\hline
+                8   & 0000 & 0000 & 0000 & 0000 & \cellcolor{blue}7C00 & 0000 & 0000 & 0000 & 0000 & \ldots & 0000 & 0000 \\\hline
+                9   & 0000 & 0000 & 0000 & 0000 & 0000 & 0000 & 0000 & 0000 & 0000 & \ldots & 0000 & 0000 \\\hline
+                10  & 0000 & 0000 & 0000 & 0000 & 0000 & 0000 & 0000 & 0000 & 0000 & \ldots & 0000 & 0000 \\\hline
+                \ldots  & \ldots & \ldots & \ldots & \ldots & \ldots & \ldots & \ldots & \ldots & \ldots & \ldots & \ldots & \ldots \\\hline
+                157 & 0000 & 0000 & 0000 & 0000 & 0000 & 0000 & 0000 & 0000 & 0000 & \ldots & 0000 & 0000 \\\hline
+                158 & 0000 & 0000 & 0000 & 0000 & 0000 & 0000 & 0000 & 0000 & 0000 & \ldots & 0000 & 0000 \\\hline
+                159 & 0000 & 0000 & 0000 & 0000 & 0000 & 0000 & 0000 & 0000 & 0000 & \ldots & 0000 & 0000 \\\hline
+            \end{tabular}
+        \end{center}}
+    \end{frame}
+
+    \begin{frame}{\secname: \subsecname}
+        Alterando o pixel em (4, 4) para \texttt{0:00000:00000:11111b} (31):
+        \tiny\texttt{\begin{center}
+            \begin{tabular}{|K|K|K|K|K|K|K|K|K|K|K|K|K|K|K|K|}
+                \hline
+                x/y & 0    & 1    & 2    & 3    & 4    & 5    & 6    & 7    & 8    & \ldots & 238  & 239  \\\hline
+                0   & 0000 & 0000 & 0000 & 0000 & 0000 & 0000 & 0000 & 0000 & 0000 & \ldots & 0000 & 0000 \\\hline
+                1   & 0000 & 0000 & 0000 & 0000 & 0000 & 0000 & 0000 & 0000 & 0000 & \ldots & 0000 & 0000 \\\hline
+                2   & 0000 & 0000 & 0000 & 0000 & 0000 & 0000 & 0000 & 0000 & 0000 & \ldots & 0000 & 0000 \\\hline
+                3   & 0000 & 0000 & 0000 & 0000 & 0000 & 0000 & 0000 & 0000 & 0000 & \ldots & 0000 & 0000 \\\hline
+                4   & 0000 & 0000 & 0000 & 0000 & \cellcolor{red}001F & 0000 & 0000 & 0000 & 0000 & \ldots & 0000 & 0000 \\\hline
+                5   & 0000 & 0000 & 0000 & 0000 & 0000 & 0000 & 0000 & 0000 & 0000 & \ldots & 0000 & 0000 \\\hline
+                6   & 0000 & 0000 & 0000 & 0000 & 0000 & 0000 & 0000 & 0000 & 0000 & \ldots & 0000 & 0000 \\\hline
+                7   & 0000 & 0000 & 0000 & 0000 & 0000 & 0000 & 0000 & 0000 & 0000 & \ldots & 0000 & 0000 \\\hline
+                8   & 0000 & 0000 & 0000 & 0000 & \cellcolor{blue}7C00 & 0000 & 0000 & 0000 & 0000 & \ldots & 0000 & 0000 \\\hline
+                9   & 0000 & 0000 & 0000 & 0000 & 0000 & 0000 & 0000 & 0000 & 0000 & \ldots & 0000 & 0000 \\\hline
+                10  & 0000 & 0000 & 0000 & 0000 & 0000 & 0000 & 0000 & 0000 & 0000 & \ldots & 0000 & 0000 \\\hline
+                \ldots  & \ldots & \ldots & \ldots & \ldots & \ldots & \ldots & \ldots & \ldots & \ldots & \ldots & \ldots & \ldots \\\hline
+                157 & 0000 & 0000 & 0000 & 0000 & 0000 & 0000 & 0000 & 0000 & 0000 & \ldots & 0000 & 0000 \\\hline
+                158 & 0000 & 0000 & 0000 & 0000 & 0000 & 0000 & 0000 & 0000 & 0000 & \ldots & 0000 & 0000 \\\hline
+                159 & 0000 & 0000 & 0000 & 0000 & 0000 & 0000 & 0000 & 0000 & 0000 & \ldots & 0000 & 0000 \\\hline
+            \end{tabular}
+        \end{center}}
+    \end{frame}
+
+    \begin{frame}{\secname: \subsecname}
+        Alterando o pixel em (4, 6) para \texttt{0:00000:11111:00000b} (992):
+        \tiny\texttt{\begin{center}
+            \begin{tabular}{|K|K|K|K|K|K|K|K|K|K|K|K|K|K|K|K|}
+                \hline
+                x/y & 0    & 1    & 2    & 3    & 4    & 5    & 6    & 7    & 8    & \ldots & 238  & 239  \\\hline
+                0   & 0000 & 0000 & 0000 & 0000 & 0000 & 0000 & 0000 & 0000 & 0000 & \ldots & 0000 & 0000 \\\hline
+                1   & 0000 & 0000 & 0000 & 0000 & 0000 & 0000 & 0000 & 0000 & 0000 & \ldots & 0000 & 0000 \\\hline
+                2   & 0000 & 0000 & 0000 & 0000 & 0000 & 0000 & 0000 & 0000 & 0000 & \ldots & 0000 & 0000 \\\hline
+                3   & 0000 & 0000 & 0000 & 0000 & 0000 & 0000 & 0000 & 0000 & 0000 & \ldots & 0000 & 0000 \\\hline
+                4   & 0000 & 0000 & 0000 & 0000 & \cellcolor{red}001F & 0000 & 0000 & 0000 & 0000 & \ldots & 0000 & 0000 \\\hline
+                5   & 0000 & 0000 & 0000 & 0000 & 0000 & 0000 & 0000 & 0000 & 0000 & \ldots & 0000 & 0000 \\\hline
+                6   & 0000 & 0000 & 0000 & 0000 & \cellcolor{green}\color{black}03E0 & 0000 & 0000 & 0000 & 0000 & \ldots & 0000 & 0000 \\\hline
+                7   & 0000 & 0000 & 0000 & 0000 & 0000 & 0000 & 0000 & 0000 & 0000 & \ldots & 0000 & 0000 \\\hline
+                8   & 0000 & 0000 & 0000 & 0000 & \cellcolor{blue}7C00 & 0000 & 0000 & 0000 & 0000 & \ldots & 0000 & 0000 \\\hline
+                9   & 0000 & 0000 & 0000 & 0000 & 0000 & 0000 & 0000 & 0000 & 0000 & \ldots & 0000 & 0000 \\\hline
+                10  & 0000 & 0000 & 0000 & 0000 & 0000 & 0000 & 0000 & 0000 & 0000 & \ldots & 0000 & 0000 \\\hline
+                \ldots  & \ldots & \ldots & \ldots & \ldots & \ldots & \ldots & \ldots & \ldots & \ldots & \ldots & \ldots & \ldots \\\hline
+                157 & 0000 & 0000 & 0000 & 0000 & 0000 & 0000 & 0000 & 0000 & 0000 & \ldots & 0000 & 0000 \\\hline
+                158 & 0000 & 0000 & 0000 & 0000 & 0000 & 0000 & 0000 & 0000 & 0000 & \ldots & 0000 & 0000 \\\hline
+                159 & 0000 & 0000 & 0000 & 0000 & 0000 & 0000 & 0000 & 0000 & 0000 & \ldots & 0000 & 0000 \\\hline
+            \end{tabular}
+        \end{center}}
+    \end{frame}
+
+    \begin{frame}{\secname: \subsecname}
+        Alterando o pixel em (4, 7) para \texttt{0:11111:11111:00000b} (32736):
+        \tiny\texttt{\begin{center}
+            \begin{tabular}{|K|K|K|K|K|K|K|K|K|K|K|K|K|K|K|K|}
+                \hline
+                x/y & 0    & 1    & 2    & 3    & 4    & 5    & 6    & 7    & 8    & \ldots & 238  & 239  \\\hline
+                0   & 0000 & 0000 & 0000 & 0000 & 0000 & 0000 & 0000 & 0000 & 0000 & \ldots & 0000 & 0000 \\\hline
+                1   & 0000 & 0000 & 0000 & 0000 & 0000 & 0000 & 0000 & 0000 & 0000 & \ldots & 0000 & 0000 \\\hline
+                2   & 0000 & 0000 & 0000 & 0000 & 0000 & 0000 & 0000 & 0000 & 0000 & \ldots & 0000 & 0000 \\\hline
+                3   & 0000 & 0000 & 0000 & 0000 & 0000 & 0000 & 0000 & 0000 & 0000 & \ldots & 0000 & 0000 \\\hline
+                4   & 0000 & 0000 & 0000 & 0000 & \cellcolor{red}001F & 0000 & 0000 & 0000 & 0000 & \ldots & 0000 & 0000 \\\hline
+                5   & 0000 & 0000 & 0000 & 0000 & 0000 & 0000 & 0000 & 0000 & 0000 & \ldots & 0000 & 0000 \\\hline
+                6   & 0000 & 0000 & 0000 & 0000 & \cellcolor{green}\color{black}03E0 & 0000 & 0000 & 0000 & 0000 & \ldots & 0000 & 0000 \\\hline
+                7   & 0000 & 0000 & 0000 & 0000 & \cellcolor{cyan}\color{black}7FE0 & 0000 & 0000 & 0000 & 0000 & \ldots & 0000 & 0000 \\\hline
+                8   & 0000 & 0000 & 0000 & 0000 & \cellcolor{blue}7C00 & 0000 & 0000 & 0000 & 0000 & \ldots & 0000 & 0000 \\\hline
+                9   & 0000 & 0000 & 0000 & 0000 & 0000 & 0000 & 0000 & 0000 & 0000 & \ldots & 0000 & 0000 \\\hline
+                10  & 0000 & 0000 & 0000 & 0000 & 0000 & 0000 & 0000 & 0000 & 0000 & \ldots & 0000 & 0000 \\\hline
+                \ldots  & \ldots & \ldots & \ldots & \ldots & \ldots & \ldots & \ldots & \ldots & \ldots & \ldots & \ldots & \ldots \\\hline
+                157 & 0000 & 0000 & 0000 & 0000 & 0000 & 0000 & 0000 & 0000 & 0000 & \ldots & 0000 & 0000 \\\hline
+                158 & 0000 & 0000 & 0000 & 0000 & 0000 & 0000 & 0000 & 0000 & 0000 & \ldots & 0000 & 0000 \\\hline
+                159 & 0000 & 0000 & 0000 & 0000 & 0000 & 0000 & 0000 & 0000 & 0000 & \ldots & 0000 & 0000 \\\hline
+            \end{tabular}
+        \end{center}}
+    \end{frame}
+
+    \begin{frame}{\secname: \subsecname}
+        Alterando o pixel em (4, 5) para \texttt{0:00000:11111:11111b} (1023):
+        \tiny\texttt{\begin{center}
+            \begin{tabular}{|K|K|K|K|K|K|K|K|K|K|K|K|K|K|K|K|}
+                \hline
+                x/y & 0    & 1    & 2    & 3    & 4    & 5    & 6    & 7    & 8    & \ldots & 238  & 239  \\\hline
+                0   & 0000 & 0000 & 0000 & 0000 & 0000 & 0000 & 0000 & 0000 & 0000 & \ldots & 0000 & 0000 \\\hline
+                1   & 0000 & 0000 & 0000 & 0000 & 0000 & 0000 & 0000 & 0000 & 0000 & \ldots & 0000 & 0000 \\\hline
+                2   & 0000 & 0000 & 0000 & 0000 & 0000 & 0000 & 0000 & 0000 & 0000 & \ldots & 0000 & 0000 \\\hline
+                3   & 0000 & 0000 & 0000 & 0000 & 0000 & 0000 & 0000 & 0000 & 0000 & \ldots & 0000 & 0000 \\\hline
+                4   & 0000 & 0000 & 0000 & 0000 & \cellcolor{red}001F & 0000 & 0000 & 0000 & 0000 & \ldots & 0000 & 0000 \\\hline
+                5   & 0000 & 0000 & 0000 & 0000 & \cellcolor{yellow}\color{black}03FF & 0000 & 0000 & 0000 & 0000 & \ldots & 0000 & 0000 \\\hline
+                6   & 0000 & 0000 & 0000 & 0000 & \cellcolor{green}\color{black}03E0 & 0000 & 0000 & 0000 & 0000 & \ldots & 0000 & 0000 \\\hline
+                7   & 0000 & 0000 & 0000 & 0000 & \cellcolor{cyan}\color{black}7FE0 & 0000 & 0000 & 0000 & 0000 & \ldots & 0000 & 0000 \\\hline
+                8   & 0000 & 0000 & 0000 & 0000 & \cellcolor{blue}7C00 & 0000 & 0000 & 0000 & 0000 & \ldots & 0000 & 0000 \\\hline
+                9   & 0000 & 0000 & 0000 & 0000 & 0000 & 0000 & 0000 & 0000 & 0000 & \ldots & 0000 & 0000 \\\hline
+                10  & 0000 & 0000 & 0000 & 0000 & 0000 & 0000 & 0000 & 0000 & 0000 & \ldots & 0000 & 0000 \\\hline
+                \ldots  & \ldots & \ldots & \ldots & \ldots & \ldots & \ldots & \ldots & \ldots & \ldots & \ldots & \ldots & \ldots \\\hline
+                157 & 0000 & 0000 & 0000 & 0000 & 0000 & 0000 & 0000 & 0000 & 0000 & \ldots & 0000 & 0000 \\\hline
+                158 & 0000 & 0000 & 0000 & 0000 & 0000 & 0000 & 0000 & 0000 & 0000 & \ldots & 0000 & 0000 \\\hline
+                159 & 0000 & 0000 & 0000 & 0000 & 0000 & 0000 & 0000 & 0000 & 0000 & \ldots & 0000 & 0000 \\\hline
+            \end{tabular}
+        \end{center}}
+    \end{frame}
+
+    \begin{frame}{\secname: \subsecname}
+        Alterando o pixel em (2, 6) para \texttt{0:11111:11111:11111b} (32767):
+        \tiny\texttt{\begin{center}
+            \begin{tabular}{|K|K|K|K|K|K|K|K|K|K|K|K|K|K|K|K|}
+                \hline
+                x/y & 0    & 1    & 2    & 3    & 4    & 5    & 6    & 7    & 8    & \ldots & 238  & 239  \\\hline
+                0   & 0000 & 0000 & 0000 & 0000 & 0000 & 0000 & 0000 & 0000 & 0000 & \ldots & 0000 & 0000 \\\hline
+                1   & 0000 & 0000 & 0000 & 0000 & 0000 & 0000 & 0000 & 0000 & 0000 & \ldots & 0000 & 0000 \\\hline
+                2   & 0000 & 0000 & 0000 & 0000 & 0000 & 0000 & 0000 & 0000 & 0000 & \ldots & 0000 & 0000 \\\hline
+                3   & 0000 & 0000 & 0000 & 0000 & 0000 & 0000 & 0000 & 0000 & 0000 & \ldots & 0000 & 0000 \\\hline
+                4   & 0000 & 0000 & 0000 & 0000 & \cellcolor{red}001F & 0000 & 0000 & 0000 & 0000 & \ldots & 0000 & 0000 \\\hline
+                5   & 0000 & 0000 & 0000 & 0000 & \cellcolor{yellow}\color{black}03FF & 0000 & 0000 & 0000 & 0000 & \ldots & 0000 & 0000 \\\hline
+                6   & 0000 & 0000 & \cellcolor{white}\color{black}7FFF & 0000 & \cellcolor{green}\color{black}03E0 & 0000 & 0000 & 0000 & 0000 & \ldots & 0000 & 0000 \\\hline
+                7   & 0000 & 0000 & 0000 & 0000 & \cellcolor{cyan}\color{black}7FE0 & 0000 & 0000 & 0000 & 0000 & \ldots & 0000 & 0000 \\\hline
+                8   & 0000 & 0000 & 0000 & 0000 & \cellcolor{blue}7C00 & 0000 & 0000 & 0000 & 0000 & \ldots & 0000 & 0000 \\\hline
+                9   & 0000 & 0000 & 0000 & 0000 & 0000 & 0000 & 0000 & 0000 & 0000 & \ldots & 0000 & 0000 \\\hline
+                10  & 0000 & 0000 & 0000 & 0000 & 0000 & 0000 & 0000 & 0000 & 0000 & \ldots & 0000 & 0000 \\\hline
+                \ldots  & \ldots & \ldots & \ldots & \ldots & \ldots & \ldots & \ldots & \ldots & \ldots & \ldots & \ldots & \ldots \\\hline
+                157 & 0000 & 0000 & 0000 & 0000 & 0000 & 0000 & 0000 & 0000 & 0000 & \ldots & 0000 & 0000 \\\hline
+                158 & 0000 & 0000 & 0000 & 0000 & 0000 & 0000 & 0000 & 0000 & 0000 & \ldots & 0000 & 0000 \\\hline
+                159 & 0000 & 0000 & 0000 & 0000 & 0000 & 0000 & 0000 & 0000 & 0000 & \ldots & 0000 & 0000 \\\hline
+            \end{tabular}
+        \end{center}}
+    \end{frame}
+
+    \section{Mãos à obra}
+    \subsection{Introdução ao Assembly ARMv4}
+    \begin{frame}
+        \begin{center}
+            \begin{figure}[h!]
+                \centering
+                \includegraphics[width=0.5\textwidth,height=0.5\textheight,keepaspectratio]{pencil}
+            \end{figure}
+            \huge Mãos à obra
+
+            \normalsize Introdução ao Assembly ARMv4
+        \end{center}
+    \end{frame}
+
+    \begin{frame}{\secname: \subsecname}
+        Na arquitetura ARM anterior à ARMv8, toda instrução é também uma
+        comparação. Há vários modos de comparação nas instruções que indicam
+        quando ela será executada ou não, por simplicidade manteremos AL
+        (\textit{Always}) como condição para as instruções executarem ou não.
+
+
+        \emph{OBS}: ARM7TDMI é a versão do processador. ARMv4 é a versão do
+        conjunto de instruções (\textit{ISA: Instruction Set Architecture}).
+    \end{frame}
+
+    \begin{frame}{\secname: \subsecname}
+        Os processadores ARM7 podem rodar em 2 modos:
+        \begin{itemize}
+            \item ARM (instruções de 32 bits);
+            \item Thumb-2 (instruções de 16 bits).
+        \end{itemize}
+
+
+        Utilizaremos majoritariamente o modo Thumb-2 por duas razões:
+        \begin{enumerate}
+            \item Instruções Thumb-2 ocupam metade do espaço no cartucho em
+                relação às instruções ARM, e como precisaremos de várias
+                instruções, não queremos que o cartucho acabe ficando muito
+                pesado;
+            \item O barramento do GBA é de 16 bits, portanto rodar instruções
+                de 32 bits acabam ficando mais lento.
+        \end{enumerate}
+    \end{frame}
+
+    \begin{frame}{\secname: Registradores - Convenções de uso}
+        \begin{center}
+            \begin{tabular}{|l|l|}
+                \hline
+                Registrador & Função \\\hline
+                \texttt{r0-12} & Propósito geral \\
+                \texttt{r13} & \textit{Stack Pointer} (\texttt{sp}) \\
+                \texttt{r14} & \textit{Link Register}* (\texttt{lr}) \\
+                \texttt{r15} & \textit{Program Counter} (\texttt{pc}) \\
+                \hline
+            \end{tabular}
+
+
+            \begin{tabular}{|l|l|}
+                \hline
+                Função & Registradores \\\hline
+                Valor de retorno de função & \texttt{r0-1} \\
+                Parâmetros de função & \texttt{r0-3} \\
+                Parâmetros adicionais & \texttt{sp} \\
+                Registradores de rascunho & \texttt{r0-3, r12} \\
+                Registradores preservados & \texttt{r4-13} \\
+                \hline
+            \end{tabular}
+        \end{center}
+
+        *Utilizado para o endereço de retorno de uma função.
+    \end{frame}
+
+    \begin{frame}{\secname: Registradores}
+        \begin{tikzpicture}
+            \draw (0, 0) rectangle (4, 4) node[midway, above=1.5cm] {Processador};
+            \scriptsize\node at (2, 1.75) [align=right] {
+                \begin{tabular}{|l|l|}
+                    \hline
+                    r0 & \texttt{0x00000000} \\
+                    r1 & \texttt{0xFFFFFFFF} \\
+                    r2 & \texttt{0x00000000} \\
+                    r3 & \texttt{0x00000000} \\
+                    r4 & \texttt{0x00000000} \\
+                    r5 & \texttt{0x00000000} \\
+                    \ldots & \ldots \\
+                    r15 & \texttt{0x08000004} \\\hline
+                \end{tabular}
+            };
+            \foreach \x in {0,...,15} {
+                \pgfmathsetmacro{\y}{(4 / 18)*(\x + 1)}
+                \draw (4, \y) -- (6, \y);
+            }
+
+            \draw (6, 5) rectangle(10, 5.5) node[pos=.5] {Memória};
+            \scriptsize\draw (6, -1) rectangle(10, 5) node[at start, above right, align=left] {
+                \begin{tabular}{l|l}
+                    \texttt{0x00000000} & \texttt{0x0000} \\
+                    \texttt{0x00000002} & \texttt{0x0000} \\
+                    \ldots & \ldots \\
+                    \texttt{0x02000000} & \texttt{0x1001}\\
+                    \texttt{0x02000002} & \texttt{0x0001}\\
+                    \texttt{0x02000004} & \texttt{0x0018}\\
+                    \texttt{0x02000006} & \texttt{0xAAA0}\\
+                    \ldots & \ldots \\
+                    \texttt{0x03000000} & \texttt{0xA011}\\
+                    \texttt{0x03000002} & \texttt{0x00FF}\\
+                    \texttt{0x03000004} & \texttt{0x09B0}\\
+                    \ldots & \ldots \\
+                    \texttt{0x04000000} & \texttt{0x0000}\\
+                    \ldots & \ldots \\
+                    \texttt{0x01FFFFFF} & \texttt{0x0000}
+                \end{tabular}
+            };
+        \end{tikzpicture}
+    \end{frame}
+
+    \begin{frame}[fragile]{\secname: Instruções ARMv4}
+        \begin{description}
+            \item[MOV] (Move):
+
+                Copia um dado para o registrador de destino.
+
+                \begin{minted}{bash}
+MOV reg.destino #const.8bits
+MOV reg.destino reg.origem
+                \end{minted}
+
+            \item[STRH] (\textit{Store Register Halfword}):
+
+                Armazena um dado em um registrador de meia-palavra*.
+
+                \begin{minted}{bash}
+STRH reg.origem [reg.destino, reg.offset]
+                \end{minted}
+        \end{description}
+
+        *Palavra ("\textit{Word}"): Tamanho da instrução. ARMv4 toma por base que cada
+        instrução tenha 32 bits. Halfword portanto significa 16 bits neste
+        contexto.
+\end{frame}
+
+    \begin{frame}[fragile]{\secname: Instruções ARMv4}
+        \begin{description}
+            \item[ADD] (Somar):
+
+                Soma uma constante e o valor de um registrador.
+
+                \begin{minted}{bash}
+ADD reg.destino reg.entrada #const.8bits
+                \end{minted}
+
+            \item[LDR] (\textit{Load Register} - Pseudo-instrução):
+
+                Armazena uma constante a um registrador (diferenças da
+                instrução \texttt{MOV} serão explicadas adiante).
+
+                \begin{minted}{bash}
+LDR reg.destino #const.32bits
+                \end{minted}
+        \end{description}
+\end{frame}
+
+    \begin{frame}[fragile]{\secname: Exemplo de execução de instrução}
+        \vspace{-2em}
+        \begin{minted}[escapeinside=||]{cpp-objdump}
+|mov r0, \#0x04000000 ; r0 $\leftarrow$ 0x4000000|
+|ldr r1, =\#0x403     ; r1 $\leftarrow$ 0x403|
+|strh r1, [r0]       ; memory[r0] $\leftarrow$ r1|
+        \end{minted}
+
+        \vspace{-0.5em}
+        \begin{tikzpicture}
+            \draw (0, 0) rectangle (4, 4) node[midway, above=1.5cm] {Processador};
+            \scriptsize\node at (2, 1.75) [align=right] {
+                \begin{tabular}{|l|l|}
+                    \hline
+                    \texttt{r0} & \texttt{0x00000000} \\
+                    \texttt{r1} & \texttt{0x00000000} \\
+                    \texttt{r2} & \texttt{0x00000000} \\
+                    \texttt{r3} & \texttt{0x00000000} \\
+                    \texttt{r4} & \texttt{0x00000000} \\
+                    \texttt{r5} & \texttt{0x00000000} \\
+                    \ldots & \ldots \\
+                    \texttt{r15} & \texttt{0x08000004} \\\hline
+                \end{tabular}
+            };
+            \foreach \x in {0,...,15} {
+                \pgfmathsetmacro{\y}{(4 / 18)*(\x + 1)}
+                \draw (4, \y) -- (6, \y);
+            }
+
+            \draw (6, 4.5) rectangle(10, 4) node[pos=.5] {Memória};
+            \scriptsize\draw (6, 0) rectangle(10, 4) node[at start, above right, align=left] {
+                \begin{tabular}{l|l}
+                    \texttt{0x00000000} & \texttt{0x0000} \\
+                    \texttt{0x00000002} & \texttt{0x0000} \\
+                    \ldots & \ldots \\
+                    \texttt{0x03000000} & \texttt{0xA011}\\
+                    \texttt{0x03000002} & \texttt{0x00FF}\\
+                    \texttt{0x03000004} & \texttt{0x09B0}\\
+                    \ldots & \ldots \\
+                    \texttt{0x04000000} & \texttt{0x0000}\\
+                    \ldots & \ldots \\
+                    \texttt{0x01FFFFFF} & \texttt{0x0000}
+                \end{tabular}
+            };
+        \end{tikzpicture}
+\end{frame}
+
+    \begin{frame}[fragile]{\secname: Exemplo de execução de instrução}
+        \vspace{-2em}
+        \begin{minted}[escapeinside=||]{cpp-objdump}
+|\color{red}mov r0, \#0x04000000 ; r0 $\leftarrow$ 0x4000000|
+|ldr r1, =\#0x403     ; r1 $\leftarrow$ 0x403|
+|strh r1, [r0]       ; memory[r0] $\leftarrow$ r1|
+        \end{minted}
+
+        \vspace{-0.5em}
+        \begin{tikzpicture}
+            \draw (0, 0) rectangle (4, 4) node[midway, above=1.5cm] {Processador};
+            \scriptsize\node at (2, 1.75) [align=right] {
+                \begin{tabular}{|l|l|}
+                    \hline
+                    \texttt{r0} & \texttt{0x04000000} \\
+                    \texttt{r1} & \texttt{0x00000000} \\
+                    \texttt{r2} & \texttt{0x00000000} \\
+                    \texttt{r3} & \texttt{0x00000000} \\
+                    \texttt{r4} & \texttt{0x00000000} \\
+                    \texttt{r5} & \texttt{0x00000000} \\
+                    \ldots & \ldots \\
+                    \texttt{r15} & \texttt{0x08000004} \\\hline
+                \end{tabular}
+            };
+            \foreach \x in {0,...,15} {
+                \pgfmathsetmacro{\y}{(4 / 18)*(\x + 1)}
+                \draw (4, \y) -- (6, \y);
+            }
+
+            \draw (6, 4.5) rectangle(10, 4) node[pos=.5] {Memória};
+            \scriptsize\draw (6, 0) rectangle(10, 4) node[at start, above right, align=left] {
+                \begin{tabular}{l|l}
+                    \texttt{0x00000000} & \texttt{0x0000} \\
+                    \texttt{0x00000002} & \texttt{0x0000} \\
+                    \ldots & \ldots \\
+                    \texttt{0x03000000} & \texttt{0xA011}\\
+                    \texttt{0x03000002} & \texttt{0x00FF}\\
+                    \texttt{0x03000004} & \texttt{0x09B0}\\
+                    \ldots & \ldots \\
+                    \texttt{0x04000000} & \texttt{0x0000}\\
+                    \ldots & \ldots \\
+                    \texttt{0x01FFFFFF} & \texttt{0x0000}
+                \end{tabular}
+            };
+        \end{tikzpicture}
+\end{frame}
+
+    \begin{frame}[fragile]{\secname: Exemplo de execução de instrução}
+        \vspace{-2em}
+        \begin{minted}[escapeinside=||]{cpp-objdump}
+|mov r0, \#0x04000000 ; r0 $\leftarrow$ 0x4000000|
+|\color{red}ldr r1, =\#0x403     ; r1 $\leftarrow$ 0x403|
+|strh r1, [r0]       ; memory[r0] $\leftarrow$ r1|
+        \end{minted}
+
+        \vspace{-0.5em}
+        \begin{tikzpicture}
+            \draw (0, 0) rectangle (4, 4) node[midway, above=1.5cm] {Processador};
+            \scriptsize\node at (2, 1.75) [align=right] {
+                \begin{tabular}{|l|l|}
+                    \hline
+                    \texttt{r0} & \texttt{0x04000000} \\
+                    \texttt{r1} & \texttt{0x00000403} \\
+                    \texttt{r2} & \texttt{0x00000000} \\
+                    \texttt{r3} & \texttt{0x00000000} \\
+                    \texttt{r4} & \texttt{0x00000000} \\
+                    \texttt{r5} & \texttt{0x00000000} \\
+                    \ldots & \ldots \\
+                    \texttt{r15} & \texttt{0x08000006} \\\hline
+                \end{tabular}
+            };
+            \foreach \x in {0,...,15} {
+                \pgfmathsetmacro{\y}{(4 / 18)*(\x + 1)}
+                \draw (4, \y) -- (6, \y);
+            }
+
+            \draw (6, 4.5) rectangle(10, 4) node[pos=.5] {Memória};
+            \scriptsize\draw (6, 0) rectangle(10, 4) node[at start, above right, align=left] {
+                \begin{tabular}{l|l}
+                    \texttt{0x00000000} & \texttt{0x0000} \\
+                    \texttt{0x00000002} & \texttt{0x0000} \\
+                    \ldots & \ldots \\
+                    \texttt{0x03000000} & \texttt{0xA011}\\
+                    \texttt{0x03000002} & \texttt{0x00FF}\\
+                    \texttt{0x03000004} & \texttt{0x09B0}\\
+                    \ldots & \ldots \\
+                    \texttt{0x04000000} & \texttt{0x0000}\\
+                    \ldots & \ldots \\
+                    \texttt{0x01FFFFFF} & \texttt{0x0000}
+                \end{tabular}
+            };
+        \end{tikzpicture}
+\end{frame}
+
+    \begin{frame}[fragile]{\secname: Exemplo de execução de instrução}
+        \vspace{-2em}
+        \begin{minted}[escapeinside=||]{cpp-objdump}
+|mov r0, \#0x04000000 ; r0 $\leftarrow$ 0x4000000|
+|ldr r1, =\#0x403     ; r1 $\leftarrow$ 0x403|
+|\color{red}strh r1, [r0]       ; memory[r0] $\leftarrow$ r1|
+        \end{minted}
+
+        \vspace{-0.5em}
+        \begin{tikzpicture}
+            \draw (0, 0) rectangle (4, 4) node[midway, above=1.5cm] {Processador};
+            \scriptsize\node at (2, 1.75) [align=right] {
+                \begin{tabular}{|l|l|}
+                    \hline
+                    \texttt{r0} & \texttt{0x04000000} \\
+                    \texttt{r1} & \texttt{0x00000403} \\
+                    \texttt{r2} & \texttt{0x00000000} \\
+                    \texttt{r3} & \texttt{0x00000000} \\
+                    \texttt{r4} & \texttt{0x00000000} \\
+                    \texttt{r5} & \texttt{0x00000000} \\
+                    \ldots & \ldots \\
+                    \texttt{r15} & \texttt{0x08000008} \\\hline
+                \end{tabular}
+            };
+            \foreach \x in {0,...,15} {
+                \pgfmathsetmacro{\y}{(4 / 18)*(\x + 1)}
+                \draw (4, \y) -- (6, \y);
+            }
+
+            \draw (6, 4.5) rectangle(10, 4) node[pos=.5] {Memória};
+            \scriptsize\draw (6, 0) rectangle(10, 4) node[at start, above right, align=left] {
+                \begin{tabular}{l|l}
+                    \texttt{0x00000000} & \texttt{0x0000} \\
+                    \texttt{0x00000002} & \texttt{0x0000} \\
+                    \ldots & \ldots \\
+                    \texttt{0x03000000} & \texttt{0xA011}\\
+                    \texttt{0x03000002} & \texttt{0x00FF}\\
+                    \texttt{0x03000004} & \texttt{0x09B0}\\
+                    \ldots & \ldots \\
+                    \texttt{0x04000000} & \texttt{0x0403}\\
+                    \ldots & \ldots \\
+                    \texttt{0x01FFFFFF} & \texttt{0x0000}
+                \end{tabular}
+            };
+        \end{tikzpicture}
+\end{frame}
+
+    \begin{frame}{
 
 \end{darkframes}
 \end{document}
