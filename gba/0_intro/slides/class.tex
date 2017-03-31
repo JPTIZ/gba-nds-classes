@@ -1061,7 +1061,24 @@ LDR reg.destino #const.32bits
         \end{tikzpicture}
 \end{frame}
 
-    \begin{frame}{
+    \begin{frame}[fragile]{Exemplo de código}
+        O código abaixo troca o \textit{Display-Mode} para 3 e pinta o pixel
+        nas coordenadas (0, 0) de Amarelo-escuro (BGR 0, 15, 15):
+
+        \begin{minted}[escapeinside=||]{asm}
+main:
+    ldr r0, |=0x04000000|
+    ldr r1, |=0x403|
+    strh r1, [r0]
+    ldr r0, |=0x6000000|
+    ldr r1, |=0x1EF|
+    strh r1, [r0]
+        \end{minted}
+\end{frame}
+
+    \begin{frame}{DevKitPro - Compilação}
+        Para compilar um programa escrito em Assembly
+    \end{frame}
 
 \end{darkframes}
 \end{document}
