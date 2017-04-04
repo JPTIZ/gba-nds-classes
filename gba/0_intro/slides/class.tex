@@ -34,7 +34,7 @@
 \maketitle
 
 \begin{darkframes}
-\begin{frame}{Índice}
+\begin{frame}[allowframebreaks]{Índice}
     \tableofcontents
 \end{frame}
 
@@ -1067,12 +1067,12 @@ LDR reg.destino #const.32bits
 
     \begin{minted}[escapeinside=||]{asm}
 main:
-ldr r0, |=0x04000000|
-ldr r1, |=0x403|
-strh r1, [r0]
-ldr r0, |=0x6000000|
-ldr r1, |=0x1EF|
-strh r1, [r0]
+    ldr r0, |=0x04000000|
+    ldr r1, |=0x403|
+    strh r1, [r0]
+    ldr r0, |=0x6000000|
+    ldr r1, |=0x1EF|
+    strh r1, [r0]
     \end{minted}
 
     Iremos supor que o código está salvo em um arquivo chamado
