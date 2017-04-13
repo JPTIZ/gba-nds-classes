@@ -85,7 +85,7 @@
 
 \begin{frame}{Computação Gráfica}
     \begin{itemize}
-        \item Desenho de primitivas (linhas, triângulos, circuitos, etc\ldots);
+        \item Desenho de primitivas (linhas, triângulos, círculos, etc\ldots);
         \item Aceleração gráfica via Hardware.
     \end{itemize}
 \end{frame}
@@ -711,19 +711,8 @@
     \end{center}}
 \end{frame}
 
-\section{Mãos à obra}
+\section{Processador}
 \subsection{Introdução ao Assembly ARMv4}
-\begin{frame}
-    \begin{center}
-        \begin{figure}[h!]
-            \centering
-            \includegraphics[width=0.5\textwidth,height=0.5\textheight,keepaspectratio]{pencil}
-        \end{figure}
-        \huge Mãos à obra
-
-        \normalsize Introdução ao Assembly ARMv4
-    \end{center}
-\end{frame}
 
 \begin{frame}{\secname: \subsecname}
     Na arquitetura ARM anterior à ARMv8, toda instrução é também uma
@@ -755,6 +744,52 @@
     \end{enumerate}
 \end{frame}
 
+\begin{frame}[fragile]{\secname: Instruções ARMv4}
+    \begin{description}
+        \item[MOV] (Move):
+
+            Copia um dado para o registrador de destino.
+
+            \begin{minted}{bash}
+MOV reg.destino #const.8bits
+MOV reg.destino reg.origem
+            \end{minted}
+
+        \item[STRH] (\textit{Store Register Halfword}):
+
+            Armazena um dado em um registrador de meia-palavra*.
+
+            \begin{minted}{bash}
+STRH reg.origem [reg.destino, reg.offset]
+            \end{minted}
+    \end{description}
+
+    *Palavra ("\textit{Word}"): Tamanho da instrução. ARMv4 toma por base que cada
+    instrução tenha 32 bits. Halfword portanto significa 16 bits neste
+    contexto.
+\end{frame}
+
+\begin{frame}[fragile]{\secname: Instruções ARMv4}
+    \begin{description}
+        \item[ADD] (Somar):
+
+            Soma uma constante e o valor de um registrador.
+
+            \begin{minted}{bash}
+ADD reg.destino reg.entrada #const.8bits
+            \end{minted}
+
+        \item[LDR] (\textit{Load Register} - Pseudo-instrução):
+
+            Armazena uma constante a um registrador.
+
+            \begin{minted}{bash}
+LDR reg.destino #const.32bits
+            \end{minted}
+    \end{description}
+\end{frame}
+
+\subsection{Registradores}
 \begin{frame}{\secname: Registradores - Convenções de uso}
     \begin{center}
         \begin{tabular}{|l|l|}
@@ -827,52 +862,100 @@
     \end{tikzpicture}
 \end{frame}
 
-\begin{frame}[fragile]{\secname: Instruções ARMv4}
-    \begin{description}
-        \item[MOV] (Move):
+\section{Mãos à obra}
 
-            Copia um dado para o registrador de destino.
+\begin{frame}
+    \begin{center}
+        \begin{figure}[h!]
+            \centering
+            \includegraphics[width=0.5\textwidth,height=0.5\textheight,keepaspectratio]{pencil}
+        \end{figure}
+        \huge Mãos à obra
 
-            \begin{minted}{bash}
-MOV reg.destino #const.8bits
-MOV reg.destino reg.origem
-            \end{minted}
-
-        \item[STRH] (\textit{Store Register Halfword}):
-
-            Armazena um dado em um registrador de meia-palavra*.
-
-            \begin{minted}{bash}
-STRH reg.origem [reg.destino, reg.offset]
-            \end{minted}
-    \end{description}
-
-    *Palavra ("\textit{Word}"): Tamanho da instrução. ARMv4 toma por base que cada
-    instrução tenha 32 bits. Halfword portanto significa 16 bits neste
-    contexto.
+        \normalsize Primeiro programa simples em Assembly
+    \end{center}
 \end{frame}
 
-\begin{frame}[fragile]{\secname: Instruções ARMv4}
-    \begin{description}
-        \item[ADD] (Somar):
+\subsection{Primeiro programa}
+\begin{frame}[fragile]{Exemplo de código}
+    O código abaixo troca o \textit{Display-Mode} para 3 e pinta o pixel
+    nas coordenadas (0, 0) de Amarelo-escuro (BGR 0, 15, 15):
 
-            Soma uma constante e o valor de um registrador.
+    \begin{minted}[escapeinside=||]{asm}
+main:
+    ldr r0, |=0x04000000|
+    ldr r1, |=0x403|
+    strh r1, [r0]
+    ldr r0, |=0x6000000|
+    ldr r1, |=0x1EF|
+    strh r1, [r0]
+    \end{minted}
 
-            \begin{minted}{bash}
-ADD reg.destino reg.entrada #const.8bits
-            \end{minted}
-
-        \item[LDR] (\textit{Load Register} - Pseudo-instrução):
-
-            Armazena uma constante a um registrador (diferenças da
-            instrução \texttt{MOV} serão explicadas adiante).
-
-            \begin{minted}{bash}
-LDR reg.destino #const.32bits
-            \end{minted}
-    \end{description}
+    Iremos supor que o código está salvo em um arquivo chamado
+    \texttt{asm\_example.s}.
 \end{frame}
 
+\subsection{Compilação}
+
+\begin{frame}{\subsecname}
+    Como estamos em uma arquitetura diferente, precisamos de uma ferramenta
+    (mais especificamente, uma \emph{Toolchain}) para o compilador que
+    saiba o esquema de memória adequado. Para GBA, a ferramenta que
+    utilizaremos é \emph{DevKitPro} e seu submódulo \emph{DevKitARM}.
+\end{frame}
+
+\begin{frame}[fragile]{\subsecname - Gerar o arquivo do jogo}
+    \begin{enumerate}
+        \item Compilar e gerar um arquivo-objeto:
+        {\
+            \tiny
+            \begin{minted}{bash}
+arm-none-eabi-as -mthumb -mthumb-interwork -c asm_example.s
+            \end{minted}
+        }
+
+        \vspace{1em}
+        \item Gerar um arquivo \texttt{.elf} (Executable and Linkable File):
+        {\
+            \tiny
+            \begin{minted}{bash}
+arm-none-eabi-as -mthumb -mthumb-interwork -specs=gba.specs asm_example.o -o asm_example.elf
+            \end{minted}
+        }
+
+        \vspace{1em}
+        \item Tradução/Limpeza para um executável puro:
+        {\
+            \tiny
+            \begin{minted}{bash}
+arm-none-eabi-objcopy -O binary asm_example.elf asm_example.gba
+            \end{minted}
+
+            OBS: a etapa acima é necessária apenas para limpar os símbolos
+            de debug que vêm no \texttt{.elf}.
+        }
+
+        \vspace{1em}
+        \item Consertar Header:
+        {\
+            \tiny
+            \begin{minted}{bash}
+gbafix asm_example.gba
+            \end{minted}
+
+            Todo jogo de GBA possui um Header que checka se o binário é um GBA
+            válido. O \texttt{gbafix} trata de ajeitar o header para que seja
+            válido.
+        }
+    \end{enumerate}
+\end{frame}
+
+\begin{frame}{Testando o jogo}
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=1\textwidth,height=0.5\textheight,keepaspectratio]{mapview_asm_example}
+    \end{figure}
+\end{frame}
 \begin{frame}[fragile]{\secname: Exemplo de execução de instrução}
     \vspace{-2em}
     \begin{minted}[escapeinside=||]{cpp-objdump}
@@ -1059,86 +1142,6 @@ LDR reg.destino #const.32bits
             \end{tabular}
         };
     \end{tikzpicture}
-\end{frame}
-
-\begin{frame}[fragile]{Exemplo de código}
-    O código abaixo troca o \textit{Display-Mode} para 3 e pinta o pixel
-    nas coordenadas (0, 0) de Amarelo-escuro (BGR 0, 15, 15):
-
-    \begin{minted}[escapeinside=||]{asm}
-main:
-    ldr r0, |=0x04000000|
-    ldr r1, |=0x403|
-    strh r1, [r0]
-    ldr r0, |=0x6000000|
-    ldr r1, |=0x1EF|
-    strh r1, [r0]
-    \end{minted}
-
-    Iremos supor que o código está salvo em um arquivo chamado
-    \texttt{asm\_example.s}.
-\end{frame}
-
-\subsection{DevKitPro}
-
-\begin{frame}{\subsecname}
-    Como estamos em uma arquitetura diferente, precisamos de uma ferramenta
-    (mais especificamente, uma \emph{Toolchain}) para o compilador que
-    saiba o esquema de memória adequado. Para GBA, a ferramenta que
-    utilizaremos é \emph{DevKitPro} e seu submódulo \emph{DevKitARM}.
-\end{frame}
-
-\begin{frame}[fragile]{\subsecname - Gerar o arquivo do jogo}
-    \begin{enumerate}
-        \item Compilar e gerar um arquivo-objeto:
-        {\
-            \tiny
-            \begin{minted}{bash}
-arm-none-eabi-as -mthumb -mthumb-interwork -c asm_example.s
-            \end{minted}
-        }
-
-        \vspace{1em}
-        \item Gerar um arquivo \texttt{.elf} (Executable and Linkable File):
-        {\
-            \tiny
-            \begin{minted}{bash}
-arm-none-eabi-as -mthumb -mthumb-interwork -specs=gba.specs asm_example.o -o asm_example.elf
-            \end{minted}
-        }
-
-        \vspace{1em}
-        \item Tradução/Limpeza para um executável puro:
-        {\
-            \tiny
-            \begin{minted}{bash}
-arm-none-eabi-objcopy -O binary asm_example.elf asm_example.gba
-            \end{minted}
-
-            OBS: a etapa acima é necessária apenas para limpar os símbolos
-            de debug que vêm no \texttt{.elf}.
-        }
-
-        \vspace{1em}
-        \item Consertar Header:
-        {\
-            \tiny
-            \begin{minted}{bash}
-gbafix asm_example.gba
-            \end{minted}
-
-            Todo jogo de GBA possui um Header que checka se o binário é um GBA
-            válido. O \texttt{gbafix} trata de ajeitar o header para que seja
-            válido.
-        }
-    \end{enumerate}
-\end{frame}
-
-\begin{frame}{Testando o jogo}
-    \begin{figure}[H]
-        \centering
-        \includegraphics[width=1\textwidth,height=0.5\textheight,keepaspectratio]{mapview_asm_example}
-    \end{figure}
 \end{frame}
 
 
