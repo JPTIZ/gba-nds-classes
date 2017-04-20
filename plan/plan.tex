@@ -24,11 +24,11 @@
     \item[]
         \hspace{-1em}
         \begin{tabular}{ccc}
-            Carga Horária: 20 horas-aula&
+            Carga Horária: 18 horas-aula&
             Teóricas: 10&
-            Práticas: 12
+            Práticas: 8
         \end{tabular}
-    \item[] Período: Março a Maio de 2017.
+    \item[] Período: Abril a Julho de 2017.
 \end{itemize}
 
 \section{Cursos (público alvo)}
@@ -49,33 +49,39 @@
     \item Especificações técnicas e limitações do GBA (\textit{GameBoyAdvance}); % DONE
     \item Arquitetura do processador ARM7TDMI\@; % DONE
     \item ISA (\textit{Instruction Set Architecture}) ARMv4; % DONE
-    \item Assembly ARM-Thumb; % DONE
+    \item Assembly ARM e Thumb; % DONE
     % Game console-specific
-    \item VRAM\@; % DONE
+    \item VRAM\@ (\textit{Video-RAM}); % DONE
     \item OAM (\textit{Object-Attribute-Memory}); % DONE
     % Circuitos / Sistemas Digitais
     \item Registradores de controle; % DONE - Alguns
     \item \textit{Input/Keypad}; % DONE
     \item \textit{Hardware-Rendering}; % DONE
     % Org
-    \item \textit{BIOS-Call};
-    \item \textit{Hardware-Interrupts};
-    \item DMA (\textit{Dynamic-Memory-Access});
+    \item \textit{BIOS-Call}; % DONE
+    \item \textit{Hardware-Interrupts}; % DONE
+    \item DMA (\textit{Dynamic-Memory-Access}); % DONE
+    \item \textit{Endiannesss}; % DONE
     % SO
-    \item Gerenciamento de memória manual;
-    \item Otimizações para sistemas embarcados;
-    % Técnicas de otimização
-    \item \textit{Palette-Swapping};
-    \item \textit{Page-Flipping}; % DONE
-    \item \textit{Tile-Mapping};
+    \item Gerenciamento de memória para Sistemas Embarcados; % DONE
+    \item Otimizações para Sistemas Embarcados; % DONE
+    % Gráficos
     \item \textit{Spritesetting}; % DONE
-    % Geral
     \item \textit{Display-Modes} de consoles; % DONE
-    \item MIDI\@;
-    \item Ondas sonoras;
-    \item Processamento de arquivos de mídia;
-    \item Economia de energia;
-    \item Matriz de transformação;
+    \item Matriz de transformação; % DONE
+    \item \textit{V-Sync}; % DONE
+    \item \textit{Windowing}; % DONE
+    \item Processamento de imagem; % DONE
+    % Técnicas de otimização
+    \item \textit{Palette-Swapping}; % DONE
+    \item \textit{Page-Flipping}; % DONE
+    \item \textit{Tile-Mapping}; % DONE
+    \item Economia de energia; % DONE
+    % Geral
+    \item Fontes; % DONE
+    \item MIDI\@; % DONE
+    \item Ondas sonoras; % DONE
+    \item Processamento de arquivos de mídia (imagem/áudio); % DONE
 \end{itemize*}
 
 \section{Objetivos}
@@ -126,13 +132,58 @@
             \item \textit{Mode 5};
             \item \textit{Page-Flipping};
             \item \textit{Mode 4};
-            \item \textit{Paletting}.
+            \item \textit{Paletting};
+            \item \textit{Endianness}.
         \end{enumerate}
-    \item Objetos de jogo e Input (2 horas):
+    \item Objetos de jogo e \textit{Input} (2 horas):
         \begin{enumerate}
             \item Leitura do \textit{Keypad};
             \item \textit{Sprites};
             \item OAM (\textit{Object Attribute Memory});
+            \item Múltiplos objetos;
+            \item Introdução a arquivos de \textit{Bitmap}.
+        \end{enumerate}
+    \item Arquivos \textit{Bitmap} (2 horas):
+        \begin{enumerate}
+            \item \textit{std::ifstream} e \textit{std::ofstream};
+            \item Header de tipo de arquivo;
+            \item Header BMP\@;
+        \end{enumerate}
+    \item \textit{Character Display-Modes} (2 horas):
+        \begin{enumerate}
+            \item \textit{Tilemapping};
+            \item \textit{Palette-Swapping};
+        \end{enumerate}
+    \item Funcionalidades e Efeitos gráficos (2 horas):
+        \begin{enumerate}
+            \item \textit{Windowing};
+            \item \textit{Alpha-Blend};
+            \item Luminosidade;
+            \item Efeito mosáico;
+            \item Matriz de transformação.
+        \end{enumerate}
+    \item Texto, Economia de energia e Cartucho (2 horas):
+        \begin{enumerate}
+            \item Fontes;
+            \item Janelas de diálogo;
+            \item \textit{Hardware-Interrupts};
+            \item DMA --- \textit{Dynamic Memory Access};
+            \item \textit{SaveRAM};
+        \end{enumerate}
+    \item Áudio (2 horas):
+        \begin{enumerate}
+            \item Arquivos MIDI\@;
+            \item Ondas sonoras;
+            \item Interferência construtiva/destrutiva;
+            \item \textit{BIOS-Calls} para áudio;
+            \item Efeitos sonoros (SFX) e arquivos WAV\@.
+        \end{enumerate}
+    \item Construção de um jogo (2 horas):
+        \begin{enumerate}
+            \item \textit{Splash Screen};
+            \item Eventos e animações;
+            \item Gerência de memória para sistemas embarcados;
+            \item Boas práticas de desenvolvimento.
         \end{enumerate}
 \end{enumerate}
 
@@ -148,11 +199,53 @@
         \end{enumerate}
     \item Segundo encontro:
         \begin{enumerate}
-            \item \textit{Bitmapped Display-Modes}.
+            \item \textit{Bitmapped Display-Modes};
+            \item Criação de uma pequena biblioteca, momentameamente lidando
+                apenas com acesso a registradores/memória do GBA\@.
         \end{enumerate}
     \item Terceiro encontro:
         \begin{enumerate}
-            \item Objetos de jogo e Input.
+            \item Objetos de jogo e \textit{Input};
+            \item Adicionar funções à biblioteca principal para lidar com
+                cores, objetos de jogo e sprites.
+            \item Adicionar funções à biblioteca principal para lidar com
+                \textit{Input} de jogo.
+        \end{enumerate}
+    \item Quarto encontro:
+        \begin{enumerate}
+            \item Arquivos \textit{Bitmap};
+            \item Criação de um conversor de arquivos \textit{Bitmap} para
+                formatos usáveis no GBA\@.
+        \end{enumerate}
+    \item Quinto encontro:
+        \begin{enumerate}
+            \item \textit{Character Display-Modes};
+            \item Adicionar módulo para lidar com diferentes telas de jogo à
+                biblioteca principal.
+        \end{enumerate}
+    \item Sexto encontro:
+        \begin{enumerate}
+            \item Funcionalidades e Efeitos gráficos;
+            \item Adicionar módulo de efeitos gráficos à biblioteca principal;
+            \item Adicionar módulo de \textit{Windowing} à biblioteca principal.
+        \end{enumerate}
+    \item Sétimo encontro:
+        \begin{enumerate}
+            \item Texto, Economia de energia e Cartucho;
+            \item Adicionar módulo de fontes à biblioteca principal;
+            \item Adicionar módulo para DMA à biblioteca principal.
+        \end{enumerate}
+    \item Oitavo encontro:
+        \begin{enumerate}
+            \item Áudio;
+            \item Adicionar módulo de áudio (músicas e SFX) à biblioteca
+                principal.
+        \end{enumerate}
+    \item Nono encontro:
+        \begin{enumerate}
+            \item Construção de um jogo;
+            \item Considerações a respeito de uso de globais, APIs, dentre
+                outros recursos de programação.
         \end{enumerate}
 \end{enumerate}
 
