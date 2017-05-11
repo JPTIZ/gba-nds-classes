@@ -1,3 +1,15 @@
+/**
+ * About:
+ *
+ * Just draws simple things on screen.
+ * About `auto`: it infers the variable's type by what we assign it to.
+ * Example:
+ *   auto i = 0; // type of "i" is "int"
+ *   auto i = 0u; // type of "i" is "unsigned int"
+ *   auto i = 0f; // type of "i" is "float"
+ *   auto i = some_function(); // type of "i" is what `some_function` returns
+ *   auto i = &b; // type of "i" is a pointer to "b"'s type
+ */
 int main() {
     const auto dark_red = (unsigned short)0b10000;
     const auto red = (unsigned short)0b11111;
