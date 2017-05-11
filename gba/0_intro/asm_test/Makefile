@@ -1,41 +1,10 @@
-# .SUFFIXES:
-# ifeq ($(strip $(DEVKITARM)),)
-# $(error "Please set DEVKITARM in your environment. export DEVKITARM=<path to>devkitARM)
-# endif
-# #---------------------------------------------------------------------------------
-# include $(DEVKITARM)/gba_rules
-# #---------------------------------------------------------------------------------
-# TARGET      :=  main
-# BUILD       :=  build
-# SOURCES     :=  source
-# DATA        :=
-# INCLUDES    :=
-# #---------------------------------------------------------------------------------
-# ARCH    :=  -mthumb -mthumb-interwork
-
-# CFLAGS  :=  -g -Wall -O3\
-#         -mcpu=arm7tdmi -mtune=arm7tdmi\
-#         -fomit-frame-pointer\
-#         -ffast-math \
-#         $(ARCH)
-# CFLAGS  +=  $(INCLUDE)
-
-# CXXFLAGS    :=  $(CFLAGS) -fno-rtti -fno-exceptions --std=c++1y
-
-# ASFLAGS :=  $(ARCH)
-# LDFLAGS  =   -g $(ARCH) -Wl,-Map,$(notdir $@).map
-# #---------------------------------------------------------------------------------
-# export PATH :=  $(DEVKITARM)/bin:$(PATH)
-# LIBS    :=  -lgba
-# LIBDIRS :=  $(LIBGBA)
-
 #---------------------------------------------------------------------------------
 # Clear the implicit built in rules
 #---------------------------------------------------------------------------------
 .SUFFIXES:
 #---------------------------------------------------------------------------------
 ifeq ($(strip $(DEVKITARM)),)
-$(error "Please set DEVKITARM in your environment. export DEVKITARM=<path to>devkitARM)
+$(error "Please set DEVKITARM in your environment. export DEVKITARM=<path to>devkitARM")
 endif
 include $(DEVKITARM)/gba_rules
 
@@ -45,28 +14,24 @@ include $(DEVKITARM)/gba_rules
 # SOURCES is a list of directories containing source code
 # INCLUDES is a list of directories containing extra header files
 #---------------------------------------------------------------------------------
-TARGET		:=	main
-BUILD		:=	build
-SOURCES		:=  source
+TARGET		:= main
+BUILD		:= build
+SOURCES		:= source
 INCLUDES	:=
 
 #---------------------------------------------------------------------------------
 # options for code generation
 #---------------------------------------------------------------------------------
-ARCH	:=	-mthumb -mthumb-interwork
+ARCH	:=	-mthumb -mthumb-interwork\
+                -mcpu=arm7tdmi -mtune=arm7tdmi -fomit-frame-pointer\
+	        -ffast-math
 
-CXXFLAGS	:=	-g -Wall -O3 -std=c++1y\
-			-mcpu=arm7tdmi -mtune=arm7tdmi\
- 			-fomit-frame-pointer\
-			-ffast-math\
+CXXFLAGS	:=	-g -Wall -O2 -std=c++14\
 			$(ARCH)
 
 CXXFLAGS	+=	$(INCLUDE)
 
-ASFLAGS	:=	$(ARCH) -O3 -Wall -mthumb\
-			-mcpu=arm7tdmi -mtune=arm7tdmi\
- 			-fomit-frame-pointer\
-			-ffast-math
+ASFLAGS	:=	$(ARCH) -O2 -Wall
 LDFLAGS	=	-g $(ARCH) -Wl,-Map,$(notdir $@).map
 
 #---------------------------------------------------------------------------------
@@ -77,7 +42,7 @@ export PATH		:=	$(DEVKITARM)/bin:$(PATH)
 #---------------------------------------------------------------------------------
 # any extra libraries we wish to link with the project
 #---------------------------------------------------------------------------------
-LIBS	:=	-lgba --std=c++1y
+LIBS	:=	-lgba
 
 #---------------------------------------------------------------------------------
 # list of directories containing libraries, this must be the top level containing

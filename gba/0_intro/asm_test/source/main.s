@@ -3,6 +3,9 @@
 .globl main
 .thumb_func
 
+start:
+    b main
+
 main:
     ldr r0, =0x04000000
     ldr r1, =0x403
