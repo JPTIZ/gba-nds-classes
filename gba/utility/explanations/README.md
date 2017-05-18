@@ -15,7 +15,7 @@ issue no repositório) exemplos em cada aula.
 Índice: C++
 -----------
 
-1. [auto, 0u, & (referência), \* (ponteiro)](auto.md)
+1. [auto, 0u, & (referência), \* (ponteiro)](cpp/auto.md)
 2. Funções
 
 Índice: Compiladores
