@@ -1,10 +1,17 @@
-GBA Minicourse
-==============
+Minicurso de Desenvolvimento para Game Boy Advance
+==================================================
 
-Table of Contents
------------------
+Índice de aulas
+---------------
 
-1. [Introduction to GBA](0_intro)
-2. [Exploring mode 3](1_mode3)
-3. [Modes 4/5 and Palettes](2_modes_4_5)
-4. [OAM and Keypad](3_oam)
+1. [Intrudução ao GBA](0_intro)
+2. [Explorando o modo 3](1_mode3)
+3. [Modos 4/5 e paletas](2_modes_4_5)
+4. [OAM e botões](3_oam)
+
+
+Conteúdo adicional
+------------------
+
+1. [Ferramentas de exemplo](utility/samples)
+2. [Explicações extras](utility/explanations)
