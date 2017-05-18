@@ -30,8 +30,8 @@ para os tipos `short` e `char`, mas você pode [criar o seu próprio desde
 C++11](http://stackoverflow.com/a/12152296/3326309) (o link direciona para a
 resposta do usuário Ken Smith, que dá uma implementação do sufixo).
 
-**Atenção**: O tipo **não** é dinâmico: uma vez que uma variável é um `int`,
-ela continuará sendo `int`.
+**Atenção**: O tipo **não** é dinâmico: uma vez que uma variável foi
+inicializada como um `int`, ela continuará sendo `int`.
 
 
 \* (Ponteiro)
