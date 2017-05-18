@@ -16,7 +16,7 @@ issue no repositório) exemplos em cada aula.
 -----------
 
 1. [auto, 0u, & (referência), \* (ponteiro)](cpp/auto.md)
-2. Aritmética de Ponteiros
+2. [Aritmética de Ponteiros](cpp/pointer_arithm.md)
 3. Funções
 4. Namespaces
 5. Classes e Structs
