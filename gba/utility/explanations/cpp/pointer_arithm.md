@@ -20,6 +20,34 @@ auto a = (A*)0; // Um ponteiro para algo do tipo `A`
 a += 5; // a = 0 + 5 * sizeof(A)
 ```
 
+Utilidade em vetores
+--------------------
+
+Aritmética de ponteiros pode ser útil para iterar por vetores **apesar de que você não deve**:
+
+O código abaixo zera todos os elementos do vetor:
+```c++
+int array[10] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
+for (auto it = array; it != array + 10; ++it) { // `it` possui o endereço inicial de array,
+                                                // assim, incrementar `it` faz com que caminhe
+                                                // pelo array
+    *it = 0;
+}
+```
+
+Da mesma forma, podemos utilizar para acessar um elemento específico do array:
+
+```c++
+int array[10] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
+*(array + 3) = 42; // array[3] = 42
+```
+
+O código abaixo é exatamente equivalente a:
+```c++
+int array[10] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
+array[3] = 42;
+```
+
 sizeof(...)
 -----------
 
