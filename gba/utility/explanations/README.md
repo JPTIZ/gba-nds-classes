@@ -15,17 +15,17 @@ issue no repositório) exemplos em cada aula.
 Índice: C++
 -----------
 
-OBS: Sugiro também ver o [material do minicurso de
-C++](https://gitlab.com/tarcisioe/cpp), lecionado pelo Tarcísio E. M. Crocomo.
-Algumas coisas não vão se aplicar ao desenvolvimento para sistemas embarcados
-(como `exception`s), mas a maioria é válido em qualquer aplicação de C++
-moderno.
-
 1. [auto, 0u, & (referência), \* (ponteiro)](cpp/auto.md)
 2. Aritmética de Ponteiros
 3. Funções
 4. Namespaces
 5. Classes e Structs
+
+**OBS**: Sugiro também ver o [material do minicurso de
+C++](https://gitlab.com/tarcisioe/cpp), lecionado pelo Tarcísio E. M. Crocomo.
+Algumas coisas não vão se aplicar ao desenvolvimento para sistemas embarcados
+(como `exception`s), mas a maioria é válido em qualquer aplicação de C++
+moderno.
 
 Índice: Compiladores
 --------------------
