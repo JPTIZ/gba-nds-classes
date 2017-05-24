@@ -38,14 +38,22 @@ for (auto it = array; it != array + 10; ++it) { // `it` possui o endereço inici
 Da mesma forma, podemos utilizar para acessar um elemento específico do array:
 
 ```c++
-int array[10] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
+int* array = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
 *(array + 3) = 42; // array[3] = 42
 ```
 
 O código abaixo é exatamente equivalente a:
 ```c++
-int array[10] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
+int* array = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
 array[3] = 42;
+```
+
+Isso será útil quando acessando elementos que são **conceitualmente** um vetor, como por exemplo a VRAM:
+
+```c++
+unsigned short* vram = (unsigned short*)0x6000000;
+vram[0] = 0x3ff; // Pixel (0, 0) = amarelo
+vram[4 + 240 * 3] = 0x1f; // Pixel (4, 3) = vermelho
 ```
 
 sizeof(...)
