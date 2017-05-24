@@ -25,10 +25,6 @@ void gba::video::draw_rect(std::uint8_t x0, std::uint8_t y0, std::uint8_t width,
     }
 }
 
-void gba::video::draw_rect(std::uint8_t x0, std::uint8_t y0, std::uint8_t width, std::uint8_t height, Color color) {
-    draw_rect(x0, y0, width, height, color.value);
-}
-
 void gba::video::draw_line(std::uint8_t x0, std::uint8_t y0, std::uint8_t x1, std::uint8_t y1, std::uint16_t color) {
     auto dx = x1 - x0;
     auto dy = y1 - y0;
