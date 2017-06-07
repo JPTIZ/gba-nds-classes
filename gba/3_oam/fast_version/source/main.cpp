@@ -15,13 +15,19 @@ auto max(const T& a, const U& b) {
 
 void draw_link(const gba::geometry::Point& position) {
     using namespace gba::resources;
+    using namespace gba::video::oam;
     using namespace gba::video::mode4;
+    /*
     for (auto y = std::int16_t{0}; y < 24; ++y) {
         for (auto x = std::int16_t{0}; x < 12; ++x) {
             auto x_ = (short)(x + position.x);
             auto y_ = (short)(y + position.y);
-            vram({x_, y_}) = link_data[x + 12 * y];
+            sprite_ram()[x_ + 8 * y_] = link_data[x + 12 * y];
         }
+    }
+    */
+    for (auto i = 0u; i < 24 * 16; ++i) {
+        sprite_ram()[i] = link_data[i];
     }
 }
 
@@ -29,8 +35,8 @@ void move_link_to(const gba::geometry::Point& destiny) {
     using namespace gba::video::oam;
     auto& entry = *reinterpret_cast<OAMEntry*>(oam());
     //                   FEDCBA9876543210
-    entry.attribute0 = 0b0010000000000000 | std::int8_t(destiny.y);
-    entry.attribute1 = 0b1000000000000000 | std::int8_t(destiny.x);
+    entry.attribute0 = 0b0010000000000000 | (destiny.y & 0xff);
+    entry.attribute1 = 0b1000000000000000 | (destiny.x & 0xff);
     entry.attribute2 = 0b0000000000000000 | 0;
 }
 
@@ -68,11 +74,13 @@ int main() {
     using namespace gba::video::mode4;
     using namespace gba::video::oam;
 
+    palette_ram()[0] = 0x0f;
+
     flip_page();
 
     {
         using gba::video::LCDControl;
-        lcd_control() = (LCDControl::BG2 | LCDControl::OBJ | LCDControl::OBJ_MAPPING) + 4;
+        lcd_control() = (LCDControl::BG2 | LCDControl::OBJ | LCDControl::OBJ_MAPPING) + 0;
     }
 
     for (auto i = 1; i < 14; ++i) {
@@ -83,6 +91,7 @@ int main() {
 
     auto link_x = short{0};
     auto link_y = short{0};
+    draw_link({link_x, link_y});
     while (true) {
         using namespace gba::keypad;
 
@@ -106,11 +115,10 @@ int main() {
             link_y = 0;
         }
 
-        link_x = max(0, min((screen_width()>>1) - 12, link_x));
+        link_x = max(0, min(screen_width(), link_x));
         link_y = max(0, min(screen_height() - 24, link_y));
 
         move_link_to({link_x, link_y});
-        draw_link({link_x, link_y});
 
         //flip_page();
     }

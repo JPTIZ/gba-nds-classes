@@ -18,7 +18,7 @@ struct OAMEntry {
 };
 
 inline auto volatile sprite_ram() {
-    return reinterpret_cast<std::uint16_t*>(0x601A000);
+    return reinterpret_cast<std::uint16_t*>(0x6010000);
 }
 
 inline auto volatile sprite_palette_ram() {
