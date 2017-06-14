@@ -19,6 +19,9 @@ OBJFILES := $(SRCFILES:.cpp=.o)
 .PHONY: default
 
 default:
+	@echo
+	@echo Compiling...
+	@echo
 	mkdir -p dst
 	make $(OUTPUT)
 
@@ -26,11 +29,17 @@ default:
 	$(CXX) -c -o $(DSTDIR)/$@ $^ -std=$(CXXSTD) $(CXXFLAGS)
 
 $(OUTPUT): $(OBJFILES)
+	@echo
+	@echo Linking...
+	@echo
 	$(CXX) -o $@ $(foreach obj, $^, $(DSTDIR)/$(obj)) -std=$(CXXSTD) $(CXXFLAGS)
 
 clean:
 	rm -rf $(DSTDIR)
 	rm $(OUTPUT)
 
-run:
-	./$(OUTPUT) res/link.h
+run: default
+	@echo
+	@echo Running...
+	@echo
+	./$(OUTPUT) res/link.bmp
