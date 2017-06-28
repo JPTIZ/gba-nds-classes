@@ -1,11 +1,12 @@
 #include "bitmap.h"
 
-#include <cstring>
 #include <string>
 #include <fstream>
 #include <iostream>
 #include <iomanip>
 #include <stdexcept>
+#include <algorithm>
+#include <experimental/filesystem>
 
 using converter::Bitmap;
 using converter::BitmapFileHeader;
@@ -111,5 +112,66 @@ Bitmap converter::load_bitmap(std::string filename) {
         std::cout << *reinterpret_cast<std::uint16_t*>(&pixel.value) << '\n';
     }
 
-    return Bitmap{};
+    file.seekg(file_header.data_begin, std::ios::beg);
+
+    auto data_size = bmp_header.height * bmp_header.width;
+    Color<16> data[data_size];
+    for (auto i = 0u; i < data_size; ++i) {
+        file.read(reinterpret_cast<char*>(data + i), sizeof(data[0]));
+    }
+
+    std::vector<Color<16>> data_v(data, data + data_size);
+    return Bitmap{file_header, bmp_header, data_v};
+}
+
+void converter::save_header(const Bitmap& bitmap, const std::string& filename_) {
+    using namespace std::experimental::filesystem;
+
+    auto filename = path{filename_}.replace_extension("h");
+    std::cout << "saving " << filename << '\n';
+
+    std::stringstream contents;
+
+    {
+        auto guard = std::string{path{filename}.filename().replace_extension("")};
+        for (auto& c: guard) {
+            c = std::toupper(c);
+        }
+
+        std::replace(std::begin(guard), std::end(guard), '/', '_');
+        guard += "_H";
+
+        contents << "#ifndef MYGAME_RESOURCES_" << guard << '\n'
+                 << "#define MYGAME_RESOURCES_" << guard << '\n';
+    }
+
+    {
+        auto filename = filename_;
+        for (auto& c: filename) {
+            c = std::tolower(c);
+        }
+
+        auto name = std::string{path{filename_}.stem()};
+
+        auto palette_size = 16;
+        contents << "\n#include <cstdint>\n"
+                 "\nnamespace mygame::resources {\n\n"
+                 "auto " << name << "_width = "
+                 << bitmap.info_header.width << ";\n"
+                 "auto " << name << "_height = "
+                 << bitmap.info_header.height << ";\n\n"
+                 "std::uint16_t " << name << "_palette["
+                 << palette_size << "] = {\n"
+                 "};\n"
+                 "\nstd::uint16_t " << name << "_data["
+                 << (bitmap.info_header.size() / 2) << "] = {\n"
+                 "};\n";
+    }
+
+
+    contents << "\n}\n"
+        "\n#endif\n";
+
+    std::ofstream file(filename);
+    file << contents.str();
 }

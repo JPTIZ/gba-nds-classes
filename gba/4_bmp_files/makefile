@@ -7,7 +7,7 @@ DSTDIR   := dst
 
 # Compiler settings
 CXX      := g++
-CXXFLAGS :=
+CXXFLAGS := -lstdc++fs
 CXXSTD   := c++17
 
 # End of config

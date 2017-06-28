@@ -10,6 +10,7 @@ int main(int argc, char* argv[]) {
 
     try {
         auto bitmap = converter::load_bitmap(argv[1]);
+        converter::save_header(bitmap, std::string(argv[1]));
     } catch (const std::exception& e) {
         std::cerr << "error: " << e.what() << '\n';
     }

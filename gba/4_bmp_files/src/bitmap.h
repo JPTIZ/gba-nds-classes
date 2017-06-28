@@ -2,6 +2,7 @@
 #define BMP2H_BITMAP_H
 
 #include <string>
+#include <vector>
 
 namespace converter {
 
@@ -39,6 +40,14 @@ struct BitmapInfoHeader {
     std::int32_t vertical_ppm;
     std::uint32_t palette_size{0};
     std::uint32_t important_colors{0};
+
+    auto stride() const {
+      return 4 * ((bpp * width + 31)/32);
+    }
+
+    auto size() const {
+      return width * height;
+    }
 } __attribute__((packed));
 
 template <std::size_t BPP>
@@ -47,10 +56,13 @@ struct Color {
 };
 
 struct Bitmap {
-
+  BitmapFileHeader file_header;
+  BitmapInfoHeader info_header;
+  std::vector<Color<16>> data;
 };
 
 Bitmap load_bitmap(std::string filename);
+void save_header(const Bitmap& bitmap, const std::string& filename);
 
 }
 
