@@ -12,78 +12,80 @@ using converter::BitmapFileHeader;
 using converter::BitmapInfoHeader;
 
 
-auto load_header(std::ifstream& file) {
-    BitmapFileHeader header;
-    std::cout << "sizeof(header): " << sizeof(header) << '\n';
-    file.read(reinterpret_cast<char*>(&header), sizeof(header));
-    return std::move(header);
-}
-
-auto load_bmp_header(std::ifstream& file) {
-    BitmapInfoHeader header;
-    std::cout << "sizeof(header): " << sizeof(header) << '\n';
-    file.read(reinterpret_cast<char*>(&header), sizeof(header));
-    return std::move(header);
-}
-
-void show_data(const BitmapFileHeader& header) {
-    using std::setw;
-    std::cout <<
-        "|----------------------|\n"
-        "|  Bitmap File Header  |\n"
-        "|----------------------|\n"
-        "| File Type | " << setw(8) << header.file_type << " |\n"
-        "| File Size | " << setw(8) << header.file_size << " |\n"
-        "| DataBegin | " << setw(8) << header.data_begin << " |\n"
-        "|----------------------|\n";
-}
-
-auto method_name(converter::CompressionMethod method) {
-    using converter::CompressionMethod;
-    switch (method) {
-        case CompressionMethod::RGB:
-            return "RGB";
-        case CompressionMethod::RLE8:
-            return "RLE8";
-        case CompressionMethod::RLE4:
-            return "RLE4";
-        case CompressionMethod::BITFIELDS:
-            return "BITFIELDS";
-        case CompressionMethod::JPEG:
-            return "JPEG";
-        case CompressionMethod::PNG:
-            return "PNG";
-        case CompressionMethod::ALPHABITFIELDS:
-            return "ALPHABITFIELDS";
-        case CompressionMethod::CMYK:
-            return "CMYK";
-        case CompressionMethod::CMYKRLE8:
-            return "CMYKRLE8";
-        case CompressionMethod::CMYKRLE4:
-            return "CMYKRLE4";
-        default:
-            return "dunno";
+namespace {
+    auto load_header(std::ifstream& file) {
+        BitmapFileHeader header;
+        std::cout << "sizeof(header): " << sizeof(header) << '\n';
+        file.read(reinterpret_cast<char*>(&header), sizeof(header));
+        return std::move(header);
     }
-}
 
-void show_data(const BitmapInfoHeader& header) {
-    using std::setw;
-    std::cout <<
-        "|-------------------------------|\n"
-        "|       Bitmap Info Header      |\n"
-        "|-------------------------------|\n"
-        "| Header Size  | " << setw(14) << header.header_size << " |\n"
-        "| Width        | " << setw(14) << header.width << " |\n"
-        "| Height       | " << setw(14) << header.height << " |\n"
-        "| Color Planes | " << setw(14) << header.color_planes << " |\n"
-        "| BPP          | " << setw(14) << header.bpp << " |\n"
-        "| CompressMeth | " << setw(14) << method_name(header.compression_method) << " |\n"
-        "| Raw BMP Size | " << setw(14) << header.raw_size << " |\n"
-        "| Horizont.PPM | " << setw(14) << header.horizontal_ppm << " |\n"
-        "| Vertical PPM | " << setw(14) << header.vertical_ppm << " |\n"
-        "| Palette Size | " << setw(14) << header.palette_size << " |\n"
-        "| ImportantClr | " << setw(14) << header.important_colors << " |\n"
-        "|-------------------------------|\n";
+    auto load_bmp_header(std::ifstream& file) {
+        BitmapInfoHeader header;
+        std::cout << "sizeof(header): " << sizeof(header) << '\n';
+        file.read(reinterpret_cast<char*>(&header), sizeof(header));
+        return std::move(header);
+    }
+
+    void show_data(const BitmapFileHeader& header) {
+        using std::setw;
+        std::cout <<
+            "|----------------------|\n"
+            "|  Bitmap File Header  |\n"
+            "|----------------------|\n"
+            "| File Type | " << setw(8) << header.file_type << " |\n"
+            "| File Size | " << setw(8) << header.file_size << " |\n"
+            "| DataBegin | " << setw(8) << header.data_begin << " |\n"
+            "|----------------------|\n";
+    }
+
+    auto method_name(converter::CompressionMethod method) {
+        using converter::CompressionMethod;
+        switch (method) {
+            case CompressionMethod::RGB:
+                return "RGB";
+            case CompressionMethod::RLE8:
+                return "RLE8";
+            case CompressionMethod::RLE4:
+                return "RLE4";
+            case CompressionMethod::BITFIELDS:
+                return "BITFIELDS";
+            case CompressionMethod::JPEG:
+                return "JPEG";
+            case CompressionMethod::PNG:
+                return "PNG";
+            case CompressionMethod::ALPHABITFIELDS:
+                return "ALPHABITFIELDS";
+            case CompressionMethod::CMYK:
+                return "CMYK";
+            case CompressionMethod::CMYKRLE8:
+                return "CMYKRLE8";
+            case CompressionMethod::CMYKRLE4:
+                return "CMYKRLE4";
+            default:
+                return "dunno";
+        }
+    }
+
+    void show_data(const BitmapInfoHeader& header) {
+        using std::setw;
+        std::cout <<
+            "|-------------------------------|\n"
+            "|       Bitmap Info Header      |\n"
+            "|-------------------------------|\n"
+            "| Header Size  | " << setw(14) << header.header_size << " |\n"
+            "| Width        | " << setw(14) << header.width << " |\n"
+            "| Height       | " << setw(14) << header.height << " |\n"
+            "| Color Planes | " << setw(14) << header.color_planes << " |\n"
+            "| BPP          | " << setw(14) << header.bpp << " |\n"
+            "| CompressMeth | " << setw(14) << method_name(header.compression_method) << " |\n"
+            "| Raw BMP Size | " << setw(14) << header.raw_size << " |\n"
+            "| Horizont.PPM | " << setw(14) << header.horizontal_ppm << " |\n"
+            "| Vertical PPM | " << setw(14) << header.vertical_ppm << " |\n"
+            "| Palette Size | " << setw(14) << header.palette_size << " |\n"
+            "| ImportantClr | " << setw(14) << header.important_colors << " |\n"
+            "|-------------------------------|\n";
+    }
 }
 
 
