@@ -12,6 +12,9 @@ using converter::Bitmap;
 using converter::BitmapFileHeader;
 using converter::BitmapInfoHeader;
 
+using namespace std::experimental::filesystem;
+
+
 
 namespace {
     auto load_header(std::ifstream& file) {
@@ -87,6 +90,41 @@ namespace {
             "| ImportantClr | " << setw(14) << header.important_colors << " |\n"
             "|-------------------------------|\n";
     }
+
+    auto basename(const std::string& filename) {
+        return std::string{path{filename}.filename().replace_extension("")};
+    }
+
+    void add_include_guards(std::stringstream& contents, std::string guard) {
+        for (auto& c: guard) {
+            c = std::toupper(c);
+        }
+
+        std::replace(std::begin(guard), std::end(guard), '/', '_');
+        guard += "_H";
+
+        contents << "#ifndef MYGAME_RESOURCES_" << guard << '\n'
+                 << "#define MYGAME_RESOURCES_" << guard << '\n';
+    }
+
+    void add_contents(std::stringstream& contents,
+                      const Bitmap& bitmap,
+                      const std::string& name) {
+        auto palette_size = 16;
+        contents << "\n#include <cstdint>\n"
+                 "\nnamespace mygame::resources {\n\n"
+                 "auto " << name << "_width = "
+                 << bitmap.info_header.width << ";\n"
+                 "auto " << name << "_height = "
+                 << bitmap.info_header.height << ";\n\n"
+                 "std::uint16_t " << name << "_palette["
+                 << palette_size << "] = {\n"
+                 "};\n"
+                 "\nstd::uint16_t " << name << "_data["
+                 << (bitmap.info_header.size() / 2) << "] = {\n"
+                 "};\n\n}\n"
+                "\n#endif\n";
+    }
 }
 
 
@@ -125,52 +163,19 @@ Bitmap converter::load_bitmap(std::string filename) {
 }
 
 void converter::save_header(const Bitmap& bitmap, const std::string& filename_) {
-    using namespace std::experimental::filesystem;
-
     auto filename = path{filename_}.replace_extension("h");
     std::cout << "saving " << filename << '\n';
 
     std::stringstream contents;
-
+    add_include_guards(contents, basename(filename));
     {
-        auto guard = std::string{path{filename}.filename().replace_extension("")};
-        for (auto& c: guard) {
-            c = std::toupper(c);
-        }
-
-        std::replace(std::begin(guard), std::end(guard), '/', '_');
-        guard += "_H";
-
-        contents << "#ifndef MYGAME_RESOURCES_" << guard << '\n'
-                 << "#define MYGAME_RESOURCES_" << guard << '\n';
-    }
-
-    {
-        auto filename = filename_;
-        for (auto& c: filename) {
+        auto class_name = filename_;
+        for (auto& c: class_name) {
             c = std::tolower(c);
         }
 
-        auto name = std::string{path{filename_}.stem()};
-
-        auto palette_size = 16;
-        contents << "\n#include <cstdint>\n"
-                 "\nnamespace mygame::resources {\n\n"
-                 "auto " << name << "_width = "
-                 << bitmap.info_header.width << ";\n"
-                 "auto " << name << "_height = "
-                 << bitmap.info_header.height << ";\n\n"
-                 "std::uint16_t " << name << "_palette["
-                 << palette_size << "] = {\n"
-                 "};\n"
-                 "\nstd::uint16_t " << name << "_data["
-                 << (bitmap.info_header.size() / 2) << "] = {\n"
-                 "};\n";
+        add_contents(contents, bitmap, std::string{path{class_name}.stem()});
     }
-
-
-    contents << "\n}\n"
-        "\n#endif\n";
 
     std::ofstream file(filename);
     file << contents.str();
