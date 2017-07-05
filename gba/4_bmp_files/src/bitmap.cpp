@@ -149,11 +149,11 @@ namespace {
 
         contents << "};\n"
                     "\nstd::uint16_t " << name << "_data["
-                 << std::dec << data.size() << "] = {\n";
+                 << std::dec << (data.size() / 2) << "] = {\n";
 
         std::cout << "};\n"
                     "\nstd::uint16_t " << name << "_data["
-                 << data.size() / 2 << "] = {\n";
+                 << (data.size() / 2) << "] = {\n";
 
         for (auto i = 0u; i < bitmap.data.size() / 2; ++i) {
             if (i % 4 == 0) {
@@ -180,6 +180,8 @@ Bitmap converter::make_palette(Bitmap bitmap, std::vector<Color> data) {
     auto w = bitmap.width();
     auto h = bitmap.height();
     std::cout << "height: " << h << "\n";
+    auto x = 0;
+    auto y = 0;
     for (auto i = 0u; i < data.size(); ++i) {
         auto index = std::find(palette.begin(), palette.end(), data[i]) - palette.begin();
         if (index == palette.size()) {
@@ -191,12 +193,14 @@ Bitmap converter::make_palette(Bitmap bitmap, std::vector<Color> data) {
         */
         auto x = ((i % bs) + bs*(i / (bs*bs)) % w);
         auto y = ((i % (bs*bs)) / bs) + bs * (i / (2*bs*bs));
-        if (i % 8 == 0) {
+        if (i % w == 0) {
             std::cout << "\n";
         }
-        std::cout << "[" << x << ", " << y << "], ";
-        indices[x + w * (h - y - 1)] = index;
+        std::cout << "[" << std::setw(3) << i << ":" << std::setw(2) << x << ", " << std::setw(2) << y << "], ";
+        std::cout << "h - y: " << (h-y-1) << "\n";
+        indices[x + w * (h-y-1)] = index;
     }
+    std::cout << "\n";
 
     bitmap.palette = palette;
     bitmap.data = indices;
