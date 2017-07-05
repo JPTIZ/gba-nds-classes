@@ -3,6 +3,7 @@
 
 #include <string>
 #include <vector>
+#include <utility>
 
 namespace converter {
 
@@ -50,17 +51,29 @@ struct BitmapInfoHeader {
     }
 } __attribute__((packed));
 
-template <std::size_t BPP>
-struct Color {
-    char value[BPP / 8];
-};
+using Color = std::uint16_t;
 
 struct Bitmap {
   BitmapFileHeader file_header;
   BitmapInfoHeader info_header;
-  std::vector<Color<16>> data;
+  std::vector<std::uint8_t> data;
+  std::vector<Color> palette;
+
+  Bitmap(BitmapFileHeader file_header, BitmapInfoHeader info_header):
+      file_header{std::move(file_header)},
+      info_header{std::move(info_header)}
+  {}
+
+  auto width() const {
+      return info_header.width;
+  }
+
+  auto height() const {
+      return info_header.height;
+  }
 };
 
+Bitmap make_palette(Bitmap, std::vector<Color>);
 Bitmap load_bitmap(std::string filename);
 void save_header(const Bitmap& bitmap, const std::string& filename);
 

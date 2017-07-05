@@ -1,12 +1,13 @@
 #include "bitmap.h"
 
-#include <string>
-#include <fstream>
-#include <iostream>
-#include <iomanip>
-#include <stdexcept>
 #include <algorithm>
 #include <experimental/filesystem>
+#include <fstream>
+#include <iomanip>
+#include <iostream>
+#include <map>
+#include <stdexcept>
+#include <string>
 
 using converter::Bitmap;
 using converter::BitmapFileHeader;
@@ -14,9 +15,15 @@ using converter::BitmapInfoHeader;
 
 using namespace std::experimental::filesystem;
 
-
-
 namespace {
+    void print_color(converter::Color color) {
+        std::cout << "(" << ((color >> 0) & 0x1f)
+                  << ", " << ((color >> 5) & 0x1f)
+                  << ", " << ((color >> 10) & 0x1f)
+                  << ")," << std::endl;
+    }
+
+
     auto load_header(std::ifstream& file) {
         BitmapFileHeader header;
         std::cout << "sizeof(header): " << sizeof(header) << '\n';
@@ -24,12 +31,14 @@ namespace {
         return std::move(header);
     }
 
+
     auto load_bmp_header(std::ifstream& file) {
         BitmapInfoHeader header;
         std::cout << "sizeof(header): " << sizeof(header) << '\n';
         file.read(reinterpret_cast<char*>(&header), sizeof(header));
         return std::move(header);
     }
+
 
     void show_data(const BitmapFileHeader& header) {
         using std::setw;
@@ -42,6 +51,7 @@ namespace {
             "| DataBegin | " << setw(8) << header.data_begin << " |\n"
             "|----------------------|\n";
     }
+
 
     auto method_name(converter::CompressionMethod method) {
         using converter::CompressionMethod;
@@ -71,6 +81,7 @@ namespace {
         }
     }
 
+
     void show_data(const BitmapInfoHeader& header) {
         using std::setw;
         std::cout <<
@@ -91,9 +102,11 @@ namespace {
             "|-------------------------------|\n";
     }
 
+
     auto basename(const std::string& filename) {
         return std::string{path{filename}.filename().replace_extension("")};
     }
+
 
     void add_include_guards(std::stringstream& contents, std::string guard) {
         for (auto& c: guard) {
@@ -107,25 +120,89 @@ namespace {
                  << "#define MYGAME_RESOURCES_" << guard << '\n';
     }
 
+
     void add_contents(std::stringstream& contents,
                       const Bitmap& bitmap,
                       const std::string& name) {
-        auto palette_size = 16;
         contents << "\n#include <cstdint>\n"
-                 "\nnamespace mygame::resources {\n\n"
-                 "auto " << name << "_width = "
+                    "\nnamespace mygame::resources {\n\n"
+                    "auto " << name << "_width = "
                  << bitmap.info_header.width << ";\n"
-                 "auto " << name << "_height = "
+                    "auto " << name << "_height = "
                  << bitmap.info_header.height << ";\n\n"
-                 "std::uint16_t " << name << "_palette["
-                 << palette_size << "] = {\n"
-                 "};\n"
-                 "\nstd::uint16_t " << name << "_data["
-                 << (bitmap.info_header.size() / 2) << "] = {\n"
-                 "};\n\n}\n"
-                "\n#endif\n";
+                    "std::uint16_t " << name << "_palette["
+                 << bitmap.palette.size() << "] = {\n    ";
+
+        contents << std::showbase << std::internal << std::setfill('0');
+
+        for (auto i = 0u; i < bitmap.palette.size(); ++i) {
+            auto color = bitmap.palette[i];
+            color = (((color >> 10) & 0x1f) << 0) |
+                    (((color >> 5) & 0x1f) << 5) |
+                    (((color >> 0) & 0x1f) << 10);
+            print_color(color);
+            contents << std::setw(6) << std::hex << (short)color << ",\n    ";
+        }
+
+        const auto& data = bitmap.data;
+        std::cout << "data.size(): " << data.size() << '\n';
+
+        contents << "};\n"
+                    "\nstd::uint16_t " << name << "_data["
+                 << std::dec << data.size() << "] = {\n";
+
+        std::cout << "};\n"
+                    "\nstd::uint16_t " << name << "_data["
+                 << data.size() / 2 << "] = {\n";
+
+        for (auto i = 0u; i < bitmap.data.size() / 2; ++i) {
+            if (i % 4 == 0) {
+                contents << "\n    ";
+            }
+            if (i % 32 == 0) {
+                contents << "\n    ";
+            }
+            auto index = (data[2 * i + 1] << 8) | (data[2 * i]);
+            contents << std::setw(6) << std::hex << index << ", ";
+        }
+
+        contents << "};\n\n}\n"
+                    "\n#endif\n";
     }
 }
+
+
+Bitmap converter::make_palette(Bitmap bitmap, std::vector<Color> data) {
+    std::vector<Color> palette;
+    std::vector<std::uint8_t> indices(data.size());
+
+    auto bs = 8;
+    auto w = bitmap.width();
+    auto h = bitmap.height();
+    std::cout << "height: " << h << "\n";
+    for (auto i = 0u; i < data.size(); ++i) {
+        auto index = std::find(palette.begin(), palette.end(), data[i]) - palette.begin();
+        if (index == palette.size()) {
+            palette.push_back(data[i]);
+        }
+        /*
+            def foo(i, bs, w):
+            ...   return (((i % bs) + bs*(i // (bs*bs)) % w), ((i % (bs*bs)) // bs) + bs * (i // (2*bs*bs)))
+        */
+        auto x = ((i % bs) + bs*(i / (bs*bs)) % w);
+        auto y = ((i % (bs*bs)) / bs) + bs * (i / (2*bs*bs));
+        if (i % 8 == 0) {
+            std::cout << "\n";
+        }
+        std::cout << "[" << x << ", " << y << "], ";
+        indices[x + w * (h - y - 1)] = index;
+    }
+
+    bitmap.palette = palette;
+    bitmap.data = indices;
+    return bitmap;
+}
+
 
 
 Bitmap converter::load_bitmap(std::string filename) {
@@ -145,22 +222,24 @@ Bitmap converter::load_bitmap(std::string filename) {
     show_data(bmp_header);
 
     for (auto i = 0u; i < bmp_header.width; ++i) {
-        converter::Color<16> pixel;
+        converter::Color pixel;
         file.read(reinterpret_cast<char*>(&pixel), sizeof(pixel));
-        std::cout << *reinterpret_cast<std::uint16_t*>(&pixel.value) << '\n';
+        std::cout << pixel << '\n';
     }
 
+    // Loads color data
     file.seekg(file_header.data_begin, std::ios::beg);
 
     auto data_size = bmp_header.height * bmp_header.width;
-    Color<16> data[data_size];
+    Color data[data_size];
     for (auto i = 0u; i < data_size; ++i) {
-        file.read(reinterpret_cast<char*>(data + i), sizeof(data[0]));
+        file.read(reinterpret_cast<char*>(data + i), sizeof(Color));
     }
 
-    std::vector<Color<16>> data_v(data, data + data_size);
-    return Bitmap{file_header, bmp_header, data_v};
+    std::vector<Color> data_v(data, data + data_size);
+    return make_palette(std::move(Bitmap{file_header, bmp_header}), data_v);
 }
+
 
 void converter::save_header(const Bitmap& bitmap, const std::string& filename_) {
     auto filename = path{filename_}.replace_extension("h");
