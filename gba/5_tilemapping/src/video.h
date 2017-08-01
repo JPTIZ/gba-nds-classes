@@ -39,10 +39,6 @@ inline void vsync() {
     while (vcount() < 160) {}
 }
 
-inline void bg_visible(graphics::Layer layer, bool enabled=true) {
-    lcd_control[utils::value_of(layer)+8] = enabled;
-}
-
 inline void force_blank(bool force) {
     lcd_control[7] = force;
 }
