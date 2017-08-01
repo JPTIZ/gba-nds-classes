@@ -1,11 +1,17 @@
+#include "keypad.h"
 #include "tiles.h"
 #include "video.h"
 
 using namespace gba::video;
 using namespace gba::graphics;
 
+struct Point {
+    int x, y;
+};
+
 int main() {
     using namespace layers;
+    using namespace gba::keypad;
 
     force_blank(false);
     bg_visible(Layer::BG0);
@@ -83,6 +89,12 @@ int main() {
                 0x12111121,
                 0x12111121};
 
+    for (auto x = 1; x < 31; ++x) {
+        for (auto y = 1; y < 31; ++y) {
+            tilemap[x + 32 * y] = 0x1;
+        }
+    }
+
     tilemap[4 + 32 * 4] = 0x4;
     tilemap[5 + 32 * 4] = 0x3;
     tilemap[6 + 32 * 4] = 0x3;
@@ -122,5 +134,31 @@ int main() {
     set_base_screenblock(Layer::BG2, 3);
     set_base_screenblock(Layer::BG3, 4);
 
-    while (true) {}
+    auto bg0_offset = Point{0, 0};
+    auto bg0_priority = 0;
+
+    while (true) {
+        update_input();
+        if (pressed(Keypad::DOWN)) {
+            ++bg0_offset.y;
+        }
+        if (pressed(Keypad::UP)) {
+            --bg0_offset.y;
+        }
+        if (pressed(Keypad::LEFT)) {
+            --bg0_offset.x;
+        }
+        if (pressed(Keypad::RIGHT)) {
+            ++bg0_offset.x;
+        }
+        set_bg_ox(Layer::BG0, bg0_offset.x);
+        set_bg_oy(Layer::BG0, bg0_offset.y);
+
+        if (triggered(Keypad::A)) {
+            bg0_priority = (bg0_priority + 1) % 4;
+            set_bg_priority(Layer::BG0, bg0_priority);
+        }
+
+        vsync();
+    }
 }
