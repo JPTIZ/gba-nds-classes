@@ -47,7 +47,7 @@ class Course(NamedTuple):
     start: Month
     end: Month
     year: int
-    target: List[str]
+    targets: List[str]
     requires: List[str]
     goals: Goals
     topics: Dict[str, Topic]
@@ -68,6 +68,14 @@ default_lang = {
     Month.DECEMBER: 'Dezembro',
 }
 
+def lookahead(iterable):
+    it = iter(iterable)
+    prev = next(it)
+    for val in it:
+        yield prev, False
+        prev = val
+    return prev, True
+
 def generate(course, lang=default_lang, sketch: str ='sketch.tex'):#: Course):
 
     latex_env = Environment(
@@ -83,6 +91,7 @@ def generate(course, lang=default_lang, sketch: str ='sketch.tex'):#: Course):
                     autoescape = False,
                     loader = FileSystemLoader(abspath('.'))
                 )
+    latex_env.filters['lookahead'] = lookahead
 
     print('Generating TeX...')
     template = latex_env.get_template('sketch.tex')

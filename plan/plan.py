@@ -11,7 +11,7 @@ if __name__ == '__main__':
             start=Month.SEPTEMBER,
             end=Month.NOVEMBER,
             year=2017,
-            target=[
+            targets=[
                 'Ciência da Computação',
                 'Interessados em computação embarcada',
                 ],

@@ -35,55 +35,37 @@
 
 \section{Cursos (público alvo)}
 \begin{itemize}
-    \item[] Ciência da Computação.
+%% for target, more in course.targets|lookahead
+%%   if more
+    \item[] \VAR{target};
+%%   else
+    \item[] \VAR{target}.
+%%   endif
+%% endfor
 \end{itemize}
 
 \section{Requisitos}
 \begin{itemize}
-    \item[] Mínimo conhecimento a respeito de programação imperativa
-        (variáveis, funções, estruturas condicionais/de repetição,\ldots) e
-        circuitos (o que é um registrador, sinais de entrada/saída,\ldots).
+%% for require, more in course.requires|lookahead
+%%   if more
+    \item[] \VAR{require};
+%%   else
+    \item[] \VAR{require}.
+%%   endif
+%% endfor
 \end{itemize}
 
 \section{Ementa}
 \begin{itemize*}[label={}]
-    % GBA-specific
-    \item Especificações técnicas e limitações do GBA (\textit{GameBoyAdvance});
-    \item Arquitetura do processador ARM7TDMI\@;
-    \item ISA (\textit{Instruction Set Architecture}) ARMv4;
-    \item Assembly ARM e Thumb;
-    % Game console-specific
-    \item VRAM\@ (\textit{Video-RAM});
-    \item OAM (\textit{Object-Attribute-Memory});
-    % Circuitos / Sistemas Digitais
-    \item Registradores de controle;  - Alguns
-    \item \textit{Input/Keypad};
-    \item \textit{Hardware-Rendering};
-    % Org
-    \item \textit{BIOS-Call};
-    \item \textit{Hardware-Interrupts};
-    \item DMA (\textit{Dynamic-Memory-Access});
-    \item \textit{Endiannesss};
-    % SO
-    \item Gerenciamento de memória para Sistemas Embarcados;
-    \item Otimizações para Sistemas Embarcados;
-    % Gráficos
-    \item \textit{Spritesetting};
-    \item \textit{Display-Modes} de consoles;
-    \item Matriz de transformação;
-    \item \textit{V-Sync};
-    \item \textit{Windowing};
-    \item Processamento de imagem;
-    % Técnicas de otimização
-    \item \textit{Palette-Swapping};
-    \item \textit{Page-Flipping};
-    \item \textit{Tile-Mapping};
-    \item Economia de energia;
-    % Geral
-    \item Fontes;
-    \item MIDI\@;
-    \item Ondas sonoras;
-    \item Processamento de arquivos de mídia (imagem/áudio);
+%% for topic, more_topics in course.topics|lookahead
+%%   for item, more_items in topic.items
+%%     if more_topics and more_items
+    \item[] \VAR{item};
+%%     else
+    \item[] \VAR{item}.
+%%     endif
+%%   endfor
+%% endfor
 \end{itemize*}
 
 \section{Objetivos}
@@ -126,67 +108,6 @@
             \item Introdução a C++.
         \end{enumerate}
     \item \textit{Bitmapped Display-Modes} (2 horas):
-        \begin{enumerate}
-            \item Visão geral de \textit{Bitmapped Modes};
-            \item PPU (\textit{Pixel Processing Unit});
-            \item Análise da Performance do \textit{Mode 3};
-            \item \textit{V-Sync};
-            \item \textit{Mode 5};
-            \item \textit{Page-Flipping};
-            \item \textit{Mode 4};
-            \item \textit{Paletting};
-            \item \textit{Endianness}.
-        \end{enumerate}
-    \item Objetos de jogo e \textit{Input} (2 horas):
-        \begin{enumerate}
-            \item Leitura do \textit{Keypad};
-            \item \textit{Sprites};
-            \item OAM (\textit{Object Attribute Memory});
-            \item Múltiplos objetos;
-            \item Introdução a arquivos de \textit{Bitmap}.
-        \end{enumerate}
-    \item Arquivos \textit{Bitmap} (2 horas):
-        \begin{enumerate}
-            \item \textit{std::ifstream} e \textit{std::ofstream};
-            \item Header de tipo de arquivo;
-            \item Header BMP\@;
-        \end{enumerate}
-    \item \textit{Character Display-Modes} (2 horas):
-        \begin{enumerate}
-            \item \textit{Tilemapping};
-            \item \textit{Palette-Swapping};
-        \end{enumerate}
-    \item Funcionalidades e Efeitos gráficos (2 horas):
-        \begin{enumerate}
-            \item \textit{Windowing};
-            \item \textit{Alpha-Blend};
-            \item Luminosidade;
-            \item Efeito mosáico;
-            \item Matriz de transformação.
-        \end{enumerate}
-    \item Texto, Economia de energia e Cartucho (2 horas):
-        \begin{enumerate}
-            \item Fontes;
-            \item Janelas de diálogo;
-            \item \textit{Hardware-Interrupts};
-            \item DMA --- \textit{Dynamic Memory Access};
-            \item \textit{SaveRAM};
-        \end{enumerate}
-    \item Áudio (2 horas):
-        \begin{enumerate}
-            \item Arquivos MIDI\@;
-            \item Ondas sonoras;
-            \item Interferência construtiva/destrutiva;
-            \item \textit{BIOS-Calls} para áudio;
-            \item Efeitos sonoros (SFX) e arquivos WAV\@.
-        \end{enumerate}
-    \item Construção de um jogo (2 horas):
-        \begin{enumerate}
-            \item \textit{Splash Screen};
-            \item Eventos e animações;
-            \item Gerência de memória para sistemas embarcados;
-            \item Boas práticas de desenvolvimento.
-        \end{enumerate}
 \end{enumerate}
 
 \section{Cronograma}
@@ -198,56 +119,6 @@
             \item Apresentação da Toolchain DevKitPro;
             \item Apresentação das ferramentas de desenvolvedor do emulador
                 \textit{VisualBoyAdvance}.
-        \end{enumerate}
-    \item Segundo encontro:
-        \begin{enumerate}
-            \item \textit{Bitmapped Display-Modes};
-            \item Criação de uma pequena biblioteca, momentameamente lidando
-                apenas com acesso a registradores/memória do GBA\@.
-        \end{enumerate}
-    \item Terceiro encontro:
-        \begin{enumerate}
-            \item Objetos de jogo e \textit{Input};
-            \item Adicionar funções à biblioteca principal para lidar com
-                cores, objetos de jogo e sprites.
-            \item Adicionar funções à biblioteca principal para lidar com
-                \textit{Input} de jogo.
-        \end{enumerate}
-    \item Quarto encontro:
-        \begin{enumerate}
-            \item Arquivos \textit{Bitmap};
-            \item Criação de um conversor de arquivos \textit{Bitmap} para
-                formatos usáveis no GBA\@.
-        \end{enumerate}
-    \item Quinto encontro:
-        \begin{enumerate}
-            \item \textit{Character Display-Modes};
-            \item Adicionar módulo para lidar com diferentes telas de jogo à
-                biblioteca principal.
-        \end{enumerate}
-    \item Sexto encontro:
-        \begin{enumerate}
-            \item Funcionalidades e Efeitos gráficos;
-            \item Adicionar módulo de efeitos gráficos à biblioteca principal;
-            \item Adicionar módulo de \textit{Windowing} à biblioteca principal.
-        \end{enumerate}
-    \item Sétimo encontro:
-        \begin{enumerate}
-            \item Texto, Economia de energia e Cartucho;
-            \item Adicionar módulo de fontes à biblioteca principal;
-            \item Adicionar módulo para DMA à biblioteca principal.
-        \end{enumerate}
-    \item Oitavo encontro:
-        \begin{enumerate}
-            \item Áudio;
-            \item Adicionar módulo de áudio (músicas e SFX) à biblioteca
-                principal.
-        \end{enumerate}
-    \item Nono encontro:
-        \begin{enumerate}
-            \item Construção de um jogo;
-            \item Considerações a respeito de uso de globais, APIs, dentre
-                outros recursos de programação.
         \end{enumerate}
 \end{enumerate}
 
