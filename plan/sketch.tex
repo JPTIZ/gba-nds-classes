@@ -9,7 +9,7 @@
 \usepackage{hyperref}
 \usepackage{listing}
 
-\title{Programa do Minicurso}
+\title{Programa do \VAR{course.kind.title()}}
 \author{}
 \date{}
 
@@ -20,15 +20,17 @@
 \section{Identificação}
 
 \begin{itemize}
-    \item[] Disciplina: Minicurso GameBoyAdvance
+    \item[] Disciplina: \VAR{course.title.title()}
     \item[]
         \hspace{-1em}
         \begin{tabular}{ccc}
-            Carga Horária: 18 horas-aula&
-            Teóricas: 10&
-            Práticas: 8
+            Carga Horária: \VAR{course.hours['theoretical'] +
+                                course.hours['practice']} horas-aula&
+            Teóricas: \VAR{course.hours['theoretical']}&
+            Práticas: \VAR{course.hours['practice']}
         \end{tabular}
-    \item[] Período: Abril a Julho de 2017.
+    \item[] Período: \VAR{lang[course.start]} a \VAR{lang[course.end]} de
+                     \VAR{course.year}.
 \end{itemize}
 
 \section{Cursos (público alvo)}
@@ -254,3 +256,4 @@
 \bibliography{plan}
 
 \end{document}
+
