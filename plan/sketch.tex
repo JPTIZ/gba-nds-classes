@@ -76,9 +76,9 @@
         \begin{itemize}[label={-}]
         %% for item, more in course.goals['specific']|lookahead
             %%  if more
-                \item[] \VAR{item};
+                \item \VAR{item};
             %%  else
-                \item[] \VAR{item}.
+                \item \VAR{item}.
             %%  endif
         %% endfor
         \end{itemize}
@@ -89,6 +89,7 @@
 \begin{enumerate}
 %% for topic in course.topics
     \item \VAR{topic.title} (\VAR{topic.duration} hora\VAR{'s' if topic.duration > 0 else ''}):
+        \begin{samepage}
         \begin{enumerate}
         %% for item, more in topic.items|lookahead
             %%  if more
@@ -98,6 +99,7 @@
             %%  endif
         %% endfor
         \end{enumerate}
+        \end{samepage}
 %% endfor
 \end{enumerate}
 

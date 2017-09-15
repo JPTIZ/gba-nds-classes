@@ -12,4 +12,4 @@ all: $(OBJS)
 .PHONY: clean
 
 clean:
-	rm -f *.{aux,bbl,blg,pdf,log}
+	rm -f $(OBJS) *.{aux,bbl,blg,log,out}

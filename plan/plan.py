@@ -27,8 +27,8 @@ if __name__ == '__main__':
                         ' de sistemas embarcados, mídia e otimizações'
                         ' de baixo nível, mostrando uma aplicação'
                         ' diferente do habitual e apresentando o'
-                        ' funcionamento e interação do Hardware'
-                        ' \\textit{Hardware} envolvido',
+                        ' funcionamento e interação do \\textit{Hardware}'
+                        ' envolvido',
                 specific=[
                     'Apresentar as especificações técnicas da plataforma',
 
@@ -74,15 +74,34 @@ if __name__ == '__main__':
                     title='Modos de Visor Bitmapeados',
                     duration=2,
                     items=[
-                        'Visão geral de Modos Bitmapeados',
                         'PPU (\\textit{Pixel Processing Unit})',
-                        'Análise da Performance do \\textit{Mode 3}',
-                        '\\textit{V-Sync}',
-                        '\\textit{Mode 5}',
+                        '\\textit{V/H-Blank} e \\textit{V-Sync}',
+                        '\\textit{Modes 4/5}',
                         '\\textit{Page-Flipping}',
-                        '\\textit{Mode 4}',
                         '\\textit{Paletting}',
                         '\\textit{Endianness}',
+                        'Performance de modos Bitmapeados',
+                    ],
+                ),
+                Topic(
+                    title='Modos de Visor em Caractere',
+                    duration=2,
+                    items=[
+                        '\\textit{Mode 0}',
+                        '\\textit{Tilemapping}',
+                        'Técnica de \\textit{Palette-Swapping}',
+                        'Múltiplas camadas de mapa',
+                        'Deslocamento de camada',
+                    ],
+                ),
+                Topic(
+                    title='Efeitos gráficos',
+                    duration=2,
+                    items=[
+                        '\\textit{Windowing}',
+                        '\\textit{Alpha-Blend}',
+                        'Luminosidade',
+                        'Efeito mosáico',
                     ],
                 ),
                 Topic(
@@ -93,67 +112,47 @@ if __name__ == '__main__':
                         '\\textit{Sprites}',
                         'OAM (\\textit{Object Attribute Memory})',
                         'Múltiplos objetos',
-                        'Introdução a arquivos de \\textit{Bitmap}',
                     ],
                 ),
                 Topic(
-                    title='Arquivos \\textit{Bitmap}',
+                    title='Ferramental: conversor de imagem',
                     duration=2,
                     items=[
-                        '\\textit{std::ifstream} e \\textit{std::ofstream}',
-                        'Header de tipo de arquivo',
-                        'Header BMP',
+                        'Header de arquivo',
+                        'Header BMP e formato de imagem \\textit{Bitmap}',
+                        'Introdução a Python 3',
+                        'Bibliotecas ferramentais \\textit{carl} e \\textit{?}',
                     ],
                 ),
                 Topic(
-                    title='Modos de Visor em Caractere',
+                    title='Economia de energia',
                     duration=2,
                     items=[
-                        '\\textit{Tilemapping}',
-                        '\\textit{Palette-Swapping}',
+                        'Interrupções de \\textit{Hardware/Software}',
+                        'Tratadores de interrupções',
+                        'Aspectos avançados da \\textit{BIOS}',
                     ],
                 ),
                 Topic(
-                    title='Funcionalidades e Efeitos Gráficos',
+                    title='Áudio e transferência de dados',
                     duration=2,
                     items=[
-                        '\\textit{Windowing}',
-                        '\\textit{Alpha-Blend}',
-                        'Luminosidade',
-                        'Efeito mosáico',
-                        'Matriz de transformação',
+                        'Sistema MIDI e Efeitos sonoros (SFX)',
+                        'Ondas sonoras e interferência construtiva/destrutiva',
+                        'Introdução à Teoria Musical',
+                        'Canais de áudio e limitações',
+                        '\\textit{Direct Memory Access} (DMA)',
                     ],
                 ),
                 Topic(
-                    title='Texto, Economia de energia e Cartucho',
+                    title='Outros aspectos de \\textit{Hardware} e'
+                          ' Desenvolvimento de jogos',
                     duration=2,
                     items=[
-                        'Fontes',
-                        'Janelas de diálogo',
-                        '\\textit{Hardware-Interrupts}',
-                        'DMA - \\textit{Dynamic Memory Access}',
+                        'Fonte e texto',
+                        'Organização dos estados de jogo',
                         '\\textit{SaveRAM}',
-                    ],
-                ),
-                Topic(
-                    title='Áudio',
-                    duration=2,
-                    items=[
-                        'Arquivos MIDI',
-                        'Ondas sonoras',
-                        'Interferência construtiva/destrutiva',
-                        '\\textit{BIOS-Calls} para áudio',
-                        'Efeitos sonoros (SFX) e arquivos WAV',
-                    ],
-                ),
-                Topic(
-                    title='Construção de um jogo',
-                    duration=2,
-                    items=[
-                        '\\textit{Splash Screen}',
-                        'Eventos e animações',
                         'Gerência de memória para sistemas embarcados',
-                        'Boas práticas de desenvolvimento',
                     ],
                 ),
             ],

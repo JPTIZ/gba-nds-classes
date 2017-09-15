@@ -3,6 +3,7 @@ from enum import Enum
 from jinja2 import Template, Environment, FileSystemLoader
 from os.path import abspath
 from typing import NamedTuple, List, Dict, Tuple
+from subprocess import run
 
 
 class Month(Enum):
@@ -109,3 +110,4 @@ def generate(course, lang=default_lang, sketch: str ='sketch.tex', output: str =
     print('Generating TeX...')
     template = latex_env.get_template('sketch.tex')
     save(template.render(course=course, lang=lang), output)
+    run(['make'])

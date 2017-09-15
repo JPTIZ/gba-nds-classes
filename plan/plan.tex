@@ -52,60 +52,58 @@
     \item[] Assembly Thumb;
     \item[] \textit{Mode 3};
     \item[] Introdução a C++.
-    \item[] Visão geral de Modos Bitmapeados;
     \item[] PPU (\textit{Pixel Processing Unit});
-    \item[] Análise da Performance do \textit{Mode 3};
-    \item[] \textit{V-Sync};
-    \item[] \textit{Mode 5};
+    \item[] \textit{V/H-Blank} e \textit{V-Sync};
+    \item[] \textit{Modes 4/5};
     \item[] \textit{Page-Flipping};
-    \item[] \textit{Mode 4};
     \item[] \textit{Paletting};
-    \item[] \textit{Endianness}.
-    \item[] Leitura do \textit{Keypad};
-    \item[] \textit{Sprites};
-    \item[] OAM (\textit{Object Attribute Memory});
-    \item[] Múltiplos objetos;
-    \item[] Introdução a arquivos de \textit{Bitmap}.
-    \item[] \textit{std::ifstream} e \textit{std::ofstream};
-    \item[] Header de tipo de arquivo;
-    \item[] Header BMP.
+    \item[] \textit{Endianness};
+    \item[] Performance de modos Bitmapeados.
+    \item[] \textit{Mode 0};
     \item[] \textit{Tilemapping};
-    \item[] \textit{Palette-Swapping}.
+    \item[] Técnica de \textit{Palette-Swapping};
+    \item[] Múltiplas camadas de mapa;
+    \item[] Deslocamento de camada.
     \item[] \textit{Windowing};
     \item[] \textit{Alpha-Blend};
     \item[] Luminosidade;
-    \item[] Efeito mosáico;
-    \item[] Matriz de transformação.
-    \item[] Fontes;
-    \item[] Janelas de diálogo;
-    \item[] \textit{Hardware-Interrupts};
-    \item[] DMA - \textit{Dynamic Memory Access};
+    \item[] Efeito mosáico.
+    \item[] Leitura do \textit{Keypad};
+    \item[] \textit{Sprites};
+    \item[] OAM (\textit{Object Attribute Memory});
+    \item[] Múltiplos objetos.
+    \item[] Header de arquivo;
+    \item[] Header BMP e formato de imagem \textit{Bitmap};
+    \item[] Introdução a Python 3;
+    \item[] Bibliotecas ferramentais \textit{carl} e \textit{?}.
+    \item[] Interrupções de \textit{Hardware/Software};
+    \item[] Tratadores de interrupções;
+    \item[] Aspectos avançados da \textit{BIOS}.
+    \item[] Sistema MIDI e Efeitos sonoros (SFX);
+    \item[] Ondas sonoras e interferência construtiva/destrutiva;
+    \item[] Introdução à Teoria Musical;
+    \item[] Canais de áudio e limitações;
+    \item[] \textit{Direct Memory Access} (DMA).
+    \item[] Fonte e texto.
+    \item[] Organização dos estados de jogo.
     \item[] \textit{SaveRAM}.
-    \item[] Arquivos MIDI;
-    \item[] Ondas sonoras;
-    \item[] Interferência construtiva/destrutiva;
-    \item[] \textit{BIOS-Calls} para áudio;
-    \item[] Efeitos sonoros (SFX) e arquivos WAV.
-    \item[] \textit{Splash Screen}.
-    \item[] Eventos e animações.
     \item[] Gerência de memória para sistemas embarcados.
-    \item[] Boas práticas de desenvolvimento.
 \end{itemize*}
 
 \section{Objetivos}
 
 \begin{description}
-    \item[Geral:] Entusiasmar alunos de graduação a respeito de sistemas embarcados, mídia e otimizações de baixo nível, mostrando uma aplicação diferente do habitual e apresentando o funcionamento e interação do Hardware \textit{Hardware} envolvido.
+    \item[Geral:] Entusiasmar alunos de graduação a respeito de sistemas embarcados, mídia e otimizações de baixo nível, mostrando uma aplicação diferente do habitual e apresentando o funcionamento e interação do \textit{Hardware} envolvido.
     \item[Específico:] São objetivos do minicurso:
         \begin{itemize}[label={-}]
-                \item[] Apresentar as especificações técnicas da plataforma;
-                \item[] Mencionar as limitações da plataforma dentro do seu  contexto histórico;
-                \item[] Apresentar a interação entre os registradores de controle e suas respectivas funcionalidades a nível de \textit{Hardware};
-                \item[] Apresentar o funcionamento de mídia analógica/digital;
-                \item[] Apresentar otimizações válidas para sistemas embarcados, bem como tecnologias envolvidas nos mais modernos;
-                \item[] Prover pleno entendimento da integração entre programação de alto-nível e o \textit{Hardware};
-                \item[] Apresentar paralelos entre a tecnologia ensinada e as atualmente utilizadas;
-                \item[] Apresentar o uso de C++ moderno em sistemas embarcados, bem como suas vantagens e desvantagens.
+                \item Apresentar as especificações técnicas da plataforma;
+                \item Mencionar as limitações da plataforma dentro do seu  contexto histórico;
+                \item Apresentar a interação entre os registradores de controle e suas respectivas funcionalidades a nível de \textit{Hardware};
+                \item Apresentar o funcionamento de mídia analógica/digital;
+                \item Apresentar otimizações válidas para sistemas embarcados, bem como tecnologias envolvidas nos mais modernos;
+                \item Prover pleno entendimento da integração entre programação de alto-nível e o \textit{Hardware};
+                \item Apresentar paralelos entre a tecnologia ensinada e as atualmente utilizadas;
+                \item Apresentar o uso de C++ moderno em sistemas embarcados, bem como suas vantagens e desvantagens.
         \end{itemize}
 \end{description}
 
@@ -113,6 +111,7 @@
 
 \begin{enumerate}
     \item Introdução ao GBA (2 horas):
+        \begin{samepage}
         \begin{enumerate}
                 \item Histórico de limitação dos consoles pré-2000;
                 \item Especificações técnicas do GBA;
@@ -122,68 +121,83 @@
                 \item \textit{Mode 3};
                 \item Introdução a C++.
         \end{enumerate}
+        \end{samepage}
     \item Modos de Visor Bitmapeados (2 horas):
+        \begin{samepage}
         \begin{enumerate}
-                \item Visão geral de Modos Bitmapeados;
                 \item PPU (\textit{Pixel Processing Unit});
-                \item Análise da Performance do \textit{Mode 3};
-                \item \textit{V-Sync};
-                \item \textit{Mode 5};
+                \item \textit{V/H-Blank} e \textit{V-Sync};
+                \item \textit{Modes 4/5};
                 \item \textit{Page-Flipping};
-                \item \textit{Mode 4};
                 \item \textit{Paletting};
-                \item \textit{Endianness}.
+                \item \textit{Endianness};
+                \item Performance de modos Bitmapeados.
         \end{enumerate}
-    \item Objetos de jogo e \textit{Input} (2 horas):
-        \begin{enumerate}
-                \item Leitura do \textit{Keypad};
-                \item \textit{Sprites};
-                \item OAM (\textit{Object Attribute Memory});
-                \item Múltiplos objetos;
-                \item Introdução a arquivos de \textit{Bitmap}.
-        \end{enumerate}
-    \item Arquivos \textit{Bitmap} (2 horas):
-        \begin{enumerate}
-                \item \textit{std::ifstream} e \textit{std::ofstream};
-                \item Header de tipo de arquivo;
-                \item Header BMP.
-        \end{enumerate}
+        \end{samepage}
     \item Modos de Visor em Caractere (2 horas):
+        \begin{samepage}
         \begin{enumerate}
+                \item \textit{Mode 0};
                 \item \textit{Tilemapping};
-                \item \textit{Palette-Swapping}.
+                \item Técnica de \textit{Palette-Swapping};
+                \item Múltiplas camadas de mapa;
+                \item Deslocamento de camada.
         \end{enumerate}
-    \item Funcionalidades e Efeitos Gráficos (2 horas):
+        \end{samepage}
+    \item Efeitos gráficos (2 horas):
+        \begin{samepage}
         \begin{enumerate}
                 \item \textit{Windowing};
                 \item \textit{Alpha-Blend};
                 \item Luminosidade;
-                \item Efeito mosáico;
-                \item Matriz de transformação.
+                \item Efeito mosáico.
         \end{enumerate}
-    \item Texto, Economia de energia e Cartucho (2 horas):
+        \end{samepage}
+    \item Objetos de jogo e \textit{Input} (2 horas):
+        \begin{samepage}
         \begin{enumerate}
-                \item Fontes;
-                \item Janelas de diálogo;
-                \item \textit{Hardware-Interrupts};
-                \item DMA - \textit{Dynamic Memory Access};
-                \item \textit{SaveRAM}.
+                \item Leitura do \textit{Keypad};
+                \item \textit{Sprites};
+                \item OAM (\textit{Object Attribute Memory});
+                \item Múltiplos objetos.
         \end{enumerate}
-    \item Áudio (2 horas):
+        \end{samepage}
+    \item Ferramental: conversor de imagem (2 horas):
+        \begin{samepage}
         \begin{enumerate}
-                \item Arquivos MIDI;
-                \item Ondas sonoras;
-                \item Interferência construtiva/destrutiva;
-                \item \textit{BIOS-Calls} para áudio;
-                \item Efeitos sonoros (SFX) e arquivos WAV.
+                \item Header de arquivo;
+                \item Header BMP e formato de imagem \textit{Bitmap};
+                \item Introdução a Python 3;
+                \item Bibliotecas ferramentais \textit{carl} e \textit{?}.
         \end{enumerate}
-    \item Construção de um jogo (2 horas):
+        \end{samepage}
+    \item Economia de energia (2 horas):
+        \begin{samepage}
         \begin{enumerate}
-                \item \textit{Splash Screen};
-                \item Eventos e animações;
-                \item Gerência de memória para sistemas embarcados;
-                \item Boas práticas de desenvolvimento.
+                \item Interrupções de \textit{Hardware/Software};
+                \item Tratadores de interrupções;
+                \item Aspectos avançados da \textit{BIOS}.
         \end{enumerate}
+        \end{samepage}
+    \item Áudio e transferência de dados (2 horas):
+        \begin{samepage}
+        \begin{enumerate}
+                \item Sistema MIDI e Efeitos sonoros (SFX);
+                \item Ondas sonoras e interferência construtiva/destrutiva;
+                \item Introdução à Teoria Musical;
+                \item Canais de áudio e limitações;
+                \item \textit{Direct Memory Access} (DMA).
+        \end{enumerate}
+        \end{samepage}
+    \item Outros aspectos de \textit{Hardware} e Desenvolvimento de jogos (2 horas):
+        \begin{samepage}
+        \begin{enumerate}
+                \item Fonte e texto;
+                \item Organização dos estados de jogo;
+                \item \textit{SaveRAM};
+                \item Gerência de memória para sistemas embarcados.
+        \end{enumerate}
+        \end{samepage}
 \end{enumerate}
 
 \section{Cronograma}
