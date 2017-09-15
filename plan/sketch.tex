@@ -36,95 +36,78 @@
 \section{Cursos (público alvo)}
 \begin{itemize}
 %% for target, more in course.targets|lookahead
-%%   if more
+  %% if more
     \item[] \VAR{target};
-%%   else
+  %% else
     \item[] \VAR{target}.
-%%   endif
+  %% endif
 %% endfor
 \end{itemize}
 
 \section{Requisitos}
 \begin{itemize}
-%% for require, more in course.requires|lookahead
-%%   if more
-    \item[] \VAR{require};
-%%   else
-    \item[] \VAR{require}.
-%%   endif
+%% for req, more in course.requires|lookahead
+  %% if more
+    \item[] \VAR{req};
+  %% else
+    \item[] \VAR{req}.
+  %% endif
 %% endfor
 \end{itemize}
 
 \section{Ementa}
 \begin{itemize*}[label={}]
 %% for topic, more_topics in course.topics|lookahead
-%%   for item, more_items in topic.items
-%%     if more_topics and more_items
+  %% for item, more_items in topic.items|lookahead
+    %% if more_topics and more_items
     \item[] \VAR{item};
-%%     else
+    %% else
     \item[] \VAR{item}.
-%%     endif
-%%   endfor
+    %% endif
+  %% endfor
 %% endfor
 \end{itemize*}
 
 \section{Objetivos}
 
 \begin{description}
-    \item[Geral:] Entusiasmar alunos de graduação a respeito de sistemas
-        embarcados, mídia e otimizações de baixo nível, mostrando uma aplicação
-        diferente do usual e apresentando o funcionamento e interação do
-        \textit{Hardware} envolvido.
-    \item[Específico:] São objetivos do minicurso:
+    \item[Geral:] \VAR{course.goals['general']}.
+    \item[Específico:] São objetivos do \VAR{course.kind.lower()}:
         \begin{itemize}[label={-}]
-            \item Apresentar as especificações técnicas da plataforma;
-            \item Mencionar as limitações da plataforma dentro do seu contexto
-                histórico;
-            \item Apresentar a interação entre os registradores de controle e
-                suas respectivas funcionalidades a nível de \textit{Hardware};
-            \item Apresentar o funcionamento de mídia analógica/digital;
-            \item Apresentar otimizações válidas para sistemas embarcados, bem
-                como tecnologias envolvidas nos mais modernos;
-            \item Prover pleno entendimento da integração entre programação de
-                alto-nível e o \textit{Hardware};
-            \item Apresentar paralelos entre a tecnologia ensinada e as
-                atualmente utilizadas;
-            \item Apresentar o uso de C++ moderno em sistemas embarcados, bem
-                como suas vantagens/desvantagens.
+        %% for item, more in course.goals['specific']|lookahead
+            %%  if more
+                \item[] \VAR{item};
+            %%  else
+                \item[] \VAR{item}.
+            %%  endif
+        %% endfor
         \end{itemize}
 \end{description}
 
 \section{Conteúdo Programático}
 
 \begin{enumerate}
-    \item Introdução ao GBA (2 horas):
+%% for topic in course.topics
+    \item \VAR{topic.title} (\VAR{topic.duration} hora\VAR{'s' if topic.duration > 0 else ''}):
         \begin{enumerate}
-            \item Histórico de limitação dos consoles pré-2000;
-            \item Especificações técnicas do GBA\@;
-            \item Mapeamento de memória do GBA\@;
-            \item VRAM\@;
-            \item Assembly Thumb;
-            \item \textit{Mode 3};
-            \item Introdução a C++.
+        %% for item, more in topic.items|lookahead
+            %%  if more
+                \item \VAR{item};
+            %%  else
+                \item \VAR{item}.
+            %%  endif
+        %% endfor
         \end{enumerate}
-    \item \textit{Bitmapped Display-Modes} (2 horas):
+%% endfor
 \end{enumerate}
 
 \section{Cronograma}
 
-\begin{enumerate}[label= (\alph*)]
-    \item Primeiro encontro:
-        \begin{enumerate}
-            \item Introdução ao GBA\@;
-            \item Apresentação da Toolchain DevKitPro;
-            \item Apresentação das ferramentas de desenvolvedor do emulador
-                \textit{VisualBoyAdvance}.
-        \end{enumerate}
-\end{enumerate}
+O cronograma segue a mesma ordenação do Conteúdo Programático, sendo cada item
+uma aula separada.
 
 \nocite{*}
 \bibliographystyle{unsrt}
 \bibliography{plan}
 
 \end{document}
-

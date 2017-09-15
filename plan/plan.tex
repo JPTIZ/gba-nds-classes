@@ -20,7 +20,7 @@
 \section{Identificação}
 
 \begin{itemize}
-    \item[] Disciplina: Minicurso GameBoyAdvance
+    \item[] Disciplina: Minicurso De Desenvolvimento Para Game Boy Advance
     \item[]
         \hspace{-1em}
         \begin{tabular}{ccc}
@@ -28,85 +28,84 @@
             Teóricas: 10&
             Práticas: 8
         \end{tabular}
-    \item[] Período: Abril a Julho de 2017.
+    \item[] Período: Setembro a Novembro de
+                     2017.
 \end{itemize}
 
 \section{Cursos (público alvo)}
 \begin{itemize}
-    \item[] Ciência da Computação.
+    \item[] Ciência da Computação;
+    \item[] Interessados em computação embarcada.
 \end{itemize}
 
 \section{Requisitos}
 \begin{itemize}
-    \item[] Mínimo conhecimento a respeito de programação imperativa
-        (variáveis, funções, estruturas condicionais/de repetição,\ldots) e
-        circuitos (o que é um registrador, sinais de entrada/saída,\ldots).
+    \item[] Mínimo conhecimento a respeito de programação imperativa (variáveis, funções, estruturas condicionais/de repetição, ...) e circuitos (o que é um registrador, sinais de entrada/saída, ...).
 \end{itemize}
 
 \section{Ementa}
 \begin{itemize*}[label={}]
-    % GBA-specific
-    \item Especificações técnicas e limitações do GBA (\textit{GameBoyAdvance});
-    \item Arquitetura do processador ARM7TDMI\@;
-    \item ISA (\textit{Instruction Set Architecture}) ARMv4;
-    \item Assembly ARM e Thumb;
-    % Game console-specific
-    \item VRAM\@ (\textit{Video-RAM});
-    \item OAM (\textit{Object-Attribute-Memory});
-    % Circuitos / Sistemas Digitais
-    \item Registradores de controle;  - Alguns
-    \item \textit{Input/Keypad};
-    \item \textit{Hardware-Rendering};
-    % Org
-    \item \textit{BIOS-Call};
-    \item \textit{Hardware-Interrupts};
-    \item DMA (\textit{Dynamic-Memory-Access});
-    \item \textit{Endiannesss};
-    % SO
-    \item Gerenciamento de memória para Sistemas Embarcados;
-    \item Otimizações para Sistemas Embarcados;
-    % Gráficos
-    \item \textit{Spritesetting};
-    \item \textit{Display-Modes} de consoles;
-    \item Matriz de transformação;
-    \item \textit{V-Sync};
-    \item \textit{Windowing};
-    \item Processamento de imagem;
-    % Técnicas de otimização
-    \item \textit{Palette-Swapping};
-    \item \textit{Page-Flipping};
-    \item \textit{Tile-Mapping};
-    \item Economia de energia;
-    % Geral
-    \item Fontes;
-    \item MIDI\@;
-    \item Ondas sonoras;
-    \item Processamento de arquivos de mídia (imagem/áudio);
+    \item[] Histórico de limitação dos consoles pré-2000;
+    \item[] Especificações técnicas do GBA;
+    \item[] Mapeamento de memória do GBA;
+    \item[] VRAM;
+    \item[] Assembly Thumb;
+    \item[] \textit{Mode 3};
+    \item[] Introdução a C++.
+    \item[] Visão geral de Modos Bitmapeados;
+    \item[] PPU (\textit{Pixel Processing Unit});
+    \item[] Análise da Performance do \textit{Mode 3};
+    \item[] \textit{V-Sync};
+    \item[] \textit{Mode 5};
+    \item[] \textit{Page-Flipping};
+    \item[] \textit{Mode 4};
+    \item[] \textit{Paletting};
+    \item[] \textit{Endianness}.
+    \item[] Leitura do \textit{Keypad};
+    \item[] \textit{Sprites};
+    \item[] OAM (\textit{Object Attribute Memory});
+    \item[] Múltiplos objetos;
+    \item[] Introdução a arquivos de \textit{Bitmap}.
+    \item[] \textit{std::ifstream} e \textit{std::ofstream};
+    \item[] Header de tipo de arquivo;
+    \item[] Header BMP.
+    \item[] \textit{Tilemapping};
+    \item[] \textit{Palette-Swapping}.
+    \item[] \textit{Windowing};
+    \item[] \textit{Alpha-Blend};
+    \item[] Luminosidade;
+    \item[] Efeito mosáico;
+    \item[] Matriz de transformação.
+    \item[] Fontes;
+    \item[] Janelas de diálogo;
+    \item[] \textit{Hardware-Interrupts};
+    \item[] DMA - \textit{Dynamic Memory Access};
+    \item[] \textit{SaveRAM}.
+    \item[] Arquivos MIDI;
+    \item[] Ondas sonoras;
+    \item[] Interferência construtiva/destrutiva;
+    \item[] \textit{BIOS-Calls} para áudio;
+    \item[] Efeitos sonoros (SFX) e arquivos WAV.
+    \item[] \textit{Splash Screen}.
+    \item[] Eventos e animações.
+    \item[] Gerência de memória para sistemas embarcados.
+    \item[] Boas práticas de desenvolvimento.
 \end{itemize*}
 
 \section{Objetivos}
 
 \begin{description}
-    \item[Geral:] Entusiasmar alunos de graduação a respeito de sistemas
-        embarcados, mídia e otimizações de baixo nível, mostrando uma aplicação
-        diferente do usual e apresentando o funcionamento e interação do
-        \textit{Hardware} envolvido.
+    \item[Geral:] Entusiasmar alunos de graduação a respeito de sistemas embarcados, mídia e otimizações de baixo nível, mostrando uma aplicação diferente do habitual e apresentando o funcionamento e interação do Hardware \textit{Hardware} envolvido.
     \item[Específico:] São objetivos do minicurso:
         \begin{itemize}[label={-}]
-            \item Apresentar as especificações técnicas da plataforma;
-            \item Mencionar as limitações da plataforma dentro do seu contexto
-                histórico;
-            \item Apresentar a interação entre os registradores de controle e
-                suas respectivas funcionalidades a nível de \textit{Hardware};
-            \item Apresentar o funcionamento de mídia analógica/digital;
-            \item Apresentar otimizações válidas para sistemas embarcados, bem
-                como tecnologias envolvidas nos mais modernos;
-            \item Prover pleno entendimento da integração entre programação de
-                alto-nível e o \textit{Hardware};
-            \item Apresentar paralelos entre a tecnologia ensinada e as
-                atualmente utilizadas;
-            \item Apresentar o uso de C++ moderno em sistemas embarcados, bem
-                como suas vantagens/desvantagens.
+                \item[] Apresentar as especificações técnicas da plataforma;
+                \item[] Mencionar as limitações da plataforma dentro do seu  contexto histórico;
+                \item[] Apresentar a interação entre os registradores de controle e suas respectivas funcionalidades a nível de \textit{Hardware};
+                \item[] Apresentar o funcionamento de mídia analógica/digital;
+                \item[] Apresentar otimizações válidas para sistemas embarcados, bem como tecnologias envolvidas nos mais modernos;
+                \item[] Prover pleno entendimento da integração entre programação de alto-nível e o \textit{Hardware};
+                \item[] Apresentar paralelos entre a tecnologia ensinada e as atualmente utilizadas;
+                \item[] Apresentar o uso de C++ moderno em sistemas embarcados, bem como suas vantagens e desvantagens.
         \end{itemize}
 \end{description}
 
@@ -115,139 +114,82 @@
 \begin{enumerate}
     \item Introdução ao GBA (2 horas):
         \begin{enumerate}
-            \item Histórico de limitação dos consoles pré-2000;
-            \item Especificações técnicas do GBA\@;
-            \item Mapeamento de memória do GBA\@;
-            \item VRAM\@;
-            \item Assembly Thumb;
-            \item \textit{Mode 3};
-            \item Introdução a C++.
+                \item Histórico de limitação dos consoles pré-2000;
+                \item Especificações técnicas do GBA;
+                \item Mapeamento de memória do GBA;
+                \item VRAM;
+                \item Assembly Thumb;
+                \item \textit{Mode 3};
+                \item Introdução a C++.
         \end{enumerate}
-    \item \textit{Bitmapped Display-Modes} (2 horas):
+    \item Modos de Visor Bitmapeados (2 horas):
         \begin{enumerate}
-            \item Visão geral de \textit{Bitmapped Modes};
-            \item PPU (\textit{Pixel Processing Unit});
-            \item Análise da Performance do \textit{Mode 3};
-            \item \textit{V-Sync};
-            \item \textit{Mode 5};
-            \item \textit{Page-Flipping};
-            \item \textit{Mode 4};
-            \item \textit{Paletting};
-            \item \textit{Endianness}.
+                \item Visão geral de Modos Bitmapeados;
+                \item PPU (\textit{Pixel Processing Unit});
+                \item Análise da Performance do \textit{Mode 3};
+                \item \textit{V-Sync};
+                \item \textit{Mode 5};
+                \item \textit{Page-Flipping};
+                \item \textit{Mode 4};
+                \item \textit{Paletting};
+                \item \textit{Endianness}.
         \end{enumerate}
     \item Objetos de jogo e \textit{Input} (2 horas):
         \begin{enumerate}
-            \item Leitura do \textit{Keypad};
-            \item \textit{Sprites};
-            \item OAM (\textit{Object Attribute Memory});
-            \item Múltiplos objetos;
-            \item Introdução a arquivos de \textit{Bitmap}.
+                \item Leitura do \textit{Keypad};
+                \item \textit{Sprites};
+                \item OAM (\textit{Object Attribute Memory});
+                \item Múltiplos objetos;
+                \item Introdução a arquivos de \textit{Bitmap}.
         \end{enumerate}
     \item Arquivos \textit{Bitmap} (2 horas):
         \begin{enumerate}
-            \item \textit{std::ifstream} e \textit{std::ofstream};
-            \item Header de tipo de arquivo;
-            \item Header BMP\@;
+                \item \textit{std::ifstream} e \textit{std::ofstream};
+                \item Header de tipo de arquivo;
+                \item Header BMP.
         \end{enumerate}
-    \item \textit{Character Display-Modes} (2 horas):
+    \item Modos de Visor em Caractere (2 horas):
         \begin{enumerate}
-            \item \textit{Tilemapping};
-            \item \textit{Palette-Swapping};
+                \item \textit{Tilemapping};
+                \item \textit{Palette-Swapping}.
         \end{enumerate}
-    \item Funcionalidades e Efeitos gráficos (2 horas):
+    \item Funcionalidades e Efeitos Gráficos (2 horas):
         \begin{enumerate}
-            \item \textit{Windowing};
-            \item \textit{Alpha-Blend};
-            \item Luminosidade;
-            \item Efeito mosáico;
-            \item Matriz de transformação.
+                \item \textit{Windowing};
+                \item \textit{Alpha-Blend};
+                \item Luminosidade;
+                \item Efeito mosáico;
+                \item Matriz de transformação.
         \end{enumerate}
     \item Texto, Economia de energia e Cartucho (2 horas):
         \begin{enumerate}
-            \item Fontes;
-            \item Janelas de diálogo;
-            \item \textit{Hardware-Interrupts};
-            \item DMA --- \textit{Dynamic Memory Access};
-            \item \textit{SaveRAM};
+                \item Fontes;
+                \item Janelas de diálogo;
+                \item \textit{Hardware-Interrupts};
+                \item DMA - \textit{Dynamic Memory Access};
+                \item \textit{SaveRAM}.
         \end{enumerate}
     \item Áudio (2 horas):
         \begin{enumerate}
-            \item Arquivos MIDI\@;
-            \item Ondas sonoras;
-            \item Interferência construtiva/destrutiva;
-            \item \textit{BIOS-Calls} para áudio;
-            \item Efeitos sonoros (SFX) e arquivos WAV\@.
+                \item Arquivos MIDI;
+                \item Ondas sonoras;
+                \item Interferência construtiva/destrutiva;
+                \item \textit{BIOS-Calls} para áudio;
+                \item Efeitos sonoros (SFX) e arquivos WAV.
         \end{enumerate}
     \item Construção de um jogo (2 horas):
         \begin{enumerate}
-            \item \textit{Splash Screen};
-            \item Eventos e animações;
-            \item Gerência de memória para sistemas embarcados;
-            \item Boas práticas de desenvolvimento.
+                \item \textit{Splash Screen};
+                \item Eventos e animações;
+                \item Gerência de memória para sistemas embarcados;
+                \item Boas práticas de desenvolvimento.
         \end{enumerate}
 \end{enumerate}
 
 \section{Cronograma}
 
-\begin{enumerate}[label= (\alph*)]
-    \item Primeiro encontro:
-        \begin{enumerate}
-            \item Introdução ao GBA\@;
-            \item Apresentação da Toolchain DevKitPro;
-            \item Apresentação das ferramentas de desenvolvedor do emulador
-                \textit{VisualBoyAdvance}.
-        \end{enumerate}
-    \item Segundo encontro:
-        \begin{enumerate}
-            \item \textit{Bitmapped Display-Modes};
-            \item Criação de uma pequena biblioteca, momentameamente lidando
-                apenas com acesso a registradores/memória do GBA\@.
-        \end{enumerate}
-    \item Terceiro encontro:
-        \begin{enumerate}
-            \item Objetos de jogo e \textit{Input};
-            \item Adicionar funções à biblioteca principal para lidar com
-                cores, objetos de jogo e sprites.
-            \item Adicionar funções à biblioteca principal para lidar com
-                \textit{Input} de jogo.
-        \end{enumerate}
-    \item Quarto encontro:
-        \begin{enumerate}
-            \item Arquivos \textit{Bitmap};
-            \item Criação de um conversor de arquivos \textit{Bitmap} para
-                formatos usáveis no GBA\@.
-        \end{enumerate}
-    \item Quinto encontro:
-        \begin{enumerate}
-            \item \textit{Character Display-Modes};
-            \item Adicionar módulo para lidar com diferentes telas de jogo à
-                biblioteca principal.
-        \end{enumerate}
-    \item Sexto encontro:
-        \begin{enumerate}
-            \item Funcionalidades e Efeitos gráficos;
-            \item Adicionar módulo de efeitos gráficos à biblioteca principal;
-            \item Adicionar módulo de \textit{Windowing} à biblioteca principal.
-        \end{enumerate}
-    \item Sétimo encontro:
-        \begin{enumerate}
-            \item Texto, Economia de energia e Cartucho;
-            \item Adicionar módulo de fontes à biblioteca principal;
-            \item Adicionar módulo para DMA à biblioteca principal.
-        \end{enumerate}
-    \item Oitavo encontro:
-        \begin{enumerate}
-            \item Áudio;
-            \item Adicionar módulo de áudio (músicas e SFX) à biblioteca
-                principal.
-        \end{enumerate}
-    \item Nono encontro:
-        \begin{enumerate}
-            \item Construção de um jogo;
-            \item Considerações a respeito de uso de globais, APIs, dentre
-                outros recursos de programação.
-        \end{enumerate}
-\end{enumerate}
+O cronograma segue a mesma ordenação do Conteúdo Programático, sendo cada item
+uma aula separada.
 
 \nocite{*}
 \bibliographystyle{unsrt}

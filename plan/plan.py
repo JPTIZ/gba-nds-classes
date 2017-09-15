@@ -20,7 +20,7 @@ if __name__ == '__main__':
                 ' imperativa (variáveis, funções, estruturas'
                 ' condicionais/de repetição, ...) e circuitos'
                 ' (o que é um registrador, sinais de entrada/'
-                'saída, ...)'
+                'saída, ...)',
                 ],
             goals=Goals(
                 general='Entusiasmar alunos de graduação a respeito'
@@ -28,7 +28,7 @@ if __name__ == '__main__':
                         ' de baixo nível, mostrando uma aplicação'
                         ' diferente do habitual e apresentando o'
                         ' funcionamento e interação do Hardware'
-                        ' \textit{Hardware} envolvido',
+                        ' \\textit{Hardware} envolvido',
                 specific=[
                     'Apresentar as especificações técnicas da plataforma',
 
@@ -37,7 +37,7 @@ if __name__ == '__main__':
 
                     'Apresentar a interação entre os registradores de'
                     ' controle e suas respectivas funcionalidades a nível'
-                    ' de \textit{Hardware}',
+                    ' de \\textit{Hardware}',
 
                     'Apresentar o funcionamento de mídia analógica/'
                     'digital',
@@ -47,7 +47,7 @@ if __name__ == '__main__':
                     ' mais modernos',
 
                     'Prover pleno entendimento da integração entre'
-                    ' programação de alto-nível e o \textit{Hardware}',
+                    ' programação de alto-nível e o \\textit{Hardware}',
 
                     'Apresentar paralelos entre a tecnologia ensinada e as'
                     ' atualmente utilizadas',
@@ -56,8 +56,107 @@ if __name__ == '__main__':
                     ' embarcados, bem como suas vantagens e desvantagens',
                     ],
                 ),
-            topics={
-                   },
+            topics=[
+                Topic(
+                    title='Introdução ao GBA',
+                    duration=2,
+                    items=[
+                        'Histórico de limitação dos consoles pré-2000',
+                        'Especificações técnicas do GBA',
+                        'Mapeamento de memória do GBA',
+                        'VRAM',
+                        'Assembly Thumb',
+                        '\\textit{Mode 3}',
+                        'Introdução a C++',
+                    ],
+                ),
+                Topic(
+                    title='Modos de Visor Bitmapeados',
+                    duration=2,
+                    items=[
+                        'Visão geral de Modos Bitmapeados',
+                        'PPU (\\textit{Pixel Processing Unit})',
+                        'Análise da Performance do \\textit{Mode 3}',
+                        '\\textit{V-Sync}',
+                        '\\textit{Mode 5}',
+                        '\\textit{Page-Flipping}',
+                        '\\textit{Mode 4}',
+                        '\\textit{Paletting}',
+                        '\\textit{Endianness}',
+                    ],
+                ),
+                Topic(
+                    title='Objetos de jogo e \\textit{Input}',
+                    duration=2,
+                    items=[
+                        'Leitura do \\textit{Keypad}',
+                        '\\textit{Sprites}',
+                        'OAM (\\textit{Object Attribute Memory})',
+                        'Múltiplos objetos',
+                        'Introdução a arquivos de \\textit{Bitmap}',
+                    ],
+                ),
+                Topic(
+                    title='Arquivos \\textit{Bitmap}',
+                    duration=2,
+                    items=[
+                        '\\textit{std::ifstream} e \\textit{std::ofstream}',
+                        'Header de tipo de arquivo',
+                        'Header BMP',
+                    ],
+                ),
+                Topic(
+                    title='Modos de Visor em Caractere',
+                    duration=2,
+                    items=[
+                        '\\textit{Tilemapping}',
+                        '\\textit{Palette-Swapping}',
+                    ],
+                ),
+                Topic(
+                    title='Funcionalidades e Efeitos Gráficos',
+                    duration=2,
+                    items=[
+                        '\\textit{Windowing}',
+                        '\\textit{Alpha-Blend}',
+                        'Luminosidade',
+                        'Efeito mosáico',
+                        'Matriz de transformação',
+                    ],
+                ),
+                Topic(
+                    title='Texto, Economia de energia e Cartucho',
+                    duration=2,
+                    items=[
+                        'Fontes',
+                        'Janelas de diálogo',
+                        '\\textit{Hardware-Interrupts}',
+                        'DMA - \\textit{Dynamic Memory Access}',
+                        '\\textit{SaveRAM}',
+                    ],
+                ),
+                Topic(
+                    title='Áudio',
+                    duration=2,
+                    items=[
+                        'Arquivos MIDI',
+                        'Ondas sonoras',
+                        'Interferência construtiva/destrutiva',
+                        '\\textit{BIOS-Calls} para áudio',
+                        'Efeitos sonoros (SFX) e arquivos WAV',
+                    ],
+                ),
+                Topic(
+                    title='Construção de um jogo',
+                    duration=2,
+                    items=[
+                        '\\textit{Splash Screen}',
+                        'Eventos e animações',
+                        'Gerência de memória para sistemas embarcados',
+                        'Boas práticas de desenvolvimento',
+                    ],
+                ),
+            ],
             references=[
                 Reference(
                     symbol='conarac',
@@ -125,4 +224,4 @@ if __name__ == '__main__':
             ]
         )
 
-    generate(course)
+    generate(course, output='plan.tex')
