@@ -121,7 +121,8 @@ if __name__ == '__main__':
                         'Header de arquivo',
                         'Header BMP e formato de imagem \\textit{Bitmap}',
                         'Introdução a Python 3',
-                        'Bibliotecas ferramentais \\textit{carl} e \\textit{?}',
+                        'Bibliotecas ferramental \\textit{carl}',
+                        'Biblioteca de imagens \\textit{PIL}',
                     ],
                 ),
                 Topic(
