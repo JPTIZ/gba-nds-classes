@@ -33,7 +33,7 @@ int main() {
 
     // draws a 64x48 rect on screen
     for (auto y = 48u; y < 96u; ++y) {
-        for (auto x = 48u; x < 102u; ++x) {
+        for (auto x = 48u; x < 112u; ++x) {
             vram[x + y*240] = dark_blue;
         }
     }
