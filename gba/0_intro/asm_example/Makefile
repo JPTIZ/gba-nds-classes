@@ -23,15 +23,15 @@ INCLUDES	:=
 # options for code generation
 #---------------------------------------------------------------------------------
 ARCH	:=	-mthumb -mthumb-interwork\
-                -mcpu=arm7tdmi -mtune=arm7tdmi -fomit-frame-pointer\
+            -mcpu=arm7tdmi -mtune=arm7tdmi -fomit-frame-pointer\
 	        -ffast-math
 
-CXXFLAGS	:=	-g -Wall -O2 -std=c++14\
+CXXFLAGS	:=	-g -Wall -O0 -std=c++14\
 			$(ARCH)
 
 CXXFLAGS	+=	$(INCLUDE)
 
-ASFLAGS	:=	$(ARCH) -O2 -Wall
+ASFLAGS	:=	$(ARCH) -O0 -Wall
 LDFLAGS	=	-g $(ARCH) -Wl,-Map,$(notdir $@).map
 
 #---------------------------------------------------------------------------------
@@ -42,13 +42,13 @@ export PATH		:=	$(DEVKITARM)/bin:$(PATH)
 #---------------------------------------------------------------------------------
 # any extra libraries we wish to link with the project
 #---------------------------------------------------------------------------------
-LIBS	:=	-lgba
+LIBS	:=	#-lgba
 
 #---------------------------------------------------------------------------------
 # list of directories containing libraries, this must be the top level containing
 # include and lib
 #---------------------------------------------------------------------------------
-LIBDIRS	:=	$(LIBGBA)
+LIBDIRS	:=	#$(LIBGBA)
 
 #---------------------------------------------------------------------------------
 # no real need to edit anything past this point unless you need to add additional
@@ -122,7 +122,7 @@ DEPENDS	:=	$(OFILES:.o=.d)
 #---------------------------------------------------------------------------------
 $(OUTPUT).gba	:	$(OUTPUT).elf
 
-$(OUTPUT).elf	:	$(OFILES) $(LIBGBA)/lib/libgba.a
+$(OUTPUT).elf	:	$(OFILES) #$(LIBGBA)/lib/libgba.a
 
 %.o	:	%.bin
 	@echo	$(notdir $<)

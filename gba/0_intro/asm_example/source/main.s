@@ -1,10 +1,7 @@
+.globl main
 .thumb
 .align 2
-.globl main
 .thumb_func
-
-start:
-    b main
 
 main:
     ldr r0, =0x04000000
@@ -15,7 +12,5 @@ main:
     strh r1, [r0]
     ldr r0, =0x6000f08
     strh r1, [r0]
-    b infin
-
 infin:
     b infin
