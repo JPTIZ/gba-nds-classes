@@ -1,6 +1,8 @@
 Intro-Class - Introduction to GBA Hardware
 ==========================================
 
+_(Versão em Português-BR: [clique para acessar](readme-pt.md))_
+
 Summary
 -------
 
